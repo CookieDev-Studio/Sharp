@@ -37,16 +37,17 @@ public class StrikesHandler
 
     public List<Strike> LoadStrikes(SocketUser user)
     {
-        var serializedFile = File.ReadLines(strikesPath);
-
         List<Strike> strikes = new List<Strike>();
 
-        foreach (string line in serializedFile)
-            strikes.Add(JsonConvert.DeserializeObject<Strike>(line));
+        foreach (string line in File.ReadLines(strikesPath))
+        {
+            Strike strike = JsonConvert.DeserializeObject<Strike>(line);
+            if (strike.user == user.Username)
+                strikes.Add(strike);
+        }
 
         Logger.Log("Strikes loaded");
 
-        return strikes.Where(x => x.user == user.Username).ToList();
+        return strikes;
     }
-   
 }

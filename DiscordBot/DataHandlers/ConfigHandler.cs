@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,24 +26,25 @@ public class ConfigHandler
     {
         _client = client;
 
-        config = LoadConfig().Result;
+        LoadConfig();
         client.Ready += GetModchannelById;
     }
 
     public string GetToken() => config.token;
 
-    private Task GetModchannelById()
-    {
-        ModChannel = _client.GetChannel(config.modChannelId) as SocketTextChannel;
-        Logger.Log(ModChannel.Name);
-        return Task.CompletedTask;
-    }
+   
     public async Task SetModChannel(SocketTextChannel channel)
     {
         await Logger.Log("Setting modchannel");
         ModChannel = channel;
         config.modChannelId = channel.Id;
         await SaveConfig();
+    } 
+    private Task GetModchannelById()
+    {
+        ModChannel = _client.GetChannel(config.modChannelId) as SocketTextChannel ?? _client.Guilds.First().DefaultChannel;
+        Logger.Log(ModChannel.Name);
+        return Task.CompletedTask;
     }
 
     private async Task SaveConfig()
@@ -53,17 +55,21 @@ public class ConfigHandler
         await Logger.Log("config saved");
     }
 
-    private async Task<Config> LoadConfig()
+    private Task LoadConfig()
     {
         try
         {
             //TODO: handle if there isin't a valid config file
-            await Logger.Log("Loading Config");
-            return JsonConvert.DeserializeObject<Config>(File.ReadAllText(configPath));
+            Logger.Log("Loading Config");
+            config = JsonConvert.DeserializeObject<Config>(File.ReadAllText(configPath));
         }
         catch
         {
-            return new Config();
+
+            Console.WriteLine("No TOKEN found, please enter bot TOKEN:");
+            config.token = Console.ReadLine();
+            SaveConfig();
         }
+        return Task.CompletedTask;
     }
 }
