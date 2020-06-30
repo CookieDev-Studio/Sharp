@@ -31,22 +31,12 @@ public class StrikesHandler
         await sw.WriteLineAsync(JsonConvert.SerializeObject(newStrike));
         await sw.FlushAsync();
         sw.Close();
-
-        await Logger.Log("Srikes saved");
     }
 
     public List<Strike> LoadStrikes(SocketUser user)
     {
-        List<Strike> strikes = new List<Strike>();
-
-        foreach (string line in File.ReadLines(strikesPath))
-        {
-            Strike strike = JsonConvert.DeserializeObject<Strike>(line);
-            if (strike.user == user.Username)
-                strikes.Add(strike);
-        }
-
-        Logger.Log("Strikes loaded");
+        List<Strike> strikes = File.ReadAllLines(strikesPath).Select(x => JsonConvert.DeserializeObject<Strike>(x)).ToList();
+        strikes = strikes.Where(x => x.user == user.Username).ToList();
 
         return strikes;
     }

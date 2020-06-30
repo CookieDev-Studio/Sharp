@@ -36,7 +36,6 @@ public class ConfigHandler
 
     public async Task SetModChannel(SocketGuild guild, SocketTextChannel channel)
     {
-        await Logger.Log("Setting modchannel");
         ModChannels[guild] = channel;
         await SaveConfig();
     } 
@@ -58,25 +57,15 @@ public class ConfigHandler
 
     private async Task SaveConfig()
     {
-        await Logger.Log("saving config");
-
-        //config.modChannels = (Dictionary<ulong, ulong>)ModChannels.Select(x => KeyValuePair.Create(x.Key.Id, x.Value.Id));
-
-        config.modChannels = new Dictionary<ulong, ulong>();
-
-        foreach (var pair in ModChannels)
-            config.modChannels.Add(pair.Key.Id, pair.Value.Id);
+        config.modChannels = ModChannels.ToDictionary(x => x.Key.Id, x => x.Value.Id);
 
         File.WriteAllText(configPath, JsonConvert.SerializeObject(config));
-
-        await Logger.Log("config saved");
     }
 
     private Task LoadConfig()
     {
         try
         {
-            Logger.Log("Loading Config");
             config = JsonConvert.DeserializeObject<Config>(File.ReadAllText(configPath));
         }
         catch

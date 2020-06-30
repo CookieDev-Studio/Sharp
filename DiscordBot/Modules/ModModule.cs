@@ -15,7 +15,6 @@ public class ModModule : ModuleBase<SocketCommandContext>
 	{
 		_strikesHandler = strikesHandler;
 		_config = configHandler;
-		Logger.Log("Mod module loaded");
 	}
 
 	[Command("strike")]
@@ -25,7 +24,6 @@ public class ModModule : ModuleBase<SocketCommandContext>
 	{
 		await Context.Message.DeleteAsync();
 
-		Console.WriteLine("saving");
 		await _strikesHandler.SaveStrike(user.Username, Context.User.Username, reason, DateTime.Today.ToString("d"));
 		await ShowStrikes(user);
 	}
@@ -41,9 +39,7 @@ public class ModModule : ModuleBase<SocketCommandContext>
 
 	private async Task ShowStrikes(SocketUser user)
 	{
-		Console.WriteLine("getting strikes");
 		var strikes = _strikesHandler.LoadStrikes(user);
-        Console.WriteLine("creating message");
 
 		string message = "";
 		message += $"User : {user.Mention}\n";

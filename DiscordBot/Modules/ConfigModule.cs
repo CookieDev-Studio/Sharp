@@ -14,14 +14,13 @@ public class ConfigModule : ModuleBase<SocketCommandContext>
     {
         _strikeHandler = strikeHandler;
         _config = config;
-		Logger.Log("Config Module loaded");
     }
 
     [Command("setModChannel")]
 	[RequireUserPermission(Discord.ChannelPermission.ManageMessages)]
     public async Task SetModChannel(SocketTextChannel channel)
     {
-        await Logger.Log("test started");
+        await Logger.Log(Context.Guild, $"Mod channel set to {_config.ModChannels[Context.Guild].Name}");
         await _config.SetModChannel(Context.Guild, channel);
         await ReplyAsync($"Mod channel set to {_config.ModChannels[Context.Guild].Name}");
     }
