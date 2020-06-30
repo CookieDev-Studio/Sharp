@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 public class ConfigModule : ModuleBase<SocketCommandContext>
 {
     StrikesHandler _strikeHandler;
-    ConfigHandler _config;
+    SpaghettiHandler _config;
 
-    public ConfigModule(StrikesHandler strikeHandler, ConfigHandler config)
+    public ConfigModule(StrikesHandler strikeHandler, SpaghettiHandler config)
     {
         _strikeHandler = strikeHandler;
         _config = config;

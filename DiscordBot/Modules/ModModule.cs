@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 public class ModModule : ModuleBase<SocketCommandContext>
 {
 	StrikesHandler _strikesHandler;
-	ConfigHandler _config;
+	SpaghettiHandler _config;
 
-	public ModModule(StrikesHandler strikesHandler, ConfigHandler configHandler)
+	public ModModule(StrikesHandler strikesHandler, SpaghettiHandler configHandler)
 	{
 		_strikesHandler = strikesHandler;
 		_config = configHandler;
@@ -24,7 +24,7 @@ public class ModModule : ModuleBase<SocketCommandContext>
 	{
 		await Context.Message.DeleteAsync();
 
-		await _strikesHandler.SaveStrike(user.Username, Context.User.Username, reason, DateTime.Today.ToString("d"));
+		await _strikesHandler.SaveStrike(Context.Guild, user.Username, Context.User.Username, reason, DateTime.Today.ToString("d"));
 		await ShowStrikes(user);
 	}
 
@@ -39,8 +39,7 @@ public class ModModule : ModuleBase<SocketCommandContext>
 
 	private async Task ShowStrikes(SocketUser user)
 	{
-		var strikes = _strikesHandler.LoadStrikes(user);
-
+		var strikes = _strikesHandler.LoadStrikes(Context.Guild, user);
 		string message = "";
 		message += $"User : {user.Mention}\n";
 		message += $"Mod : {Context.User.Mention}\n";

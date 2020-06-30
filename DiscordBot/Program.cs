@@ -4,6 +4,7 @@ using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -14,13 +15,13 @@ class Program
     private DiscordSocketClient _client;
     private CommandService _commands; 
     private IServiceProvider _services;
-    private ConfigHandler _config;
+    private SpaghettiHandler _config;
 
     public async Task MainAsync()
     {
         _client = new DiscordSocketClient();
         _commands = new CommandService();
-        _config = new ConfigHandler(_client);
+        _config = new SpaghettiHandler(_client);
 
         _client.Log += Log;
         _client.MessageReceived += HandleCommandAsync;
@@ -35,7 +36,7 @@ class Program
 
         await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
 
-        await _client.LoginAsync(TokenType.Bot, _config.GetToken());
+        await _client.LoginAsync(TokenType.Bot, GetToken().Result);
         await _client.StartAsync();
 
         // Block this task until the program is closed.
@@ -66,6 +67,18 @@ class Program
             context: context,
             argPos: argPos,
             services: _services);
+    }
+
+    public async Task<string> GetToken()
+    {
+        try { return File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "token.txt")); }
+        catch
+        {
+            Console.WriteLine("Enter TOKEN:");
+            string token = Console.ReadLine();
+            File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "token.txt"), token);
+            return token;
+        }
     }
 
 

@@ -4,19 +4,18 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-public class ConfigHandler
+public class SpaghettiHandler
 {
     public Dictionary<SocketGuild, SocketTextChannel> ModChannels { get; private set; }
 
     private Config config;
     private DiscordSocketClient _client;
-    private readonly string configPath = Path.Combine(Directory.GetCurrentDirectory(), "config.json").Replace(@"\", @"\\");
+    private readonly string configPath = Path.Combine(Directory.GetCurrentDirectory(), "config.json");
 
-    public ConfigHandler(DiscordSocketClient client)
+    public SpaghettiHandler(DiscordSocketClient client)
     {
         ModChannels = new Dictionary<SocketGuild, SocketTextChannel>();
 
@@ -27,11 +26,10 @@ public class ConfigHandler
         client.GuildAvailable += OnJoinNewGuild;
     }
 
-    public string GetToken() => config.token;
-
     public async Task OnJoinNewGuild(SocketGuild guild)
     {
         ModChannels.Add(guild, guild.DefaultChannel);
+        Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), guild.Id.ToString()).Replace(@"\", @"\\"));
     }
 
     public async Task SetModChannel(SocketGuild guild, SocketTextChannel channel)
@@ -51,7 +49,6 @@ public class ConfigHandler
 
     private struct Config
     {
-        public string token;
         public Dictionary<ulong, ulong> modChannels;
     }
 
@@ -62,19 +59,11 @@ public class ConfigHandler
         File.WriteAllText(configPath, JsonConvert.SerializeObject(config));
     }
 
+    
     private Task LoadConfig()
     {
-        try
-        {
-            config = JsonConvert.DeserializeObject<Config>(File.ReadAllText(configPath));
-        }
-        catch
-        {
-            Console.WriteLine("No TOKEN found, please enter TOKEN:");
-            config.token = Console.ReadLine();
-            config.modChannels = new Dictionary<ulong, ulong>();
-            SaveConfig();
-        }
+        config = JsonConvert.DeserializeObject<Config>(File.ReadAllText(configPath));
         return Task.CompletedTask;
     }
+    
 }
