@@ -67,9 +67,6 @@ public class ConfigHandler
         foreach (var pair in ModChannels)
             config.modChannels.Add(pair.Key.Id, pair.Value.Id);
 
-        foreach (var pair in config.modChannels)
-            await Logger.Log(pair.Key.ToString());
-     
         File.WriteAllText(configPath, JsonConvert.SerializeObject(config));
 
         await Logger.Log("config saved");
