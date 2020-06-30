@@ -10,46 +10,66 @@ using System.Threading.Tasks;
 
 public class ConfigHandler
 {
-    public SocketTextChannel ModChannel { get; private set; }
+    public Dictionary<SocketGuild, SocketTextChannel> ModChannels { get; private set; }
 
     private Config config;
     private DiscordSocketClient _client;
     private readonly string configPath = Path.Combine(Directory.GetCurrentDirectory(), "config.json").Replace(@"\", @"\\");
 
-    private struct Config
-    {
-        public string token;
-        public ulong modChannelId;
-    }
-
     public ConfigHandler(DiscordSocketClient client)
     {
+        ModChannels = new Dictionary<SocketGuild, SocketTextChannel>();
+
         _client = client;
 
         LoadConfig();
-        client.Ready += GetModchannelById;
+        client.Ready += ConvertConfig;
+        client.GuildAvailable += OnJoinNewGuild;
     }
 
     public string GetToken() => config.token;
 
-   
-    public async Task SetModChannel(SocketTextChannel channel)
+    public async Task OnJoinNewGuild(SocketGuild guild)
+    {
+        ModChannels.Add(guild, guild.DefaultChannel);
+    }
+
+    public async Task SetModChannel(SocketGuild guild, SocketTextChannel channel)
     {
         await Logger.Log("Setting modchannel");
-        ModChannel = channel;
-        config.modChannelId = channel.Id;
+        ModChannels[guild] = channel;
         await SaveConfig();
     } 
-    private Task GetModchannelById()
+    private Task ConvertConfig()
     {
-        ModChannel = _client.GetChannel(config.modChannelId) as SocketTextChannel ?? _client.Guilds.First().DefaultChannel;
-        Logger.Log(ModChannel.Name);
+        foreach (var pair in config.modChannels)
+        {
+            SocketGuild guild = _client.GetGuild(pair.Key);
+            ModChannels[guild] = guild.GetTextChannel(pair.Value);
+        }
         return Task.CompletedTask;
+    }
+
+    private struct Config
+    {
+        public string token;
+        public Dictionary<ulong, ulong> modChannels;
     }
 
     private async Task SaveConfig()
     {
         await Logger.Log("saving config");
+
+        //config.modChannels = (Dictionary<ulong, ulong>)ModChannels.Select(x => KeyValuePair.Create(x.Key.Id, x.Value.Id));
+
+        config.modChannels = new Dictionary<ulong, ulong>();
+
+        foreach (var pair in ModChannels)
+            config.modChannels.Add(pair.Key.Id, pair.Value.Id);
+
+        foreach (var pair in config.modChannels)
+            await Logger.Log(pair.Key.ToString());
+     
         File.WriteAllText(configPath, JsonConvert.SerializeObject(config));
 
         await Logger.Log("config saved");
@@ -66,6 +86,7 @@ public class ConfigHandler
         {
             Console.WriteLine("No TOKEN found, please enter TOKEN:");
             config.token = Console.ReadLine();
+            config.modChannels = new Dictionary<ulong, ulong>();
             SaveConfig();
         }
         return Task.CompletedTask;

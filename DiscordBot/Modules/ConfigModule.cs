@@ -22,7 +22,7 @@ public class ConfigModule : ModuleBase<SocketCommandContext>
     public async Task SetModChannel(SocketTextChannel channel)
     {
         await Logger.Log("test started");
-        await _config.SetModChannel(channel);
-        await ReplyAsync($"Mod channel set to {_config.ModChannel.Name}");
+        await _config.SetModChannel(Context.Guild, channel);
+        await ReplyAsync($"Mod channel set to {_config.ModChannels[Context.Guild].Name}");
     }
 }

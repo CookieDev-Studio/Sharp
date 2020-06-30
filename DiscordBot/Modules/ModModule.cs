@@ -47,7 +47,7 @@ public class ModModule : ModuleBase<SocketCommandContext>
 
 		string message = "";
 		message += $"User : {user.Mention}\n";
-		//message += $"Mod : {Context.User.Mention}\n";
+		message += $"Mod : {Context.User.Mention}\n";
 		message += "\n";
 
 		foreach (var strike in strikes)
@@ -59,7 +59,7 @@ public class ModModule : ModuleBase<SocketCommandContext>
 
 		message += "-------------------------------------------------------------------------------\n";
 
-		await _config.ModChannel.SendMessageAsync(message);
+		await _config.ModChannels[Context.Guild].SendMessageAsync(message);
 	}
 
 }
