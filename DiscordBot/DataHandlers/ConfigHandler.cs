@@ -59,14 +59,12 @@ public class ConfigHandler
     {
         try
         {
-            //TODO: handle if there isin't a valid config file
             Logger.Log("Loading Config");
             config = JsonConvert.DeserializeObject<Config>(File.ReadAllText(configPath));
         }
         catch
         {
-
-            Console.WriteLine("No TOKEN found, please enter bot TOKEN:");
+            Console.WriteLine("No TOKEN found, please enter TOKEN:");
             config.token = Console.ReadLine();
             SaveConfig();
         }

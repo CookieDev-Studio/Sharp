@@ -18,13 +18,6 @@ public class ModModule : ModuleBase<SocketCommandContext>
 		Logger.Log("Mod module loaded");
 	}
 
-	[Command("greet")]
-	[Summary("Echoes a message.")]
-	[RequireUserPermission(Discord.ChannelPermission.ManageMessages)]
-	public async Task Say()
-	{
-		await ReplyAsync("hello " + Context.User.Username);
-	}
 	[Command("strike")]
 	[Summary("gives a user a strike")]
 	[RequireUserPermission(Discord.ChannelPermission.ManageMessages)]
@@ -50,21 +43,23 @@ public class ModModule : ModuleBase<SocketCommandContext>
 	{
 		Console.WriteLine("getting strikes");
 		var strikes = _strikesHandler.LoadStrikes(user);
-				Console.WriteLine("creating message");
-				string message = "";
-				message += $"User : {user.Mention}\n";
-				message += $"Mod : {Context.User.Mention}\n";
-				message += "\n";
+        Console.WriteLine("creating message");
 
-				foreach (var strike in strikes)
-				{
-					message += $"Strike [{strike.date}]:\n";
-					message += $"```{(strike.reason != "" ? strike.reason : " ")}```\n";
-				}
+		string message = "";
+		message += $"User : {user.Mention}\n";
+		//message += $"Mod : {Context.User.Mention}\n";
+		message += "\n";
 
-				message += "-------------------------------------------------------------------------------\n";
+		foreach (var strike in strikes)
+		{
+			message += $"Strike [{strike.date}]:\n";
+			message += $"Mod: {strike.mod}\n";
+			message += $"```{(strike.reason != "" ? strike.reason : " ")}```\n";
+		}
 
-				await _config.ModChannel.SendMessageAsync(message);
+		message += "-------------------------------------------------------------------------------\n";
+
+		await _config.ModChannel.SendMessageAsync(message);
 	}
 
 }
