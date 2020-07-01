@@ -13,13 +13,4 @@ public class ReplyModule : ModuleBase<SocketCommandContext>
 	{
 		await ReplyAsync("hello " + Context.User.Mention);
 	}
-
-	[Command("test")]
-	[Summary("Echoes a message.")]
-	[RequireUserPermission(Discord.ChannelPermission.ManageMessages)]
-	public async Task StressTest(int testAmount)
-	{
-		for (int i = 0; i < testAmount; i++)
-		await ReplyAsync("!strikes <@!143546410883743745>");
-	}
 }

@@ -20,12 +20,24 @@ public class GuildHandler
     {
         ModChannels = new Dictionary<SocketGuild, SocketTextChannel>();
 
-        client.GuildAvailable += InitializeGuilds;
+        client.GuildAvailable += InitializeGuild;
+        client.JoinedGuild += CreateGuild;
     }
 
-    public Task InitializeGuilds(SocketGuild guild)
+    public Task InitializeGuild(SocketGuild guild)
     {
         ModChannels.Add(guild, GetModChannel(guild).Result);
+
+        return Task.CompletedTask;
+    }
+
+    public Task CreateGuild(SocketGuild guild)
+    {
+        string path = Path.Combine(Directory.GetCurrentDirectory(), guild.Id.ToString());
+        Config conf = new Config() { modChannelId = guild.DefaultChannel.Id };
+
+        Directory.CreateDirectory(path);
+        File.WriteAllText(Path.Combine(path, "config.json"), JsonConvert.SerializeObject(conf));
 
         return Task.CompletedTask;
     }
@@ -33,16 +45,7 @@ public class GuildHandler
     private async Task<SocketTextChannel> GetModChannel(SocketGuild guild)
     {
         string path = Path.Combine(Directory.GetCurrentDirectory(), guild.Id.ToString(), "config.json");
-
-        if (File.Exists(path))
-            return guild.GetTextChannel(JsonConvert.DeserializeObject<Config>(File.ReadAllText(path)).modChannelId);
-        else
-        {
-            Config conf = new Config() { modChannelId = guild.DefaultChannel.Id };
-            Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), guild.Id.ToString()));
-            File.WriteAllText(path, JsonConvert.SerializeObject(conf));
-            return guild.DefaultChannel;
-        }
+        return guild.GetTextChannel(JsonConvert.DeserializeObject<Config>(File.ReadAllText(path)).modChannelId);
     }
 
     public async Task SetModChannel(SocketGuild guild, SocketTextChannel channel)

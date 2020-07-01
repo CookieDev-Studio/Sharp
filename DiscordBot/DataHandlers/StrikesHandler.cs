@@ -10,18 +10,18 @@ public class StrikesHandler
 {
     public struct Strike
     {
-        public string user;
-        public string mod;
+        public ulong userId;
+        public ulong modId;
         public string reason;
         public string date;
     }
 
-    public async Task SaveStrike(SocketGuild guild, string user, string mod, string reason, string date)
+    public async Task SaveStrike(SocketGuild guild, ulong userId, ulong modId, string reason, string date)
     {
         Strike newStrike = new Strike()
         {
-            user = user,
-            mod = mod,
+            userId = userId,
+            modId = modId,
             reason = reason,
             date = date
         };
@@ -34,9 +34,13 @@ public class StrikesHandler
 
     public List<Strike> LoadStrikes(SocketGuild guild, SocketUser user)
     {
-        List<Strike> strikes = File.ReadAllLines(Path.Combine(Directory.GetCurrentDirectory(), guild.Id.ToString(), "strikes.json")).Select(x => JsonConvert.DeserializeObject<Strike>(x)).ToList();
+        string path = Path.Combine(Directory.GetCurrentDirectory(), guild.Id.ToString(), "strikes.json");
 
-        strikes = strikes.Where(x => x.user == user.Username).ToList();
+        if (!File.Exists(path))
+            return new List<Strike>();
+
+        List<Strike> strikes = File.ReadAllLines(path).Select(x => JsonConvert.DeserializeObject<Strike>(x)).ToList();
+        strikes = strikes.Where(x => x.userId == user.Id).ToList();
 
         return strikes;
     }

@@ -33,7 +33,7 @@ public class ModModule : ModuleBase<SocketCommandContext>
 	{
 		await Context.Message.DeleteAsync();
 
-		await _strikesLoader.SaveStrike(Context.Guild, user.Username, Context.User.Username, reason, DateTime.Today.ToString("d"));
+		await _strikesLoader.SaveStrike(Context.Guild, user.Id, Context.User.Id, reason, DateTime.Today.ToString("d"));
 		await ShowStrikes(user);
 	}
 
@@ -49,21 +49,20 @@ public class ModModule : ModuleBase<SocketCommandContext>
 	private async Task ShowStrikes(SocketUser user)
 	{
 		var strikes = _strikesLoader.LoadStrikes(Context.Guild, user);
-
+		
 		string message = "";
 		message += $"User : {user.Mention}\n";
-		message += $"Mod : {Context.User.Mention}\n";
 		message += "\n";
 
 		foreach (var strike in strikes)
 		{
 			message += $"Strike [{strike.date}]:\n";
-			message += $"Mod: {strike.mod}\n";
+			message += $"Mod: <@!{strike.modId}>\n";
 			message += $"```{(strike.reason != "" ? strike.reason : " ")}```\n";
 		}
 
 		message += "-------------------------------------------------------------------------------\n";
+
 		await _config.ModChannels[Context.Guild].SendMessageAsync(message);
 	}
-
 }
