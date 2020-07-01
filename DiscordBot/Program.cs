@@ -15,13 +15,13 @@ class Program
     private DiscordSocketClient _client;
     private CommandService _commands; 
     private IServiceProvider _services;
-    private SpaghettiHandler _config;
+    private GuildHandler _config;
 
     public async Task MainAsync()
     {
         _client = new DiscordSocketClient();
         _commands = new CommandService();
-        _config = new SpaghettiHandler(_client);
+        _config = new GuildHandler(_client);
 
         _client.Log += Log;
         _client.MessageReceived += HandleCommandAsync;
@@ -54,8 +54,8 @@ class Program
 
         // Determine if the message is a command based on the prefix and make sure no bots trigger commands
         if (!(message.HasCharPrefix('!', ref argPos) ||
-            message.HasMentionPrefix(_client.CurrentUser, ref argPos)) ||
-            message.Author.IsBot)
+            message.HasMentionPrefix(_client.CurrentUser, ref argPos)) )//||
+            //message.Author.IsBot)
             return;
 
         // Create a WebSocket-based command context based on the message

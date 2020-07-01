@@ -8,13 +8,22 @@ using System.Threading.Tasks;
 
 public class ModModule : ModuleBase<SocketCommandContext>
 {
-	StrikesHandler _strikesHandler;
-	SpaghettiHandler _config;
+	StrikesHandler _strikesLoader;
+	GuildHandler _config;
 
-	public ModModule(StrikesHandler strikesHandler, SpaghettiHandler configHandler)
+	public ModModule(StrikesHandler strikesHandler, GuildHandler configHandler)
 	{
-		_strikesHandler = strikesHandler;
+		_strikesLoader = strikesHandler;
 		_config = configHandler;
+	}
+
+	[Command("setModChannel")]
+	[RequireUserPermission(Discord.ChannelPermission.ManageMessages)]
+	public async Task SetModChannel(SocketTextChannel channel)
+	{
+		await Logger.Log(Context.Guild, $"Mod channel set to {channel.Id}");
+		await _config.SetModChannel(Context.Guild, channel);
+		await ReplyAsync($"Mod channel set to {channel.Name}");
 	}
 
 	[Command("strike")]
@@ -24,7 +33,7 @@ public class ModModule : ModuleBase<SocketCommandContext>
 	{
 		await Context.Message.DeleteAsync();
 
-		await _strikesHandler.SaveStrike(Context.Guild, user.Username, Context.User.Username, reason, DateTime.Today.ToString("d"));
+		await _strikesLoader.SaveStrike(Context.Guild, user.Username, Context.User.Username, reason, DateTime.Today.ToString("d"));
 		await ShowStrikes(user);
 	}
 
@@ -39,7 +48,8 @@ public class ModModule : ModuleBase<SocketCommandContext>
 
 	private async Task ShowStrikes(SocketUser user)
 	{
-		var strikes = _strikesHandler.LoadStrikes(Context.Guild, user);
+		var strikes = _strikesLoader.LoadStrikes(Context.Guild, user);
+
 		string message = "";
 		message += $"User : {user.Mention}\n";
 		message += $"Mod : {Context.User.Mention}\n";
@@ -53,7 +63,6 @@ public class ModModule : ModuleBase<SocketCommandContext>
 		}
 
 		message += "-------------------------------------------------------------------------------\n";
-
 		await _config.ModChannels[Context.Guild].SendMessageAsync(message);
 	}
 

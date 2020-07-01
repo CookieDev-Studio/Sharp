@@ -1,5 +1,6 @@
 ﻿using Discord.WebSocket;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,8 +15,6 @@ public class StrikesHandler
         public string reason;
         public string date;
     }
-
-    private readonly string strikesPath = Path.Combine(Directory.GetCurrentDirectory(), "strikes.json").Replace(@"\", @"\\");
 
     public async Task SaveStrike(SocketGuild guild, string user, string mod, string reason, string date)
     {
@@ -35,7 +34,8 @@ public class StrikesHandler
 
     public List<Strike> LoadStrikes(SocketGuild guild, SocketUser user)
     {
-        List<Strike> strikes = File.ReadAllLines(Path.Combine(Directory.GetCurrentDirectory(), guild.Id.ToString(), "strikes.jason")).Select(x => JsonConvert.DeserializeObject<Strike>(x)).ToList();
+        List<Strike> strikes = File.ReadAllLines(Path.Combine(Directory.GetCurrentDirectory(), guild.Id.ToString(), "strikes.json")).Select(x => JsonConvert.DeserializeObject<Strike>(x)).ToList();
+
         strikes = strikes.Where(x => x.user == user.Username).ToList();
 
         return strikes;
