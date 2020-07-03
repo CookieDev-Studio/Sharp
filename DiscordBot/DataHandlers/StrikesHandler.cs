@@ -1,6 +1,5 @@
 ﻿using Discord.WebSocket;
 using Newtonsoft.Json;
-using SharpBot.Models;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;

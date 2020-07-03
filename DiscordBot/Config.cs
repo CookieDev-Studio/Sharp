@@ -1,10 +1,7 @@
-﻿namespace SharpBot
+﻿/// <summary>
+/// Configuration class to store modChannel data.
+/// </summary>
+public class Config
 {
-    /// <summary>
-    /// Configuration class to store modChannel data.
-    /// </summary>
-    public class Config
-    {
-        public ulong modChannelId;
-    }
+    public ulong modChannelId;
 }
