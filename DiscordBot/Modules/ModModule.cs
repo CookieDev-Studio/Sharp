@@ -17,7 +17,8 @@ public class ModModule : ModuleBase<SocketCommandContext>
 		_config = configHandler;
 	}
 
-	[Command("setModChannel")]
+	[Command("setmodchannel")]
+	[Summary("!setmodchannel _#channel_\n Sets the mod channel")]
 	[RequireUserPermission(Discord.ChannelPermission.ManageMessages)]
 	public async Task SetModChannel(SocketTextChannel channel)
 	{
@@ -27,7 +28,7 @@ public class ModModule : ModuleBase<SocketCommandContext>
 	}
 
 	[Command("strike")]
-	[Summary("gives a user a strike")]
+	[Summary("!strike _@user_ _\"message\"_\n Gives a user a strike")]
 	[RequireUserPermission(Discord.ChannelPermission.ManageMessages)]
 	public async Task Strike(SocketUser user, string reason)
 	{
@@ -38,7 +39,7 @@ public class ModModule : ModuleBase<SocketCommandContext>
 	}
 
 	[Command("strikes")]
-	[Summary("check how many strikes a user has")]
+	[Summary("!strikes _@user_\n Displays all of the user's srtrikes")]
 	[RequireUserPermission(Discord.ChannelPermission.ManageMessages)]
 	public async Task Strikes(SocketUser user)
 	{
