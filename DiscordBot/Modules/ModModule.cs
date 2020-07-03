@@ -1,9 +1,6 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 public class ModModule : ModuleBase<SocketCommandContext>
@@ -21,7 +18,7 @@ public class ModModule : ModuleBase<SocketCommandContext>
 	[RequireUserPermission(Discord.ChannelPermission.ManageMessages)]
 	public async Task SetModChannel(SocketTextChannel channel)
 	{
-		await Logger.Log(Context.Guild, $"Mod channel set to {channel.Id}");
+		await LoggerExtensions.Log(Context.Guild, $"Mod channel set to {channel.Id}");
 		await _config.SetModChannel(Context.Guild, channel);
 		await ReplyAsync($"Mod channel set to {channel.Name}");
 	}
