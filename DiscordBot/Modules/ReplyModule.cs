@@ -17,13 +17,14 @@ public class ReplyModule : ModuleBase<SocketCommandContext>
 
 	[Command("greet")]
 	[Summary("Greets the user")]
-	[RequireUserPermission(Discord.ChannelPermission.ManageMessages)]
+	[RequireUserPermission(ChannelPermission.ManageMessages)]
 	public async Task Say()
 	{
 		await ReplyAsync("hello " + Context.User.Mention);
 	}
 	[Command("help")]
 	[Summary("Shows all Commands")]
+	[RequireUserPermission(ChannelPermission.ManageMessages)]
 	public async Task Help()
     {
 		var builder = new EmbedBuilder()

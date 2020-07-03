@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ public class ModModule : ModuleBase<SocketCommandContext>
 
 	[Command("setmodchannel")]
 	[Summary("!setmodchannel _#channel_\n Sets the mod channel")]
-	[RequireUserPermission(Discord.ChannelPermission.ManageMessages)]
+	[RequireUserPermission(ChannelPermission.ManageMessages)]
 	public async Task SetModChannel(SocketTextChannel channel)
 	{
 		await Logger.Log(Context.Guild, $"Mod channel set to {channel.Id}");
@@ -29,7 +30,7 @@ public class ModModule : ModuleBase<SocketCommandContext>
 
 	[Command("strike")]
 	[Summary("!strike _@user_ _\"message\"_\n Gives a user a strike")]
-	[RequireUserPermission(Discord.ChannelPermission.ManageMessages)]
+	[RequireUserPermission(ChannelPermission.ManageMessages)]
 	public async Task Strike(SocketUser user, string reason)
 	{
 		await Context.Message.DeleteAsync();
@@ -40,7 +41,7 @@ public class ModModule : ModuleBase<SocketCommandContext>
 
 	[Command("strikes")]
 	[Summary("!strikes _@user_\n Displays all of the user's srtrikes")]
-	[RequireUserPermission(Discord.ChannelPermission.ManageMessages)]
+	[RequireUserPermission(ChannelPermission.ManageMessages)]
 	public async Task Strikes(SocketUser user)
 	{
 		await Context.Message.DeleteAsync();
