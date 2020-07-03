@@ -1,6 +1,5 @@
 ﻿using Discord.WebSocket;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,14 +7,6 @@ using System.Threading.Tasks;
 
 public class StrikesHandler
 {
-    public struct Strike
-    {
-        public ulong userId;
-        public ulong modId;
-        public string reason;
-        public string date;
-    }
-
     public async Task SaveStrike(SocketGuild guild, ulong userId, ulong modId, string reason, string date)
     {
         Strike newStrike = new Strike()
