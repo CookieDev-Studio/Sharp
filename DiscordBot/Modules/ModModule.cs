@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Sharpbot.data;
 using System;
 using System.Threading.Tasks;
 
@@ -46,6 +47,15 @@ public class ModModule : ModuleBase<SocketCommandContext>
 		await ShowStrikes(user);
 	}
 
+	[Command("removestrike")]
+	[Summary("!removestrike _strikeid_\n removes the specified strike")]
+	[RequireUserPermission(ChannelPermission.ManageMessages)]
+	public async Task RemoveStrikes(int strikeId)
+	{
+		StrikeService.RemoveStrike(strikeId);
+		await ReplyAsync("strike removed");
+	}
+
 	private async Task ShowStrikes(SocketUser user)
 	{
 		var strikes = _strikesLoader.LoadStrikes(Context.Guild, user);
@@ -56,7 +66,8 @@ public class ModModule : ModuleBase<SocketCommandContext>
 
 		foreach (var strike in strikes)
 		{
-			message += $"Strike id:{strike.Id} [{strike.date}]:\n";
+			message += $"Strike [{strike.date}]:\n";
+			message += $"Id: {strike.Id}\n";
 			message += $"Mod: {strike.mod.Mention}\n";
 			message += $"```{(strike.reason != "" ? strike.reason : " ")}```\n";
 		}
