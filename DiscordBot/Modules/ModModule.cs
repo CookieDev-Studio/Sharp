@@ -56,7 +56,7 @@ public class ModModule : ModuleBase<SocketCommandContext>
 
 		foreach (var strike in strikes)
 		{
-			message += $"Strike [{strike.date}]:\n";
+			message += $"Strike id:{strike.Id} [{strike.date}]:\n";
 			message += $"Mod: {strike.mod.Mention}\n";
 			message += $"```{(strike.reason != "" ? strike.reason : " ")}```\n";
 		}

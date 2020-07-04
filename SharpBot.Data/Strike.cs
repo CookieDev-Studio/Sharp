@@ -6,6 +6,7 @@ namespace Sharpbot.data
     public struct Strike
     {
         public int Id;
+        public string guildId;
         public string userId;
         public string modId;
         public string reason;
