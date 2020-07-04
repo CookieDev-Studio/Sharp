@@ -1,8 +1,14 @@
-﻿public struct Strike
+﻿/// <summary>
+/// Data model for Strike
+/// </summary>
+namespace Sharpbot.data
 {
-    public int Id;
-    public string userId;
-    public string modId;
-    public string reason;
-    public string date;
+    public struct Strike
+    {
+        public int Id;
+        public string userId;
+        public string modId;
+        public string reason;
+        public string date;
+    }
 }

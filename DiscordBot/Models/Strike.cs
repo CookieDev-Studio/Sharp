@@ -1,11 +1,12 @@
-﻿/// <summary>
+﻿using Discord.WebSocket;
+/// <summary>
 /// Data class storing Strike data.
 /// </summary>
-public class Strike
+public struct Strike
 {
     public int Id;
-    public ulong userId;
-    public ulong modId;
+    public SocketUser user;
+    public SocketUser mod;
     public string reason;
     public string date;
 }
