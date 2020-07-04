@@ -24,7 +24,7 @@ namespace Sharpbot.data
             using (var connection = new NpgsqlConnection(""))
             {
                 connection.Open();
-                connection.Execute($"INSERT INTO strikes(guildid, userid, modid, reason, date) VALUES('{guildId}', '{userId}', '{modId}', '{reason}', '{date}')");
+                connection.Execute($"select addstrike('{guildId}', '{userId}', '{modId}', '{reason}', '{date}')");
             }
         }
     }
