@@ -13,6 +13,7 @@ public class ModModule : ModuleBase<SocketCommandContext>
 	{
 		_strikesLoader = strikesHandler;
 		_config = configHandler;
+		
 	}
 
 	[Command("setmodchannel")]

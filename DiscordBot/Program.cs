@@ -26,6 +26,10 @@ class Program
     /// <returns>A delayed task.</returns>
     public async Task MainAsync()
     {
+        TestClass.TestDB();
+        await Task.Delay(-1);
+
+
         _client = new DiscordSocketClient();
         _commands = new CommandService();
         _config = new GuildHandler(_client);
