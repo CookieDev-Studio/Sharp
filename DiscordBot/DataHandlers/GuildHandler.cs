@@ -35,7 +35,7 @@ public class GuildHandler
     private async Task<Config> GetConfig(SocketGuild guild)
     {
         Config config = new Config();
-        config.modChannel = await Task.Run(() => guild.GetTextChannel(ulong.Parse(GuildService.GetGuildConfig(guild.Id).modChannelId)));
+        config.modChannel = await Task.Run(() => guild.GetTextChannel(ulong.Parse(_guildService.GetGuildConfig(guild.Id).modChannelId)));
 
         return config;
     }
