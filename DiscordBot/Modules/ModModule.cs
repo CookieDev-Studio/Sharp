@@ -48,8 +48,8 @@ public class ModModule : ModuleBase<SocketCommandContext>
 		await ShowStrikes(user);
 	}
 
-	[Command("removestrike")]
-	[Summary("!removestrike _strikeid_\n removes the specified strike")]
+	[Command("remove")]
+	[Summary("!remove _strikeid_\n removes the specified strike")]
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
 	public async Task RemoveStrikes(int strikeId)
 	{
