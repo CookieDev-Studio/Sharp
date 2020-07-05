@@ -18,10 +18,7 @@ public class GuildHandler
 
     public Task InitializeGuild(SocketGuild guild)
     {
-        try
-        {
-            _guildService.AddConfig(guild.Id, guild.DefaultChannel.Id);
-        }
+        try { _guildService.AddConfig(guild.Id, guild.DefaultChannel.Id); }
         catch { }
 
         return Task.CompletedTask;

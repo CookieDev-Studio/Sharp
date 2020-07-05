@@ -8,23 +8,13 @@ namespace SharpBot.Data
 {
     public class GuildService
     {
-        private string npgsqlConnectionString;
+        private readonly string connectionString;
 
-        public GuildService()
-        {
-            try { npgsqlConnectionString = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "SqlConnectionString.txt")); }
-            catch
-            {
-                Console.WriteLine("Enter sql Conection String:");
-                string connectionString = Console.ReadLine();
-                File.WriteAllTextAsync(Path.Combine(Directory.GetCurrentDirectory(), "SqlConnectionString.txt"), connectionString);
-                npgsqlConnectionString = connectionString;
-            }
-        }
+        public GuildService() => connectionString = ServiceExtentions.GetConnectionString();
 
         public Config GetGuildConfig(ulong guildId)
         {
-            using (var connection = new NpgsqlConnection(npgsqlConnectionString))
+            using (var connection = new NpgsqlConnection(connectionString))
             {
                 connection.Open();
                 return connection.Query<Config>($"select * from get_config('{guildId}')").First();
@@ -33,7 +23,7 @@ namespace SharpBot.Data
 
         public void AddConfig(ulong guildId, ulong modChannelId)
         {
-            using (var connection = new NpgsqlConnection(npgsqlConnectionString))
+            using (var connection = new NpgsqlConnection(connectionString))
             {
                 connection.Open();
                 connection.Execute($"select add_config('{guildId}', '{modChannelId}')");
@@ -42,7 +32,7 @@ namespace SharpBot.Data
 
         public void SetModChannel(ulong guildId, ulong modChannelId)
         {
-            using (var connection = new NpgsqlConnection(npgsqlConnectionString))
+            using (var connection = new NpgsqlConnection(connectionString))
             {
                 connection.Open();
                 connection.Execute($"select set_mod_channel_id('{guildId}', '{modChannelId}')");

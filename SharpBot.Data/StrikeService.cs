@@ -9,23 +9,13 @@ namespace SharpBot.Data
 {
     public class StrikeService
     {
-        private string npgsqlConnectionString;
+        private readonly string connectionString;
 
-        public StrikeService()
-        {
-            try { npgsqlConnectionString = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "SqlConnectionString.txt")); }
-            catch
-            {
-                Console.WriteLine("Enter sql Conection String:");
-                string connectionString = Console.ReadLine();
-                File.WriteAllTextAsync(Path.Combine(Directory.GetCurrentDirectory(), "SqlConnectionString.txt"), connectionString);
-                npgsqlConnectionString = connectionString;
-            }
-        }
+        public StrikeService() => connectionString = ServiceExtentions.GetConnectionString();
 
         public List<Strike> GetStrikes(ulong guildId, ulong userId)
         {
-            using (var connection = new NpgsqlConnection(npgsqlConnectionString))
+            using (var connection = new NpgsqlConnection(connectionString))
             {
                 connection.Open();
                 return connection.Query<Strike>($"select * from get_strikes('{guildId}', '{userId}')").ToList();
@@ -34,7 +24,7 @@ namespace SharpBot.Data
 
         public void AddStrike(ulong guildId, ulong userId, ulong modId, string reason, string date)
         {
-            using (var connection = new NpgsqlConnection(npgsqlConnectionString))
+            using (var connection = new NpgsqlConnection(connectionString))
             {
                 connection.Open();
                 connection.Execute($"select add_strike('{guildId}', '{userId}', '{modId}', '{reason}', '{date}')");
@@ -43,7 +33,7 @@ namespace SharpBot.Data
 
         public void RemoveStrike(int strikeId)
         {
-            using (var connection = new NpgsqlConnection(npgsqlConnectionString))
+            using (var connection = new NpgsqlConnection(connectionString))
             {
                 connection.Open();
                 connection.Execute($"select remove_strike({strikeId})");
