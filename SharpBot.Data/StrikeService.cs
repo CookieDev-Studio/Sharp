@@ -24,20 +24,16 @@ namespace SharpBot.Data
 
         public void AddStrike(ulong guildId, ulong userId, ulong modId, string reason, string date)
         {
-            using (var connection = new NpgsqlConnection(connectionString))
-            {
-                connection.Open();
-                connection.Execute($"select add_strike('{guildId}', '{userId}', '{modId}', '{reason}', '{date}')");
-            }
+            using var connection = new NpgsqlConnection(connectionString);
+            connection.Open();
+            connection.Execute($"select add_strike('{guildId}', '{userId}', '{modId}', '{reason}', '{date}')");
         }
 
         public void RemoveStrike(int strikeId)
         {
-            using (var connection = new NpgsqlConnection(connectionString))
-            {
-                connection.Open();
-                connection.Execute($"select remove_strike({strikeId})");
-            }
+            using var connection = new NpgsqlConnection(connectionString);
+            connection.Open();
+            connection.Execute($"select remove_strike({strikeId})");
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public class StrikeHandler
 {
-    StrikeService _strikeService;
+    readonly StrikeService _strikeService;
     public StrikeHandler(StrikeService strikeService)
     {
         _strikeService = strikeService;

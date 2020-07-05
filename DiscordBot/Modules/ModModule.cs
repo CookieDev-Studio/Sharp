@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 public class ModModule : ModuleBase<SocketCommandContext>
 {
-	StrikeHandler _strikesLoader;
-	GuildHandler _config;
-	StrikeService _strikeService;
+    readonly StrikeHandler _strikesLoader;
+    readonly GuildHandler _config;
+    readonly StrikeService _strikeService;
 
 	public ModModule(StrikeHandler strikesHandler, GuildHandler configHandler, StrikeService strikeService)
 	{
