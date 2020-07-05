@@ -1,14 +1,28 @@
 ﻿using Dapper;
 using Npgsql;
+using System;
+using System.IO;
 using System.Linq;
 
 namespace SharpBot.Data
 {
     public class GuildService
     {
-        private static string npgsqlConnectionString = "";
+        private string npgsqlConnectionString;
 
-        public static Config GetGuildConfig(ulong guildId)
+        public GuildService()
+        {
+            try { npgsqlConnectionString = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "SqlConnectionString.txt")); }
+            catch
+            {
+                Console.WriteLine("Enter sql Conection String:");
+                string connectionString = Console.ReadLine();
+                File.WriteAllTextAsync(Path.Combine(Directory.GetCurrentDirectory(), "SqlConnectionString.txt"), connectionString);
+                npgsqlConnectionString = connectionString;
+            }
+        }
+
+        public Config GetGuildConfig(ulong guildId)
         {
             using (var connection = new NpgsqlConnection(npgsqlConnectionString))
             {
@@ -17,7 +31,7 @@ namespace SharpBot.Data
             }
         }
 
-        public static void AddConfig(ulong guildId, ulong modChannelId)
+        public void AddConfig(ulong guildId, ulong modChannelId)
         {
             using (var connection = new NpgsqlConnection(npgsqlConnectionString))
             {
@@ -26,7 +40,7 @@ namespace SharpBot.Data
             }
         }
 
-        public static void SetModChannel(ulong guildId, ulong modChannelId)
+        public void SetModChannel(ulong guildId, ulong modChannelId)
         {
             using (var connection = new NpgsqlConnection(npgsqlConnectionString))
             {

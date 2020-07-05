@@ -1,8 +1,8 @@
-﻿/// <summary>
-/// Data model for Strike
-/// </summary>
-namespace Sharpbot.Data
+﻿namespace SharpBot.Data
 {
+    /// <summary>
+    /// Data model for Strike
+    /// </summary>
     public struct Strike
     {
         public int Id;

@@ -7,8 +7,11 @@ using System.Threading.Tasks;
 
 public class GuildHandler
 {
-    public GuildHandler(DiscordSocketClient client)
+    GuildService _guildService;
+    public GuildHandler(DiscordSocketClient client, GuildService guildService)
     {
+        _guildService = guildService;
+
         client.GuildAvailable += InitializeGuild;
         client.JoinedGuild += InitializeGuild;
     }
@@ -17,7 +20,7 @@ public class GuildHandler
     {
         try
         {
-            GuildService.AddConfig(guild.Id, guild.DefaultChannel.Id);
+            _guildService.AddConfig(guild.Id, guild.DefaultChannel.Id);
         }
         catch { }
 
@@ -33,13 +36,13 @@ public class GuildHandler
     {
         return new Config()
         {
-            modChannel = guild.GetTextChannel(ulong.Parse(GuildService.GetGuildConfig(guild.Id).modChannelId))
+            modChannel = guild.GetTextChannel(ulong.Parse(_guildService.GetGuildConfig(guild.Id).modChannelId))
         };
     }
 
     public Task SetModChannel(SocketGuild guild, SocketTextChannel channel)
     {
-        GuildService.SetModChannel(guild.Id, channel.Id);
+        _guildService.SetModChannel(guild.Id, channel.Id);
         return Task.CompletedTask;
     }
 }

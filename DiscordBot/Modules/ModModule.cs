@@ -1,19 +1,21 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Sharpbot.Data;
+using SharpBot.Data;
 using System;
 using System.Threading.Tasks;
 
 public class ModModule : ModuleBase<SocketCommandContext>
 {
-	StrikesHandler _strikesLoader;
+	StrikeHandler _strikesLoader;
 	GuildHandler _config;
+	StrikeService _strikeService;
 
-	public ModModule(StrikesHandler strikesHandler, GuildHandler configHandler)
+	public ModModule(StrikeHandler strikesHandler, GuildHandler configHandler, StrikeService strikeService)
 	{
 		_strikesLoader = strikesHandler;
 		_config = configHandler;
+		_strikeService = strikeService;
 	}
 
 	[Command("setmodchannel")]
@@ -51,7 +53,7 @@ public class ModModule : ModuleBase<SocketCommandContext>
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
 	public async Task RemoveStrikes(int strikeId)
 	{
-		StrikeService.RemoveStrike(strikeId);
+		_strikeService.RemoveStrike(strikeId);
 		await ReplyAsync("strike removed");
 	}
 

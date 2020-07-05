@@ -1,20 +1,26 @@
 ﻿using Discord.WebSocket;
-using Sharpbot.Data;
+using SharpBot.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-public class StrikesHandler
+public class StrikeHandler
 {
+    StrikeService _strikeService;
+    public StrikeHandler(StrikeService strikeService)
+    {
+        _strikeService = strikeService;
+    }
+
     public Task SaveStrike(SocketGuild guild, SocketUser user, SocketUser mod, string reason, string date)
     {
-        StrikeService.AddStrike(guild.Id, user.Id, mod.Id, reason, date);
+        _strikeService.AddStrike(guild.Id, user.Id, mod.Id, reason, date);
         return Task.CompletedTask;
     }
 
     public List<Strike> LoadStrikes(SocketGuild guild, SocketUser user)
     {
-        return StrikeService.GetStrikes(guild.Id, user.Id).Where(x => ulong.Parse(x.guildId) == guild.Id && ulong.Parse(x.userId) == user.Id).Select(x =>
+        return _strikeService.GetStrikes(guild.Id, user.Id).Where(x => ulong.Parse(x.guildId) == guild.Id && ulong.Parse(x.userId) == user.Id).Select(x =>
             new Strike()
             {
                 Id = x.Id,

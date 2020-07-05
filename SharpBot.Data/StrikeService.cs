@@ -1,15 +1,29 @@
 ﻿using Dapper;
 using Npgsql;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
-namespace Sharpbot.Data
+namespace SharpBot.Data
 {
     public class StrikeService
     {
-        private static string npgsqlConnectionString = "";
+        private string npgsqlConnectionString;
 
-        public static List<Strike> GetStrikes(ulong guildId, ulong userId)
+        public StrikeService()
+        {
+            try { npgsqlConnectionString = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "SqlConnectionString.txt")); }
+            catch
+            {
+                Console.WriteLine("Enter sql Conection String:");
+                string connectionString = Console.ReadLine();
+                File.WriteAllTextAsync(Path.Combine(Directory.GetCurrentDirectory(), "SqlConnectionString.txt"), connectionString);
+                npgsqlConnectionString = connectionString;
+            }
+        }
+
+        public List<Strike> GetStrikes(ulong guildId, ulong userId)
         {
             using (var connection = new NpgsqlConnection(npgsqlConnectionString))
             {
@@ -18,7 +32,7 @@ namespace Sharpbot.Data
             }
         }
 
-        public static void AddStrike(ulong guildId, ulong userId, ulong modId, string reason, string date)
+        public void AddStrike(ulong guildId, ulong userId, ulong modId, string reason, string date)
         {
             using (var connection = new NpgsqlConnection(npgsqlConnectionString))
             {
@@ -27,7 +41,7 @@ namespace Sharpbot.Data
             }
         }
 
-        public static void RemoveStrike(int strikeId)
+        public void RemoveStrike(int strikeId)
         {
             using (var connection = new NpgsqlConnection(npgsqlConnectionString))
             {
