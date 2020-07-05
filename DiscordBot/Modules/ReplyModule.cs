@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 public class ReplyModule : ModuleBase<SocketCommandContext>
 {
-	CommandService _commands;
+    readonly CommandService _commands;
 
 	public ReplyModule(CommandService commands)
     {

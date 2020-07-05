@@ -1,7 +1,9 @@
-﻿/// <summary>
+﻿using Discord.WebSocket;
+
+/// <summary>
 /// Configuration class to store modChannel data.
 /// </summary>
-public class Config
+internal class Config
 {
-    public ulong modChannelId;
+    public SocketTextChannel modChannel;
 }

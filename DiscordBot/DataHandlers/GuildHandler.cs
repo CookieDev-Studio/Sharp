@@ -1,55 +1,47 @@
 ﻿using Discord.WebSocket;
 using Newtonsoft.Json;
+using SharpBot.Data;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
 public class GuildHandler
 {
-    public Dictionary<SocketGuild, SocketTextChannel> ModChannels;
-
-    public GuildHandler(DiscordSocketClient client)
+    readonly GuildService _guildService;
+    public GuildHandler(DiscordSocketClient client, GuildService guildService)
     {
-        ModChannels = new Dictionary<SocketGuild, SocketTextChannel>();
+        _guildService = guildService;
 
         client.GuildAvailable += InitializeGuild;
-        client.JoinedGuild += CreateGuild;
+        client.JoinedGuild += InitializeGuild;
     }
 
     public Task InitializeGuild(SocketGuild guild)
     {
-        ModChannels.Add(guild, GetModChannel(guild).Result);
+        try { _guildService.AddConfig(guild.Id, guild.DefaultChannel.Id); }
+        catch { }
 
         return Task.CompletedTask;
     }
 
-    public Task CreateGuild(SocketGuild guild)
+    public SocketTextChannel GetModChannel(SocketGuild guild)
     {
-        string path = Path.Combine(Directory.GetCurrentDirectory(), guild.Id.ToString());
-        Config conf = new Config() { modChannelId = guild.DefaultChannel.Id };
+        return GetConfig(guild).Result.modChannel;
+    }
 
-        Directory.CreateDirectory(path);
-        File.WriteAllText(Path.Combine(path, "config.json"), JsonConvert.SerializeObject(conf));
+    private async Task<Config> GetConfig(SocketGuild guild)
+    {
+        Config config = new Config
+        {
+            modChannel = await Task.Run(() => guild.GetTextChannel(ulong.Parse(_guildService.GetGuildConfig(guild.Id).modChannelId)))
+        };
 
+        return config;
+    }
+
+    public Task SetModChannel(SocketGuild guild, SocketTextChannel channel)
+    {
+        _guildService.SetModChannel(guild.Id, channel.Id);
         return Task.CompletedTask;
-    }
-
-    private async Task<SocketTextChannel> GetModChannel(SocketGuild guild)
-    {
-        string path = Path.Combine(Directory.GetCurrentDirectory(), guild.Id.ToString(), "config.json");
-        return guild.GetTextChannel(JsonConvert.DeserializeObject<Config>(
-               await File.ReadAllTextAsync(path)).modChannelId);
-    }
-
-    public async Task SetModChannel(SocketGuild guild, SocketTextChannel channel)
-    {
-        //set mod channel
-        ModChannels[guild] = channel;
-
-        //save new mod channel
-        Config newConfig = new Config();
-        newConfig.modChannelId = channel.Id;
-        string path = Path.Combine(Directory.GetCurrentDirectory(), guild.Id.ToString(), "config.json");
-        await File.WriteAllTextAsync(path, JsonConvert.SerializeObject(newConfig));
     }
 }

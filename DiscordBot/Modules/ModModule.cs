@@ -1,18 +1,21 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using SharpBot.Data;
 using System;
 using System.Threading.Tasks;
 
 public class ModModule : ModuleBase<SocketCommandContext>
 {
-	StrikesHandler _strikesLoader;
-	GuildHandler _config;
+    readonly StrikeHandler _strikesLoader;
+    readonly GuildHandler _config;
+    readonly StrikeService _strikeService;
 
-	public ModModule(StrikesHandler strikesHandler, GuildHandler configHandler)
+	public ModModule(StrikeHandler strikesHandler, GuildHandler configHandler, StrikeService strikeService)
 	{
 		_strikesLoader = strikesHandler;
 		_config = configHandler;
+		_strikeService = strikeService;
 	}
 
 	[Command("setmodchannel")]
@@ -32,7 +35,7 @@ public class ModModule : ModuleBase<SocketCommandContext>
 	{
 		await Context.Message.DeleteAsync();
 
-		await _strikesLoader.SaveStrike(Context.Guild, user.Id, Context.User.Id, reason, DateTime.Today.ToString("d"));
+		await _strikesLoader.SaveStrike(Context.Guild, user, Context.User, reason, DateTime.Today.ToString("d"));
 		await ShowStrikes(user);
 	}
 
@@ -43,6 +46,15 @@ public class ModModule : ModuleBase<SocketCommandContext>
 	{
 		await Context.Message.DeleteAsync();
 		await ShowStrikes(user);
+	}
+
+	[Command("remove")]
+	[Summary("!remove _strikeid_\n removes the specified strike")]
+	[RequireUserPermission(ChannelPermission.ManageMessages)]
+	public async Task RemoveStrikes(int strikeId)
+	{
+		_strikeService.RemoveStrike(strikeId);
+		await ReplyAsync("strike removed");
 	}
 
 	private async Task ShowStrikes(SocketUser user)
@@ -56,12 +68,13 @@ public class ModModule : ModuleBase<SocketCommandContext>
 		foreach (var strike in strikes)
 		{
 			message += $"Strike [{strike.date}]:\n";
-			message += $"Mod: <@!{strike.modId}>\n";
+			message += $"Id: {strike.Id}\n";
+			message += $"Mod: {strike.mod.Mention}\n";
 			message += $"```{(strike.reason != "" ? strike.reason : " ")}```\n";
 		}
 
 		message += "-------------------------------------------------------------------------------\n";
 
-		await _config.ModChannels[Context.Guild].SendMessageAsync(message);
+		await _config.GetModChannel(Context.Guild).SendMessageAsync(message);
 	}
 }
