@@ -47,13 +47,7 @@ public class GuildHandler
         
         //set mod channel
         ModChannels[guild] = channel;
-        /*
-        //save new mod channel
-        Config newConfig = new Config();
-        newConfig.modChannelId = channel;
-        string path = Path.Combine(Directory.GetCurrentDirectory(), guild.Id.ToString(), "config.json");
-        await File.WriteAllTextAsync(path, JsonConvert.SerializeObject(newConfig));
-        */
+        
         return Task.CompletedTask;
     }
 }

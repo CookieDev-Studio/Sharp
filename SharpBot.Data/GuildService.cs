@@ -13,7 +13,7 @@ namespace SharpBot.Data
             using (var connection = new NpgsqlConnection(npgsqlConnectionString))
             {
                 connection.Open();
-                return connection.Query<Config>($"select * from getconfig('{guildId}')").First();
+                return connection.Query<Config>($"select * from get_config('{guildId}')").First();
             }
         }
 
@@ -22,7 +22,7 @@ namespace SharpBot.Data
             using (var connection = new NpgsqlConnection(npgsqlConnectionString))
             {
                 connection.Open();
-                connection.Execute($"select setmodchannelid('{guildId}', '{modChannelId}')");
+                connection.Execute($"select set_mod_channel_id('{guildId}', '{modChannelId}')");
             }
         }
     }

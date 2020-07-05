@@ -14,7 +14,7 @@ namespace Sharpbot.Data
             using (var connection = new NpgsqlConnection(npgsqlConnectionString))
             {
                 connection.Open();
-                return connection.Query<Strike>($"select * from getstrikes('{guildId}', '{userId}')").ToList();
+                return connection.Query<Strike>($"select * from get_strikes('{guildId}', '{userId}')").ToList();
             }
         }
 
@@ -23,7 +23,7 @@ namespace Sharpbot.Data
             using (var connection = new NpgsqlConnection(npgsqlConnectionString))
             {
                 connection.Open();
-                connection.Execute($"select addstrike('{guildId}', '{userId}', '{modId}', '{reason}', '{date}')");
+                connection.Execute($"select add_strike('{guildId}', '{userId}', '{modId}', '{reason}', '{date}')");
             }
         }
 
@@ -32,7 +32,7 @@ namespace Sharpbot.Data
             using (var connection = new NpgsqlConnection(npgsqlConnectionString))
             {
                 connection.Open();
-                connection.Execute($"select removestrike({strikeId})");
+                connection.Execute($"select remove_strike({strikeId})");
             }
         }
     }
