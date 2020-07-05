@@ -1,8 +1,5 @@
 ﻿using Discord.WebSocket;
-using Newtonsoft.Json;
 using SharpBot.Data;
-using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 
 public class GuildHandler
