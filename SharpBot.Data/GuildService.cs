@@ -17,6 +17,15 @@ namespace SharpBot.Data
             }
         }
 
+        public static void AddConfig(ulong guildId, ulong modChannelId)
+        {
+            using (var connection = new NpgsqlConnection(npgsqlConnectionString))
+            {
+                connection.Open();
+                connection.Execute($"select add_config('{guildId}', '{modChannelId}')");
+            }
+        }
+
         public static void SetModChannel(ulong guildId, ulong modChannelId)
         {
             using (var connection = new NpgsqlConnection(npgsqlConnectionString))
@@ -25,5 +34,6 @@ namespace SharpBot.Data
                 connection.Execute($"select set_mod_channel_id('{guildId}', '{modChannelId}')");
             }
         }
+
     }
 }

@@ -14,7 +14,6 @@ public class ModModule : ModuleBase<SocketCommandContext>
 	{
 		_strikesLoader = strikesHandler;
 		_config = configHandler;
-		
 	}
 
 	[Command("setmodchannel")]
@@ -74,6 +73,6 @@ public class ModModule : ModuleBase<SocketCommandContext>
 
 		message += "-------------------------------------------------------------------------------\n";
 
-		await _config.ModChannels[Context.Guild].SendMessageAsync(message);
+		await _config.GetModChannel(Context.Guild).SendMessageAsync(message);
 	}
 }

@@ -5,5 +5,5 @@
 /// </summary>
 public class Config
 {
-    public SocketTextChannel modChannelId;
+    public SocketTextChannel modChannel;
 }
