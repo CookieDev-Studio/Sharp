@@ -40,7 +40,7 @@ public class GuildHandler
         return guild.GetTextChannel(ulong.Parse(GuildService.GetGuildConfig(guild.Id).modChannelId));
     }
 
-    public async Task SetModChannel(SocketGuild guild, SocketTextChannel channel)
+    public Task SetModChannel(SocketGuild guild, SocketTextChannel channel)
     {
         GuildService.SetModChannel(guild.Id, channel.Id);
 
@@ -54,5 +54,6 @@ public class GuildHandler
         string path = Path.Combine(Directory.GetCurrentDirectory(), guild.Id.ToString(), "config.json");
         await File.WriteAllTextAsync(path, JsonConvert.SerializeObject(newConfig));
         */
+        return Task.CompletedTask;
     }
 }

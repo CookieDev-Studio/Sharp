@@ -1,7 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Sharpbot.data;
+using Sharpbot.Data;
 using System;
 using System.Threading.Tasks;
 

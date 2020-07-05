@@ -1,11 +1,9 @@
 ﻿using Dapper;
-using Discord.WebSocket;
 using Npgsql;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sharpbot.data 
+namespace Sharpbot.Data
 {
     public class StrikeService
     {

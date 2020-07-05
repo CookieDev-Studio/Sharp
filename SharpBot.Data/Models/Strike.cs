@@ -1,7 +1,7 @@
 ﻿/// <summary>
 /// Data model for Strike
 /// </summary>
-namespace Sharpbot.data
+namespace Sharpbot.Data
 {
     public struct Strike
     {

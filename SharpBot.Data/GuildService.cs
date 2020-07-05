@@ -1,10 +1,6 @@
 ﻿using Dapper;
-using Discord.WebSocket;
 using Npgsql;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace SharpBot.Data
 {
