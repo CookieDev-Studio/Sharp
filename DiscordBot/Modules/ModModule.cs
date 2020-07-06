@@ -18,16 +18,6 @@ public class ModModule : ModuleBase<SocketCommandContext>
 		_strikeService = strikeService;
 	}
 
-	[Command("setmodchannel")]
-	[Summary("!setmodchannel _#channel_\n Sets the mod channel")]
-	[RequireUserPermission(ChannelPermission.ManageMessages)]
-	public async Task SetModChannel(SocketTextChannel channel)
-	{
-		await LoggerExtensions.Log(Context.Guild, $"Mod channel set to {channel.Id}");
-		await _config.SetModChannel(Context.Guild, channel);
-		await ReplyAsync($"Mod channel set to {channel.Name}");
-	}
-
 	[Command("strike")]
 	[Summary("!strike _@user_ _\"message\"_\n Gives a user a strike")]
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
@@ -56,6 +46,8 @@ public class ModModule : ModuleBase<SocketCommandContext>
 		_strikeService.RemoveStrike(strikeId);
 		await ReplyAsync("strike removed");
 	}
+
+	
 
 	private async Task ShowStrikes(SocketUser user)
 	{
