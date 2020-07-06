@@ -9,7 +9,8 @@ This project is a moderation bot for discord.
 	
 ## Technologies
 Project is created with:
-* Discord.Net: 2.2.0
+* .NET core: 3.1
+* Discord.NET: 2.2.0
 * PostgreSQL: 12.3
 	
 ## Setup
