@@ -6,10 +6,15 @@ using System.Threading.Tasks;
 
 public class StrikeHandler
 {
+    readonly DiscordSocketClient _client;
     readonly StrikeService _strikeService;
-    public StrikeHandler(StrikeService strikeService)
+
+    public StrikeHandler(DiscordSocketClient client, StrikeService strikeService)
     {
+        _client = client;
         _strikeService = strikeService;
+
+        client.UserBanned += RemoveAllStrikesFromUser;
     }
 
     public Task SaveStrike(SocketGuild guild, SocketUser user, SocketUser mod, string reason, string date)
@@ -29,5 +34,17 @@ public class StrikeHandler
                 reason = x.reason,
                 date = x.date
             }).ToList();
+    }
+
+    public Task RemoveStrike(int strikeId)
+    {
+        _strikeService.RemoveStrike(strikeId);
+        return Task.CompletedTask;
+    }
+
+    public Task RemoveAllStrikesFromUser(SocketUser user, SocketGuild guild)
+    {
+        _strikeService.RemoveAllStrikesFromUser(guild.Id, user.Id);
+        return Task.CompletedTask;
     }
 }

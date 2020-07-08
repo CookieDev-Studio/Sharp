@@ -7,15 +7,13 @@ using System.Threading.Tasks;
 
 public class ModModule : ModuleBase<SocketCommandContext>
 {
-    readonly StrikeHandler _strikesLoader;
-    readonly GuildHandler _config;
-    readonly StrikeService _strikeService;
+    readonly StrikeHandler _strikesHandler;
+    readonly GuildHandler _guildHandler;
 
-	public ModModule(StrikeHandler strikesHandler, GuildHandler configHandler, StrikeService strikeService)
+	public ModModule(StrikeHandler strikesHandler, GuildHandler configHandler)
 	{
-		_strikesLoader = strikesHandler;
-		_config = configHandler;
-		_strikeService = strikeService;
+		_strikesHandler = strikesHandler;
+		_guildHandler = configHandler;
 	}
 
 	[Command("strike")]
@@ -25,7 +23,7 @@ public class ModModule : ModuleBase<SocketCommandContext>
 	{
 		await Context.Message.DeleteAsync();
 
-		await _strikesLoader.SaveStrike(Context.Guild, user, Context.User, reason, DateTime.Today.ToString("d"));
+		await _strikesHandler.SaveStrike(Context.Guild, user, Context.User, reason, DateTime.Today.ToString("d"));
 		await ShowStrikes(user);
 	}
 
@@ -43,15 +41,23 @@ public class ModModule : ModuleBase<SocketCommandContext>
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
 	public async Task RemoveStrikes(int strikeId)
 	{
-		_strikeService.RemoveStrike(strikeId);
+		await _strikesHandler.RemoveStrike(strikeId);
 		await ReplyAsync("strike removed");
 	}
 
-	
+	[Command("removeall")]
+	[Summary("!removeall _@user_\n removes the specified strike")]
+	[RequireUserPermission(ChannelPermission.ManageMessages)]
+	public async Task RemoveAllStrikes(SocketUser user)
+	{
+		await Context.Message.DeleteAsync();
+		await _strikesHandler.RemoveAllStrikesFromUser(user, Context.Guild);
+		await ReplyAsync($"Removed all of {user.Mention}'s strikes");
+	}
 
 	private async Task ShowStrikes(SocketUser user)
 	{
-		var strikes = _strikesLoader.LoadStrikes(Context.Guild, user);
+		var strikes = _strikesHandler.LoadStrikes(Context.Guild, user);
 		
 		string message = "";
 		message += $"User : {user.Mention}\n";
@@ -67,6 +73,6 @@ public class ModModule : ModuleBase<SocketCommandContext>
 
 		message += "-------------------------------------------------------------------------------\n";
 
-		await _config.GetModChannel(Context.Guild).SendMessageAsync(message);
+		await _guildHandler.GetModChannel(Context.Guild).SendMessageAsync(message);
 	}
 }
