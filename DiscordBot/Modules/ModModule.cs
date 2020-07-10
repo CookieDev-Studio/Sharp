@@ -67,6 +67,6 @@ public class ModModule : ModuleBase<SocketCommandContext>
 
 		message += "-------------------------------------------------------------------------------\n";
 
-		await _config.GetModChannel(Context.Guild).SendMessageAsync(message);
+		await _config.GetModChannel(Context.Guild).Result.SendMessageAsync(message);
 	}
 }

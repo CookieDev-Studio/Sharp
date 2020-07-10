@@ -18,28 +18,25 @@ public class GuildHandler
         client.JoinedGuild += InitializeGuild;
     }
 
-    public Task InitializeGuild(SocketGuild guild)
+    public async Task InitializeGuild(SocketGuild guild)
     {
-        try { _guildService.AddConfig(guild.Id, guild.DefaultChannel.Id); }
+        try { await Task.Run(() =>_guildService.AddConfig(guild.Id, guild.DefaultChannel.Id)); }
         catch { }
-
-        return Task.CompletedTask;
     }
 
-    public SocketTextChannel GetModChannel(SocketGuild guild)
+    public async Task<SocketTextChannel> GetModChannel(SocketGuild guild)
     {
-        return GetConfig(guild).Result.modChannel;
+        return await Task.Run(() => GetConfig(guild).Result.modChannel);
     }
 
-    public char GetPrefix(SocketGuild guild)
+    public async Task<char> GetPrefix(SocketGuild guild)
     {
-        return GetConfig(guild).Result.prefix;
+        return await Task.Run(() => GetConfig(guild).Result.prefix);
     }
 
     private async Task<Config> GetConfig(SocketGuild guild)
     {
-        await Task.Run(() => guild.GetTextChannel(ulong.Parse(_guildService.GetGuildConfig(guild.Id).mod_Channel_Id)));
-        var config = _guildService.GetGuildConfig(guild.Id);
+        var config = await Task.Run(() => _guildService.GetGuildConfig(guild.Id));
 
         return new Config()
         {
@@ -48,15 +45,13 @@ public class GuildHandler
         };
     }
 
-    public Task SetModChannel(SocketGuild guild, SocketTextChannel channel)
+    public async Task SetModChannel(SocketGuild guild, SocketTextChannel channel)
     {
-        _guildService.SetModChannel(guild.Id, channel.Id);
-        return Task.CompletedTask;
+        await Task.Run(() => _guildService.SetModChannel(guild.Id, channel.Id));
     }
 
-    public Task SetPrefix(SocketGuild guild, char prefix)
+    public async Task SetPrefix(SocketGuild guild, char prefix)
     {
-        _guildService.SetPrefix(guild.Id, prefix);
-        return Task.CompletedTask;
+        await Task.Run(() => _guildService.SetPrefix(guild.Id, prefix));
     }
 }
