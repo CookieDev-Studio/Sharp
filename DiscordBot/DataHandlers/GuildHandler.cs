@@ -38,11 +38,11 @@ public class GuildHandler
     {
         var config = await Task.Run(() => _guildService.GetGuildConfig(guild.Id));
 
-        return new Config()
+        return await Task.Run(() => new Config()
         {
             modChannel = guild.GetTextChannel(ulong.Parse(config.mod_Channel_Id)),
             prefix = config.prefix
-        };
+        });
     }
 
     public async Task SetModChannel(SocketGuild guild, SocketTextChannel channel)
