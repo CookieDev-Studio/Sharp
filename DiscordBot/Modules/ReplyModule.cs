@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using System;
 using System.Threading.Tasks;
 
 public class ReplyModule : ModuleBase<SocketCommandContext>

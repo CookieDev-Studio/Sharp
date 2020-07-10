@@ -1,5 +1,4 @@
-﻿using Discord.WebSocket;
-using Newtonsoft.Json;
+using Discord.WebSocket;
 using SharpBot.Data;
 using System;
 using System.Collections.Generic;
