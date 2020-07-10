@@ -24,7 +24,8 @@ namespace SharpBot.Data
         {
             using var connection = new NpgsqlConnection(connectionString);
             connection.Open();
-            connection.Execute($"select add_config('{guildId}', '{modChannelId}')");
+            try { connection.Execute($"select add_config('{guildId}', '{modChannelId}')"); }
+            catch { }
         }
 
         public void SetModChannel(ulong guildId, ulong modChannelId)
