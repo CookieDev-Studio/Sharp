@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 public class ReplyModule : ModuleBase<SocketCommandContext>
 {
     readonly CommandService _commands;
+	readonly GuildHandler _guildHandler;
 
-	public ReplyModule(CommandService commands)
+	public ReplyModule(CommandService commands, GuildHandler guildHandler)
     {
-		_commands = commands;
+        _commands = commands;
+		_guildHandler = guildHandler;
     }
 
 	[Command("greet")]
@@ -27,7 +29,7 @@ public class ReplyModule : ModuleBase<SocketCommandContext>
 		var builder = new EmbedBuilder()
 		{
 			Color = new Color(114, 137, 218),
-			Description = "These are the commands you can use"
+			Description = $"The prefix for this community is {_guildHandler.GetPrefix(Context.Guild)}"
 		};
 
 		foreach (var module in _commands.Modules)

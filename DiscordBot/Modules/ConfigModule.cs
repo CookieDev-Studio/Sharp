@@ -15,8 +15,8 @@ public class ConfigModule : ModuleBase<SocketCommandContext>
 		_config = configHandler;
 	}
 
-	[Command("setmodchannel")]
-	[Summary("!setmodchannel _#channel_\n Sets the mod channel")]
+	[Command("set modchannel")]
+	[Summary("set modchannel _#channel_\n Sets the mod channel")]
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
 	public async Task SetModChannel(SocketTextChannel channel)
 	{
@@ -25,13 +25,13 @@ public class ConfigModule : ModuleBase<SocketCommandContext>
 		await ReplyAsync($"Mod channel set to {channel.Name}");
 	}
 
-	[Command("setprefix")]
-	[Summary("!setprefix _prefix_\n sets the command prefix")]
+	[Command("set prefix")]
+	[Summary("set prefix _prefix_\n sets the command prefix")]
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
 	public async Task SetPrefix(char prefix)
 	{
 		await _config.SetPrefix(Context.Guild, prefix);
-		await ReplyAsync($"prefix set to \"{prefix}\"");
+		await ReplyAsync($"prefix set to {prefix}");
 	}
 
 }

@@ -16,7 +16,6 @@ namespace SharpBot.Data
         {
             using var connection = new NpgsqlConnection(connectionString);
             connection.Open();
-
             return connection.Query<Config>($"select * from get_config('{guildId}')").First();
         }
 
