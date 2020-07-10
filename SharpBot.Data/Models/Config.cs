@@ -5,7 +5,7 @@
     /// </summary>
     public struct Config
     {
-        public string guildId;
-        public string modChannelId;
+        public string mod_Channel_Id;
+        public char prefix;
     }
 }

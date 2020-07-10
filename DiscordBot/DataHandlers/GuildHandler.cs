@@ -1,5 +1,9 @@
-﻿using Discord.WebSocket;
+using Discord.WebSocket;
 using SharpBot.Data;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 
 public class GuildHandler
@@ -13,32 +17,40 @@ public class GuildHandler
         client.JoinedGuild += InitializeGuild;
     }
 
-    public Task InitializeGuild(SocketGuild guild)
+    public async Task InitializeGuild(SocketGuild guild)
     {
-        try { _guildService.AddConfig(guild.Id, guild.DefaultChannel.Id); }
+        try { await Task.Run(() =>_guildService.AddConfig(guild.Id, guild.DefaultChannel.Id)); }
         catch { }
-
-        return Task.CompletedTask;
     }
 
-    public SocketTextChannel GetModChannel(SocketGuild guild)
+    public async Task<SocketTextChannel> GetModChannel(SocketGuild guild)
     {
-        return GetConfig(guild).Result.modChannel;
+        return await Task.Run(() => GetConfig(guild).Result.modChannel);
+    }
+
+    public async Task<char> GetPrefix(SocketGuild guild)
+    {
+        return await Task.Run(() => GetConfig(guild).Result.prefix);
     }
 
     private async Task<Config> GetConfig(SocketGuild guild)
     {
-        Config config = new Config
-        {
-            modChannel = await Task.Run(() => guild.GetTextChannel(ulong.Parse(_guildService.GetGuildConfig(guild.Id).modChannelId)))
-        };
+        var config = await Task.Run(() => _guildService.GetGuildConfig(guild.Id));
 
-        return config;
+        return await Task.Run(() => new Config()
+        {
+            modChannel = guild.GetTextChannel(ulong.Parse(config.mod_Channel_Id)),
+            prefix = config.prefix
+        });
     }
 
-    public Task SetModChannel(SocketGuild guild, SocketTextChannel channel)
+    public async Task SetModChannel(SocketGuild guild, SocketTextChannel channel)
     {
-        _guildService.SetModChannel(guild.Id, channel.Id);
-        return Task.CompletedTask;
+        await Task.Run(() => _guildService.SetModChannel(guild.Id, channel.Id));
+    }
+
+    public async Task SetPrefix(SocketGuild guild, char prefix)
+    {
+        await Task.Run(() => _guildService.SetPrefix(guild.Id, prefix));
     }
 }

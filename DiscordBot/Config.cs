@@ -6,4 +6,5 @@
 internal class Config
 {
     public SocketTextChannel modChannel;
+    public char prefix;
 }
