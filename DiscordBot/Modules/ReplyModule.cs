@@ -28,7 +28,7 @@ public class ReplyModule : ModuleBase<SocketCommandContext>
 		var builder = new EmbedBuilder()
 		{
 			Color = new Color(114, 137, 218),
-			Description = $"The prefix for this community is {_guildHandler.GetPrefix(Context.Guild)}"
+			Description = $"The prefix for this community is {_guildHandler.GetPrefix(Context.Guild).Result}"
 		};
 
 		foreach (var module in _commands.Modules)
