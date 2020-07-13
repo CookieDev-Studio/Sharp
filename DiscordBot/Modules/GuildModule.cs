@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-public class ConfigModule : ModuleBase<SocketCommandContext>
+public class GuildModule : ModuleBase<SocketCommandContext>
 {
 	readonly GuildHandler _config;
 
-	public ConfigModule(GuildHandler configHandler)
+	public GuildModule(GuildHandler configHandler)
 	{
 		_config = configHandler;
 	}
@@ -35,15 +35,20 @@ public class ConfigModule : ModuleBase<SocketCommandContext>
 	}
 
 	[Command("enable messagelog")]
-	[Summary("set prefix _prefix_\n sets the command prefix")]
+	[Summary("enables the message log")]
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
-	public async Task EnableMessageLog(bool value)
+	public async Task EnableMessageLog()
 	{
-		await _config.SetMessageLog(Context.Guild, value);
+		await _config.SetMessageLog(Context.Guild, true);
+        await ReplyAsync($"Message log enabled");
+	}
 
-        if (value)
-            await ReplyAsync($"Message log enabled");
-		else
-			await ReplyAsync($"Message log disabled");
+	[Command("disable messagelog")]
+	[Summary("disables the message log")]
+	[RequireUserPermission(ChannelPermission.ManageMessages)]
+	public async Task DisableMessageLog()
+	{
+		await _config.SetMessageLog(Context.Guild, false);
+		await ReplyAsync($"Message log disabled");
 	}
 }
