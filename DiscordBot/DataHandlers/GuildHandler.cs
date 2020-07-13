@@ -13,15 +13,6 @@ public class GuildHandler
     public GuildHandler(DiscordSocketClient client, GuildService guildService)
     {
         _guildService = guildService;
-
-        client.GuildAvailable += InitializeGuild;
-        client.JoinedGuild += InitializeGuild;
-    }
-
-    public async Task InitializeGuild(SocketGuild guild)
-    {
-        try { await Task.Run(() =>_guildService.AddConfig(guild.Id, guild.DefaultChannel.Id)); }
-        catch { }
     }
 
     public async Task<SocketTextChannel> GetModChannel(SocketGuild guild)
@@ -60,7 +51,7 @@ public class GuildHandler
 
         return await Task.Run(() => new Config()
         {
-            modChannel = guild.GetTextChannel(ulong.Parse(config.mod_Channel_Id)),
+            modChannel = config.mod_Channel_Id == null ? guild.DefaultChannel : guild.GetTextChannel(ulong.Parse(config.mod_Channel_Id)),
             prefix = config.prefix
         });
     }
