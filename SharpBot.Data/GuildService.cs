@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Npgsql;
+using System;
 using System.Linq;
 
 namespace SharpBot.Data
@@ -7,7 +8,6 @@ namespace SharpBot.Data
     public class GuildService
     {
         private readonly string connectionString;
-
         public GuildService() => connectionString = ServiceExtentions.GetConnectionString();
 
         public Config GetGuildConfig(ulong guildId)
@@ -37,6 +37,17 @@ namespace SharpBot.Data
             using var connection = new NpgsqlConnection(connectionString);
             connection.Open();
             connection.Execute($"select set_prefix('{guildId}', '{prefix}')");
+        }
+
+        public void SetMessageLog(ulong guildId, bool value)
+        {
+            using var connection = new NpgsqlConnection(connectionString);
+            connection.Open();
+            connection.Execute($"select set_message_log('{guildId}', {value})");
+
+            if (value)
+                try { connection.Execute($"select create_message_partition('{guildId}')"); }
+                catch { }
         }
     }
 }
