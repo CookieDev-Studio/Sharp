@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 public class GuildHandler
 {
     readonly GuildService _guildService;
-
     public GuildHandler(DiscordSocketClient client, GuildService guildService)
     {
         _guildService = guildService;
@@ -34,9 +33,15 @@ public class GuildHandler
         return await Task.Run(() => GetConfig(guild).Result.prefix);
     }
 
-    public async Task<bool> GetMessageLog(SocketGuild guild)
+    private async Task<Config> GetConfig(SocketGuild guild)
     {
-        return await Task.Run(() => GetConfig(guild).Result.messageLog);
+        var config = await Task.Run(() => _guildService.GetGuildConfig(guild.Id));
+
+        return await Task.Run(() => new Config()
+        {
+            modChannel = guild.GetTextChannel(ulong.Parse(config.mod_Channel_Id)),
+            prefix = config.prefix
+        });
     }
 
     public async Task SetModChannel(SocketGuild guild, SocketTextChannel channel)
@@ -47,21 +52,5 @@ public class GuildHandler
     public async Task SetPrefix(SocketGuild guild, char prefix)
     {
         await Task.Run(() => _guildService.SetPrefix(guild.Id, prefix));
-    }
-
-    public async Task SetMessageLog(SocketGuild guild, bool value)
-    {
-        await Task.Run(() => _guildService.SetMessageLog(guild.Id, value));
-    }
-
-    private async Task<Config> GetConfig(SocketGuild guild)
-    {
-        var config = await Task.Run(() => _guildService.GetGuildConfig(guild.Id));
-
-        return await Task.Run(() => new Config()
-        {
-            modChannel = guild.GetTextChannel(ulong.Parse(config.mod_Channel_Id)),
-            prefix = config.prefix
-        });
     }
 }

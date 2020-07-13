@@ -10,7 +10,7 @@ public class ConfigModule : ModuleBase<SocketCommandContext>
 {
 	readonly GuildHandler _config;
 
-	public ConfigModule(GuildHandler configHandler)
+	public ConfigModule( GuildHandler configHandler)
 	{
 		_config = configHandler;
 	}
@@ -34,16 +34,4 @@ public class ConfigModule : ModuleBase<SocketCommandContext>
 		await ReplyAsync($"prefix set to {prefix}");
 	}
 
-	[Command("enable messagelog")]
-	[Summary("set prefix _prefix_\n sets the command prefix")]
-	[RequireUserPermission(ChannelPermission.ManageMessages)]
-	public async Task EnableMessageLog(bool value)
-	{
-		await _config.SetMessageLog(Context.Guild, value);
-
-        if (value)
-            await ReplyAsync($"Message log enabled");
-		else
-			await ReplyAsync($"Message log disabled");
-	}
 }

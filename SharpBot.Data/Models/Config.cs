@@ -7,6 +7,5 @@
     {
         public string mod_Channel_Id;
         public char prefix;
-        public bool message_log;
     }
 }
