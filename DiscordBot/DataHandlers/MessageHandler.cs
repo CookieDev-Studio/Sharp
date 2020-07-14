@@ -15,6 +15,18 @@ public class MessageHandler
 
     public void AddMessage(SocketGuild guild, SocketMessage message)
     {
-        _messageService.AddMessage(guild.Id, message.Channel.Id, message.Author.Id, message.Content, message.CreatedAt.DateTime);
+        string messageContent = "";
+
+        foreach (var attachment in message.Attachments)
+            messageContent += attachment.ProxyUrl + "\n";
+
+        messageContent += message.Content;
+
+        _messageService.AddMessage(
+            guild.Id,
+            message.Channel.Id,
+            message.Author.Id,
+            messageContent,
+            message.CreatedAt.DateTime);
     }
 }
