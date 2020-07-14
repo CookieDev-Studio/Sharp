@@ -17,14 +17,6 @@ namespace SharpBot.Data
             return connection.Query<Config>($"select * from get_config('{guildId}')").First();
         }
 
-        public void AddConfig(ulong guildId, ulong modChannelId)
-        {
-            using var connection = new NpgsqlConnection(connectionString);
-            connection.Open();
-            try { connection.Execute($"select add_config('{guildId}', '{modChannelId}')"); }
-            catch { }
-        }
-
         public void SetModChannel(ulong guildId, ulong modChannelId)
         {
             using var connection = new NpgsqlConnection(connectionString);
@@ -37,6 +29,13 @@ namespace SharpBot.Data
             using var connection = new NpgsqlConnection(connectionString);
             connection.Open();
             connection.Execute($"select set_prefix('{guildId}', '{prefix}')");
+        }
+
+        public void SetMessageLog(ulong guildId, bool value)
+        {
+            using var connection = new NpgsqlConnection(connectionString);
+            connection.Open();
+            connection.Execute($"select set_message_log('{guildId}', {value})");
         }
     }
 }
