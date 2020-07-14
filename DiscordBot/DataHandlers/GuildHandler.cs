@@ -24,15 +24,9 @@ public class GuildHandler
         return await Task.Run(() => GetConfig(guild).Result.prefix);
     }
 
-    private async Task<Config> GetConfig(SocketGuild guild)
+    public async Task<bool> GetMessageLog(SocketGuild guild)
     {
-        var config = await Task.Run(() => _guildService.GetGuildConfig(guild.Id));
-
-        return await Task.Run(() => new Config()
-        {
-            modChannel = guild.GetTextChannel(ulong.Parse(config.mod_Channel_Id)),
-            prefix = config.prefix
-        });
+        return await Task.Run(() => GetConfig(guild).Result.messageLog);
     }
 
     public async Task SetModChannel(SocketGuild guild, SocketTextChannel channel)
