@@ -1,6 +1,5 @@
 ﻿using Dapper;
 using Npgsql;
-using System;
 using System.Linq;
 
 namespace SharpBot.Data
@@ -8,6 +7,7 @@ namespace SharpBot.Data
     public class GuildService
     {
         private readonly string connectionString;
+
         public GuildService() => connectionString = ServiceExtentions.GetConnectionString();
 
         public Config GetGuildConfig(ulong guildId)
