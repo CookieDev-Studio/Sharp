@@ -36,26 +36,29 @@ public class CommandHandler
         var message = messageParam as SocketUserMessage;
         if (message == null) return;
 
+        if (!message.Author.IsBot)
+            return;
+
         // Create a WebSocket-based command context based on the message
         var context = new SocketCommandContext(_client, message);
 
         // Create a number to track where the prefix ends and the command begins
         int argPos = 0;
-
+       
         // Determine if the message is a command based on the prefix and make sure no bots trigger commands
-        if (!(message.HasCharPrefix(_guildHandler.GetPrefix(context.Guild).Result, ref argPos) ||
-            message.HasMentionPrefix(_client.CurrentUser, ref argPos) ||
-            message.Author.IsBot) &&
-            !_guildHandler.GetMessageLog(context.Guild).Result)
+        if (message.HasCharPrefix(_guildHandler.GetPrefix(context.Guild).Result, ref argPos))
         {
-            _messageHandler.AddMessage(context.Guild, messageParam);
+            // Execute the command with the command context we just
+            // created, along with the service provider for precondition checks.
+            await _commands.ExecuteAsync(
+                context: context,
+                argPos: argPos,
+                services: _services);
         }
+        else if (_guildHandler.GetMessageLog(context.Guild).Result)
+            _messageHandler.AddMessage(context.Guild, messageParam);
 
-        // Execute the command with the command context we just
-        // created, along with the service provider for precondition checks.
-        await _commands.ExecuteAsync(
-            context: context,
-            argPos: argPos,
-            services: _services);
+        Console.WriteLine(_guildHandler.GetMessageLog(context.Guild).Result);
+       
     }
 }

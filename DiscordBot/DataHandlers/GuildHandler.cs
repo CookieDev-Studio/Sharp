@@ -51,7 +51,8 @@ public class GuildHandler
         return await Task.Run(() => new Config()
         {
             modChannel = config.mod_Channel_Id == null ? guild.DefaultChannel : guild.GetTextChannel(ulong.Parse(config.mod_Channel_Id)),
-            prefix = config.prefix
+            prefix = config.prefix,
+            messageLog = config.message_log
         });
     }
 }
