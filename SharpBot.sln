@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpBot", "DiscordBot\SharpBot.csproj", "{F56D39AE-95AE-49C3-89FD-9CEAA0748509}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpBot", "SharpBot\SharpBot.csproj", "{F56D39AE-95AE-49C3-89FD-9CEAA0748509}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBot.Data", "SharpBot.Data\SharpBot.Data.csproj", "{0B2997EE-7701-4F79-B2CF-4011DCE73E6E}"
 EndProject
