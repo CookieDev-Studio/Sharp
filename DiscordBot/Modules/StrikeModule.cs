@@ -5,51 +5,97 @@ using SharpBot.Data;
 using System;
 using System.Threading.Tasks;
 
+[Name("StrikeModule")]
+[Group("strike")]
 public class StrikeModule : ModuleBase<SocketCommandContext>
 {
     readonly StrikeHandler _strikesHandler;
     readonly GuildHandler _guildHandler;
+	readonly CommandExtentions _commandExtentions;
 
-	public StrikeModule(StrikeHandler strikesHandler, GuildHandler configHandler)
+	public StrikeModule(StrikeHandler strikesHandler, GuildHandler GuildHandler, CommandExtentions commandExtentions)
 	{
 		_strikesHandler = strikesHandler;
-		_guildHandler = configHandler;
+		_guildHandler = GuildHandler;
+		_commandExtentions = commandExtentions;
 	}
 
-	[Command("strike add")]
+	[Command("help")]
+	[Alias("", "?")]
+	[Summary("strike")]
+	[RequireUserPermission(ChannelPermission.ManageMessages)]
+	public async Task Strike()
+	{
+		var builder = new EmbedBuilder()
+		{
+			Color = new Color(150, 0, 0),
+			Description = $"Strike: "
+		};
+
+		foreach (var command in _commandExtentions.GetCommands("StrikeModule").Result)
+			builder.AddField(command.Name, command.Summary, false);
+
+		await ReplyAsync("", false, builder.Build());
+	}
+
+	[Command("add")]
 	[Summary("strike add _@user_ _\"message\"_\n Gives a user a strike")]
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
-	public async Task Strike(SocketUser user, string reason)
+	public async Task StrikeAdd(SocketUser user = null, string reason = "unspecified")
 	{
+		if (user == null)
+        {
+			await ReplyAsync("User not specified");
+			return;
+        }
+
 		await Context.Message.DeleteAsync();
 
 		await _strikesHandler.SaveStrike(Context.Guild, user, Context.User, reason, DateTime.Today.ToString("d"));
 		await ShowStrikes(user);
 	}
 
-	[Command("strike list")]
+	[Command("list")]
 	[Summary("strike list _@user_\n Displays all of the user's srtrikes")]
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
-	public async Task Strikes(SocketUser user)
+	public async Task Strikes(SocketUser user = null)
 	{
+		if (user == null)
+		{
+			await ReplyAsync("User not specified");
+			return;
+		}
+
 		await Context.Message.DeleteAsync();
 		await ShowStrikes(user);
 	}
 
-	[Command("strike remove")]
+	[Command("remove")]
 	[Summary("strike remove _strikeid_\n removes the specified strike")]
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
-	public async Task RemoveStrikes(int strikeId)
+	public async Task RemoveStrikes(int? strikeId = null)
 	{
-		await _strikesHandler.RemoveStrike(strikeId);
+		if (strikeId == null)
+		{
+			await ReplyAsync("Strike id not specified");
+			return;
+		}
+
+		await _strikesHandler.RemoveStrike((int)strikeId);
 		await ReplyAsync("strike removed");
 	}
 
-	[Command("strike remove all")]
+	[Command("remove all")]
 	[Summary("strike remove all _@user_\n removes the specified strike")]
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
-	public async Task RemoveAllStrikes(SocketUser user)
+	public async Task RemoveAllStrikes(SocketUser user = null)
 	{
+		if (user == null)
+		{
+			await ReplyAsync("User not specified");
+			return;
+		}
+
 		await Context.Message.DeleteAsync();
 		await _strikesHandler.RemoveAllStrikesFromUser(user, Context.Guild);
 		await ReplyAsync($"Removed all of {user.Mention}'s strikes");

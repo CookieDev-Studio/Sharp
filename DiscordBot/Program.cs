@@ -38,6 +38,7 @@ class Program
             .AddSingleton<MessageHandler>()
             .AddSingleton<MessageService>()
             .AddSingleton<GuildService>()
+            .AddSingleton<CommandExtentions>()
             .BuildServiceProvider();
 
         var commandHandler = new CommandHandler(_client, _commands, _services.GetService<GuildHandler>(), _services.GetService<MessageHandler>(), _services);
