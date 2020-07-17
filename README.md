@@ -14,8 +14,6 @@ Project is created with:
 * PostgreSQL: 12.3
 	
 ## Setup
-To run this project, install it locally using npm:
-
 ```
 place holder
 ```
