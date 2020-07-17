@@ -36,7 +36,7 @@ public class CommandHandler
         var message = messageParam as SocketUserMessage;
         if (message == null) return;
 
-        if (!message.Author.IsBot)
+        if (message.Author.IsBot)
             return;
 
         // Create a WebSocket-based command context based on the message
@@ -57,8 +57,5 @@ public class CommandHandler
         }
         else if (_guildHandler.GetMessageLog(context.Guild).Result)
             _messageHandler.AddMessage(context.Guild, messageParam);
-
-        Console.WriteLine(_guildHandler.GetMessageLog(context.Guild).Result);
-       
     }
 }
