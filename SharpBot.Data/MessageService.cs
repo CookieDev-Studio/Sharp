@@ -15,7 +15,7 @@ namespace SharpBot.Data
         {
             using var connection = new NpgsqlConnection(connectionString);
             connection.Open();
-            connection.Execute($"select add_message('{guildId}', '{modChannelId}', '{userId}', '{message}', '{dateTime}')");
+            connection.Execute($"select add_message('{guildId}', '{modChannelId}', '{userId}', E'{message}', '{dateTime}')");
         }
     }
 }

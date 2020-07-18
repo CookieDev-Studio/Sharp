@@ -22,7 +22,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 
 	[Command("help")]
 	[Alias("", "?")]
-	[Summary("strike")]
+	[Summary("Display strike commands")]
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
 	public async Task Strike()
 	{

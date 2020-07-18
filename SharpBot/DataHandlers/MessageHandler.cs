@@ -16,19 +16,31 @@ public class MessageHandler
     public void AddMessage(SocketGuild guild, SocketMessage message)
     {
         string messageContent = message.Content;
+        string formatedContent = "";
+
+        for (int i = 0; i < message.Content.Length; i++)
+        {
+            if (messageContent[i] == '\'')
+                formatedContent += "\\'";
+            else
+                formatedContent += messageContent[i];
+        }
+
+        Console.WriteLine(messageContent);
+        Console.WriteLine(formatedContent);
 
         if (message.Attachments.Count > 0)
         {
-            messageContent += "\n";
+            formatedContent += "\n";
             foreach (var attachment in message.Attachments)
-                messageContent += attachment.ProxyUrl + "\n";
+                formatedContent += attachment.ProxyUrl + "\n";
         }
 
         _messageService.AddMessage(
             guild.Id,
             message.Channel.Id,
             message.Author.Id,
-            messageContent,
+            formatedContent,
             message.CreatedAt.DateTime);
     }
 }

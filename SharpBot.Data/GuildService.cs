@@ -15,10 +15,11 @@ namespace SharpBot.Data
 
         public Config GetGuildConfig(ulong guildId)
         {
+            /*
             using var client = new HttpClient();
             string responseString = client.GetAsync($"https://localhost:5001/api/config/{guildId}").Result.Content.ReadAsStringAsync().Result;
             return JsonConvert.DeserializeObject<Config>(responseString);
-
+            */
             using var connection = new NpgsqlConnection(connectionString);
             connection.Open();
             return connection.Query<Config>($"select * from get_config('{guildId}')").First();
