@@ -20,8 +20,14 @@ public class GuildModule : ModuleBase<SocketCommandContext>
 	[Command("set modchannel")]
 	[Summary("set modchannel _#channel_\n Sets the mod channel")]
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
-	public async Task SetModChannel(SocketTextChannel channel)
+	public async Task SetModChannel(SocketTextChannel channel = null)
 	{
+		if (channel == null)
+		{
+			await ReplyAsync("Channel not specified");
+			return;
+		}
+
 		await LoggerExtensions.Log(Context.Guild, $"Mod channel set to {channel.Id}");
 		await _config.SetModChannel(Context.Guild.Id, channel.Id);
 		await ReplyAsync($"Mod channel set to {channel.Name}");
@@ -30,7 +36,7 @@ public class GuildModule : ModuleBase<SocketCommandContext>
 	[Command("set prefix")]
 	[Summary("set prefix _prefix_\n sets the command prefix")]
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
-	public async Task SetPrefix(char prefix)
+	public async Task SetPrefix(char? prefix = null)
 	{
 		if (prefix == null)
         {

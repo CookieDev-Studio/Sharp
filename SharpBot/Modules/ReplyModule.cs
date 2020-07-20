@@ -34,9 +34,8 @@ public class ReplyModule : ModuleBase<SocketCommandContext>
 			Description = $"The prefix for this community is {_guildService.GetPrefix(Context.Guild.Id).Result}"
 		};
 
-		foreach (var module in _commands.Modules)
-			foreach (var command in module.Commands)
-				builder.AddField(command.Name, command.Summary, false);
+			foreach (var command in _commandExtentions.GetAllCommands().Result)
+				builder.AddField(command.Name, command.Summary, false); 
 
 		await ReplyAsync("", false, builder.Build());
 	}

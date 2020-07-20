@@ -37,12 +37,15 @@ public class CommandHandler
         var message = messageParam as SocketUserMessage;
         if (message == null) return;
 
+        if (message.Author.IsBot)
+            return;
+
         // Create a WebSocket-based command context based on the message
         var context = new SocketCommandContext(_client, message);
 
         // Create a number to track where the prefix ends and the command begins
         int argPos = 0;
-
+       
         // Determine if the message is a command based on the prefix and make sure no bots trigger commands
         if (message.HasCharPrefix(_guildService.GetPrefix(context.Guild.Id).Result, ref argPos))
         {
