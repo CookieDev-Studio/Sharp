@@ -1,16 +1,18 @@
-﻿using Discord;
+﻿using SharpBot.Service;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 public class GuildModule : ModuleBase<SocketCommandContext>
 {
-	readonly GuildHandler _config;
+	readonly GuildService _config;
 
-	public GuildModule(GuildHandler configHandler)
+	public GuildModule(GuildService configHandler)
 	{
 		_config = configHandler;
 	}
@@ -27,7 +29,7 @@ public class GuildModule : ModuleBase<SocketCommandContext>
 		}
 
 		await LoggerExtensions.Log(Context.Guild, $"Mod channel set to {channel.Id}");
-		await _config.SetModChannel(Context.Guild, channel);
+		await _config.SetModChannel(Context.Guild.Id, channel.Id);
 		await ReplyAsync($"Mod channel set to {channel.Name}");
 	}
 
@@ -41,8 +43,7 @@ public class GuildModule : ModuleBase<SocketCommandContext>
 			await ReplyAsync("No prefix specified");
 			return;
 		}
-
-		await _config.SetPrefix(Context.Guild, (char)prefix);
+		await _config.SetPrefix(Context.Guild.Id, (char)prefix);
 		await ReplyAsync($"prefix set to {prefix}");
 	}
 
@@ -51,7 +52,7 @@ public class GuildModule : ModuleBase<SocketCommandContext>
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
 	public async Task EnableMessageLog()
 	{
-		await _config.SetMessageLog(Context.Guild, true);
+		await _config.SetMessageLog(Context.Guild.Id, true);
         await ReplyAsync($"Message log enabled");
 	}
 
@@ -60,7 +61,7 @@ public class GuildModule : ModuleBase<SocketCommandContext>
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
 	public async Task DisableMessageLog()
 	{
-		await _config.SetMessageLog(Context.Guild, false);
+		await _config.SetMessageLog(Context.Guild.Id, false);
 		await ReplyAsync($"Message log disabled");
 	}
 }

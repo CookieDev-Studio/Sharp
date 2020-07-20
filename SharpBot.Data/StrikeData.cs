@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace SharpBot.Data
 {
-    public class StrikeService
+    public class StrikeData
     {
         private readonly string connectionString;
 
-        public StrikeService() => connectionString = ServiceExtentions.GetConnectionString();
+        public StrikeData() => connectionString = DataExtentions.GetConnectionString();
 
         public List<Strike> GetStrikes(ulong guildId, ulong userId)
         {

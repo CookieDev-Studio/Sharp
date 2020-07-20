@@ -24,9 +24,6 @@ public class CommandExtentions
     }
     public Task<ReadOnlyCollection<CommandInfo>> GetCommands(string module)
     {
-        //foreach (var command in _commands.Commands.Where(x => x.Module.Name == module).ToList().AsReadOnly())
-          //  Console.WriteLine(command.Module.Name);
-
         return Task.Run(() => _commands.Commands.Where(x => x.Module.Name == module).ToList().AsReadOnly());
     }
 }

@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using SharpBot.Service;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using SharpBot.Data;
@@ -9,14 +10,14 @@ using System.Threading.Tasks;
 [Group("strike")]
 public class StrikeModule : ModuleBase<SocketCommandContext>
 {
-    readonly StrikeHandler _strikesHandler;
-    readonly GuildHandler _guildHandler;
+    readonly StrikeService _strikesHandler;
+    readonly GuildService _guildHandler;
 	readonly CommandExtentions _commandExtentions;
 
-	public StrikeModule(StrikeHandler strikesHandler, GuildHandler GuildHandler, CommandExtentions commandExtentions)
+	public StrikeModule(StrikeService strikesHandler, GuildService guildService, CommandExtentions commandExtentions)
 	{
 		_strikesHandler = strikesHandler;
-		_guildHandler = GuildHandler;
+		_guildHandler = guildService;
 		_commandExtentions = commandExtentions;
 	}
 
@@ -51,7 +52,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 
 		await Context.Message.DeleteAsync();
 
-		await _strikesHandler.SaveStrike(Context.Guild, user, Context.User, reason, DateTime.Today.ToString("d"));
+		await _strikesHandler.SaveStrike(Context.Guild.Id, user.Id, Context.User.Id, reason, DateTime.Today.ToString("d"));
 		await ShowStrikes(user);
 	}
 
@@ -97,13 +98,13 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 		}
 
 		await Context.Message.DeleteAsync();
-		await _strikesHandler.RemoveAllStrikesFromUser(user, Context.Guild);
+		await _strikesHandler.RemoveAllStrikesFromUser(user.Id, Context.Guild.Id);
 		await ReplyAsync($"Removed all of {user.Mention}'s strikes");
 	}
 
 	private async Task ShowStrikes(SocketUser user)
 	{
-		var strikes = _strikesHandler.LoadStrikes(Context.Guild, user);
+		var strikes = _strikesHandler.LoadStrikes(Context.Guild.Id, user.Id);
 		
 		string message = "";
 		message += $"User : {user.Mention}\n";
@@ -113,12 +114,12 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 		{
 			message += $"Strike [{strike.date}]:\n";
 			message += $"Id: {strike.Id}\n";
-			message += $"Mod: {strike.mod.Mention}\n";
+			message += $"Mod: {Context.Guild.GetUser(strike.mod).Mention}\n";
 			message += $"```{(strike.reason != "" ? strike.reason : " ")}```\n";
 		}
 
 		message += "-------------------------------------------------------------------------------\n";
 
-		await _guildHandler.GetModChannel(Context.Guild).Result.SendMessageAsync(message);
+		await Context.Guild.GetTextChannel(_guildHandler.GetModChannel(Context.Guild.Id).Result).SendMessageAsync(message);
 	}
 }

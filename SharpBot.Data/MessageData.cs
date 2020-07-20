@@ -6,10 +6,10 @@ using System.Text;
 
 namespace SharpBot.Data
 {
-    public class MessageService
+    public class MessageData
     {
         private readonly string connectionString;
-        public MessageService() => connectionString = ServiceExtentions.GetConnectionString();
+        public MessageData() => connectionString = DataExtentions.GetConnectionString();
 
         public void AddMessage(ulong guildId, ulong modChannelId, ulong userId, string message, DateTime dateTime)
         {

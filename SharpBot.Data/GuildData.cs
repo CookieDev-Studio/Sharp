@@ -7,11 +7,11 @@ using System.Net.Http;
 
 namespace SharpBot.Data
 {
-    public class GuildService
+    public class GuildData
     {
         private readonly string connectionString;
 
-        public GuildService() => connectionString = ServiceExtentions.GetConnectionString();
+        public GuildData() => connectionString = DataExtentions.GetConnectionString();
 
         public Config GetGuildConfig(ulong guildId)
         {
