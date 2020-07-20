@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using SharpBot.Service;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,15 +33,16 @@ class Program
         _services = new ServiceCollection()
             .AddSingleton(_client)
             .AddSingleton(_commands)
-            .AddSingleton<StrikeHandler>()
             .AddSingleton<StrikeService>()
-            .AddSingleton<GuildHandler>()
-            .AddSingleton<MessageHandler>()
-            .AddSingleton<MessageService>()
+            .AddSingleton<StrikeData>()
             .AddSingleton<GuildService>()
+            .AddSingleton<MessageService>()
+            .AddSingleton<MessageData>()
+            .AddSingleton<GuildData>()
+            .AddSingleton<CommandExtentions>()
             .BuildServiceProvider();
 
-        var commandHandler = new CommandHandler(_client, _commands, _services.GetService<GuildHandler>(), _services.GetService<MessageHandler>(), _services);
+        var commandHandler = new CommandHandler(_client, _commands, _services.GetService<GuildService>(), _services.GetService<MessageService>(), _services);
 
         await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
 

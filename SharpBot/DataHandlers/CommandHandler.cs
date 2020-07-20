@@ -1,5 +1,6 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
+using SharpBot.Service;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,16 +10,16 @@ public class CommandHandler
 {
     readonly DiscordSocketClient _client;
     readonly CommandService _commands;
-    readonly GuildHandler _guildHandler;
-    readonly MessageHandler _messageHandler;
+    readonly GuildService _guildService;
+    readonly MessageService _messageService;
     readonly IServiceProvider _services;
 
-    public CommandHandler(DiscordSocketClient client, CommandService commands, GuildHandler guildHandler, MessageHandler messageHandler, IServiceProvider services)
+    public CommandHandler(DiscordSocketClient client, CommandService commands, GuildService guildHandler, MessageService messageHandler, IServiceProvider services)
     {
         _client = client;
         _commands = commands;
-        _guildHandler = guildHandler;
-        _messageHandler = messageHandler;
+        _guildService = guildHandler;
+        _messageService = messageHandler;
         _services = services;
 
         _client.MessageReceived += HandleCommandAsync;
@@ -42,19 +43,22 @@ public class CommandHandler
         int argPos = 0;
 
         // Determine if the message is a command based on the prefix and make sure no bots trigger commands
-        if (!(message.HasCharPrefix(_guildHandler.GetPrefix(context.Guild).Result, ref argPos) ||
-            message.HasMentionPrefix(_client.CurrentUser, ref argPos) ||
-            message.Author.IsBot) &&
-            !_guildHandler.GetMessageLog(context.Guild).Result)
+        if (message.HasCharPrefix(_guildService.GetPrefix(context.Guild.Id).Result, ref argPos))
         {
-            _messageHandler.AddMessage(context.Guild, messageParam);
+            // Execute the command with the command context we just
+            // created, along with the service provider for precondition checks.
+            await _commands.ExecuteAsync(
+                context: context,
+                argPos: argPos,
+                services: _services);
         }
-
-        // Execute the command with the command context we just
-        // created, along with the service provider for precondition checks.
-        await _commands.ExecuteAsync(
-            context: context,
-            argPos: argPos,
-            services: _services);
+        else if (_guildService.GetMessageLog(context.Guild.Id).Result)
+            _messageService.AddMessage(
+                context.Guild.Id,
+                context.Channel.Id,
+                context.User.Id,
+                message.Content,
+                message.Attachments.Select(x => x.ProxyUrl).ToArray(),
+                message.Timestamp.UtcDateTime);
     }
 }

@@ -1,0 +1,11 @@
+﻿using Discord.WebSocket;
+
+/// <summary>
+/// Configuration class to store modChannel data.
+/// </summary>
+internal class Config
+{
+    public SocketTextChannel modChannel;
+    public char prefix;
+    public bool messageLog;
+}
