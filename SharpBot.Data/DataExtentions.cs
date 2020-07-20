@@ -3,7 +3,7 @@ using System.IO;
 
 namespace SharpBot.Data
 {
-    internal class ServiceExtentions
+    internal class DataExtentions
     {
         public static string GetConnectionString()
         {

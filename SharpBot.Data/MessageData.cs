@@ -6,16 +6,16 @@ using System.Text;
 
 namespace SharpBot.Data
 {
-    public class MessageService
+    public class MessageData
     {
         private readonly string connectionString;
-        public MessageService() => connectionString = ServiceExtentions.GetConnectionString();
+        public MessageData() => connectionString = DataExtentions.GetConnectionString();
 
         public void AddMessage(ulong guildId, ulong modChannelId, ulong userId, string message, DateTime dateTime)
         {
             using var connection = new NpgsqlConnection(connectionString);
             connection.Open();
-            connection.Execute($"select add_message('{guildId}', '{modChannelId}', '{userId}', '{message}', '{dateTime}')");
+            connection.Execute($"select add_message('{guildId}', '{modChannelId}', '{userId}', E'{message}', '{dateTime}')");
         }
     }
 }
