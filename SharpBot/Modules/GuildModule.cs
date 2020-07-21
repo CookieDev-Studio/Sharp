@@ -46,7 +46,7 @@ public class GuildModule : ModuleBase<SocketCommandContext>
 		await _config.SetPrefix(Context.Guild.Id, (char)prefix);
 		await ReplyAsync($"prefix set to {prefix}");
 	}
-
+	/*
 	[Command("enable messagelog")]
 	[Summary("enables the message log")]
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
@@ -64,4 +64,5 @@ public class GuildModule : ModuleBase<SocketCommandContext>
 		await _config.SetMessageLog(Context.Guild.Id, false);
 		await ReplyAsync($"Message log disabled");
 	}
+	*/
 }
