@@ -35,7 +35,7 @@ public class ReplyModule : ModuleBase<SocketCommandContext>
 		};
 
 			foreach (var command in _commandExtentions.GetAllCommands().Result)
-				builder.AddField(command.Name, command.Summary, false); 
+				builder.AddField($"{command.Module.Group} {command.Name}", command.Summary, false); 
 
 		await ReplyAsync("", false, builder.Build());
 	}

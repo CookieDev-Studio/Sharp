@@ -17,9 +17,6 @@ public class CommandExtentions
 
     public Task<ReadOnlyCollection<CommandInfo>> GetAllCommands()
     {
-        foreach (var command in _commands.Commands)
-            Console.WriteLine(command.Module.Name);
-
         return Task.Run(() => _commands.Commands.ToList().AsReadOnly());
     }
     public Task<ReadOnlyCollection<CommandInfo>> GetCommands(string module)
