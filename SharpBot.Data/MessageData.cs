@@ -8,12 +8,9 @@ namespace SharpBot.Data
 {
     public class MessageData
     {
-        private readonly string connectionString;
-        public MessageData() => connectionString = DataExtentions.GetConnectionString();
-
         public void AddMessage(ulong guildId, ulong modChannelId, ulong userId, string message, DateTime dateTime)
         {
-            using var connection = new NpgsqlConnection(connectionString);
+            using var connection = DataExtentions.GetConnection();
             connection.Open();
             connection.Execute($"select add_message('{guildId}', '{modChannelId}', '{userId}', E'{message}', '{dateTime}')");
         }
