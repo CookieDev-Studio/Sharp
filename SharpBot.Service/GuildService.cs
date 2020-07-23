@@ -9,52 +9,80 @@ namespace SharpBot.Service
 {
     public class GuildService
     {
-        readonly GuildData _guildService;
-        public GuildService(GuildData guildService)
-        {
-            _guildService = guildService;
-        }
+        readonly GuildData _guildData;
+        public GuildService(GuildData guildData) => _guildData = guildData;
+        
+        /// <summary>
+        /// Gets the mod channel of a guild
+        /// </summary>
+        /// <param name="guildId"></param>
+        /// <returns></returns>
+        public ulong GetModChannel(ulong guildId) => GetConfig(guildId).ModChannelId;
+        public Task<ulong> GetModChannelAsync(ulong guildId) => Task.FromResult(GetConfigAsync(guildId).Result.ModChannelId);
+        /// <summary>
+        /// Sets the Modchanel of a guild
+        /// </summary>
+        /// <param name="guildId"></param>
+        /// <param name="channelId"></param>
+        public void SetModChannel(ulong guildId, ulong channelId) => _guildData.SetModChannel(guildId, channelId);
+        public Task SetModChannelAsync(ulong guildId, ulong channelId) => _guildData.SetModChannelAsync(guildId, channelId);
 
-        public async Task<ulong> GetModChannel(ulong guildId)
-        {
-            return await Task.Run(() => GetConfig(guildId).Result.modChannelId);
-        }
+        /// <summary>
+        /// Gets the prefix of a guild
+        /// </summary>
+        /// <param name="guildId"></param>
+        /// <returns></returns>
+        public char GetPrefix(ulong guildId) => GetConfig(guildId).Prefix;
+        public Task<char> GetPrefixAsync(ulong guildId) => Task.FromResult(GetConfigAsync(guildId).Result.Prefix);
+        /// <summary>
+        /// Sets the prefix of a guild
+        /// </summary>
+        /// <param name="guildId"></param>
+        /// <param name="prefix"></param>
+        public void SetPrefix(ulong guildId, char prefix) => _guildData.SetPrefix(guildId, prefix);
+        public Task SetPrefixAsync(ulong guildId, char prefix) => _guildData.SetPrefixAsync(guildId, prefix);
 
-        public async Task<char> GetPrefix(ulong guildId)
-        {
-            return await Task.Run(() => GetConfig(guildId).Result.prefix);
-        }
+        /// <summary>
+        /// Gets whether the message log is enabled or disabled for a guild
+        /// </summary>
+        /// <param name="guildId"></param>
+        /// <returns></returns>
+        public bool GetMessageLog(ulong guildId) => GetConfig(guildId).MessageLog;
+        public Task<bool> GetMessageLogAsync(ulong guildId) => Task.FromResult(GetConfigAsync(guildId).Result.MessageLog);
+        /// <summary>
+        /// Enables or disables the message log for a guild
+        /// </summary>
+        /// <param name="guildId"></param>
+        /// <param name="value"></param>
+        public void SetMessageLog(ulong guildId, bool value) => _guildData.SetMessageLog(guildId, value);
+        public Task SetMessageLogAsync(ulong guildId, bool value) => _guildData.SetMessageLogAsync(guildId, value);
 
-        public async Task<bool> GetMessageLog(ulong guildId)
+        /// <summary>
+        /// Gets the whole config of a guild
+        /// </summary>
+        /// <param name="guildId"></param>
+        /// <returns></returns>
+        public Config GetConfig(ulong guildId)
         {
-            return await Task.Run(() => GetConfig(guildId).Result.messageLog);
-        }
+            var config = _guildData.GetGuildConfig(guildId);
 
-        public async Task SetModChannel(ulong guildId, ulong channelId)
-        {
-            await Task.Run(() => _guildService.SetModChannel(guildId, channelId));
-        }
-
-        public async Task SetPrefix(ulong guildId, char prefix)
-        {
-            await Task.Run(() => _guildService.SetPrefix(guildId, prefix));
-        }
-
-        public async Task SetMessageLog(ulong guildId, bool value)
-        {
-            await Task.Run(() => _guildService.SetMessageLog(guildId, value));
-        }
-
-        private async Task<Config> GetConfig(ulong guildId)
-        {
-            var config = await Task.Run(() => _guildService.GetGuildConfig(guildId));
-
-            return await Task.Run(() => new Config()
+            return new Config()
             {
-                modChannelId = ulong.Parse(config.mod_Channel_Id),
-                prefix = config.prefix,
-                messageLog = config.message_log
-            });
+                ModChannelId = ulong.Parse(config.mod_Channel_Id),
+                Prefix = config.prefix,
+                MessageLog = config.message_log
+            };
+        }
+        public async Task<Config> GetConfigAsync(ulong guildId)
+        {
+            var config = await _guildData.GetGuildConfigAsync(guildId);
+
+            return new Config()
+            {
+                ModChannelId = ulong.Parse(config.mod_Channel_Id),
+                Prefix = config.prefix,
+                MessageLog = config.message_log
+            };
         }
     }
 }

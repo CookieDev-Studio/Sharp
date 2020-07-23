@@ -1,11 +1,12 @@
 ﻿using System;
 using System.IO;
+using Npgsql;
 
 namespace SharpBot.Data
 {
     internal class DataExtentions
     {
-        public static string GetConnectionString()
+        public static NpgsqlConnection GetConnection()
         {
             string connectionString;
 
@@ -14,9 +15,9 @@ namespace SharpBot.Data
             {
                 Console.WriteLine("Enter sql Conection String:");
                 connectionString = Console.ReadLine();
-                File.WriteAllTextAsync(Path.Combine(Directory.GetCurrentDirectory(), "SqlConnectionString.txt"), connectionString);
+                File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "SqlConnectionString.txt"), connectionString);
             }
-            return connectionString;
+            return new NpgsqlConnection(connectionString);
         }
     }
 }

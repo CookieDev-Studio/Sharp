@@ -31,10 +31,10 @@ public class ReplyModule : ModuleBase<SocketCommandContext>
 		var builder = new EmbedBuilder()
 		{
 			Color = new Color(150, 0, 0),
-			Description = $"The prefix for this community is {_guildService.GetPrefix(Context.Guild.Id).Result}"
+			Description = $"The prefix for this community is { await _guildService.GetPrefixAsync(Context.Guild.Id)}"
 		};
 
-			foreach (var command in _commandExtentions.GetAllCommands().Result)
+			foreach (var command in _commandExtentions.GetAllCommands())
 				builder.AddField($"{command.Module.Group} {command.Name}", command.Summary, false); 
 
 		await ReplyAsync("", false, builder.Build());

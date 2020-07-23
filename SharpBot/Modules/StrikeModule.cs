@@ -33,7 +33,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 			Description = $"Strike: "
 		};
 
-		foreach (var command in _commandExtentions.GetCommands("StrikeModule").Result)
+		foreach (var command in _commandExtentions.GetCommands("StrikeModule"))
 			builder.AddField(command.Name, command.Summary, false);
 
 		await ReplyAsync("", false, builder.Build());
@@ -52,7 +52,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 
 		await Context.Message.DeleteAsync();
 
-		await _strikesHandler.SaveStrike(Context.Guild.Id, user.Id, Context.User.Id, reason, DateTime.Today.ToString("d"));
+		await _strikesHandler.AddStrikeAsync(Context.Guild.Id, user.Id, Context.User.Id, reason, DateTime.Today.ToString("d"));
 		await ShowStrikes(user);
 	}
 
@@ -82,7 +82,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 			return;
 		}
 
-		await _strikesHandler.RemoveStrike((int)strikeId);
+		await _strikesHandler.RemoveStrikeAsync((int)strikeId);
 		await ReplyAsync("strike removed");
 	}
 
@@ -98,13 +98,13 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 		}
 
 		await Context.Message.DeleteAsync();
-		await _strikesHandler.RemoveAllStrikesFromUser(user.Id, Context.Guild.Id);
+		await _strikesHandler.RemoveAllStrikesFromUserAsync(user.Id, Context.Guild.Id);
 		await ReplyAsync($"Removed all of {user.Mention}'s strikes");
 	}
 
 	private async Task ShowStrikes(SocketUser user)
 	{
-		var strikes = _strikesHandler.LoadStrikes(Context.Guild.Id, user.Id);
+		var strikes = await _strikesHandler.GetStrikesAsync(Context.Guild.Id, user.Id);
 		
 		string message = "";
 		message += $"User : {user.Mention}\n";
@@ -120,6 +120,6 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 
 		message += "-------------------------------------------------------------------------------\n";
 
-		await Context.Guild.GetTextChannel(_guildHandler.GetModChannel(Context.Guild.Id).Result).SendMessageAsync(message);
+		await Context.Guild.GetTextChannel(await _guildHandler.GetModChannelAsync(Context.Guild.Id)).SendMessageAsync(message);
 	}
 }

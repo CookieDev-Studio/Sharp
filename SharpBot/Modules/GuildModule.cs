@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 public class GuildModule : ModuleBase<SocketCommandContext>
 {
-	readonly GuildService _config;
+	readonly GuildService _guildService;
 
-	public GuildModule(GuildService configHandler)
+	public GuildModule(GuildService guildService)
 	{
-		_config = configHandler;
+		_guildService = guildService;
 	}
 
 	[Command("set modchannel")]
@@ -25,7 +25,7 @@ public class GuildModule : ModuleBase<SocketCommandContext>
 		}
 
 		await LoggerExtensions.Log(Context.Guild, $"Mod channel set to {channel.Id}");
-		await _config.SetModChannel(Context.Guild.Id, channel.Id);
+		await _guildService.SetModChannelAsync(Context.Guild.Id, channel.Id);
 		await ReplyAsync($"Mod channel set to {channel.Name}");
 	}
 
@@ -39,7 +39,7 @@ public class GuildModule : ModuleBase<SocketCommandContext>
 			await ReplyAsync("No prefix specified");
 			return;
 		}
-		await _config.SetPrefix(Context.Guild.Id, (char)prefix);
+		await _guildService.SetPrefixAsync(Context.Guild.Id, (char)prefix);
 		await ReplyAsync($"prefix set to {prefix}");
 	}
 	/*

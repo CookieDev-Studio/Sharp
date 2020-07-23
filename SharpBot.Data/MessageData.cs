@@ -3,19 +3,23 @@ using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SharpBot.Data
 {
     public class MessageData
     {
-        private readonly string connectionString;
-        public MessageData() => connectionString = DataExtentions.GetConnectionString();
-
         public void AddMessage(ulong guildId, ulong modChannelId, ulong userId, string message, DateTime dateTime)
         {
-            using var connection = new NpgsqlConnection(connectionString);
+            using var connection = DataExtentions.GetConnection();
             connection.Open();
-            connection.Execute($"select add_message('{guildId}', '{modChannelId}', '{userId}', E'{message}', '{dateTime}')");
+            connection.ExecuteAsync($"select add_message('{guildId}', '{modChannelId}', '{userId}', E'{message}', '{dateTime}')");
+        }
+        public async Task AddMessageAsync(ulong guildId, ulong modChannelId, ulong userId, string message, DateTime dateTime)
+        {
+            using var connection = DataExtentions.GetConnection();
+            connection.Open();
+            await connection.ExecuteAsync($"select add_message('{guildId}', '{modChannelId}', '{userId}', E'{message}', '{dateTime}')");
         }
     }
 }
