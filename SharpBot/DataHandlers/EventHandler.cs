@@ -16,6 +16,6 @@ public class EventHandler
 
     private Task RemoveAllStrikesFromUser(SocketUser user, SocketGuild guild)
     {
-        return _strikeService.RemoveAllStrikesFromUser(user.Id, guild.Id);
+        return _strikeService.RemoveAllStrikesFromUserAsync(user.Id, guild.Id);
     }
 }

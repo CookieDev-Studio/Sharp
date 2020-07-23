@@ -52,7 +52,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 
 		await Context.Message.DeleteAsync();
 
-		await _strikesHandler.SaveStrike(Context.Guild.Id, user.Id, Context.User.Id, reason, DateTime.Today.ToString("d"));
+		await _strikesHandler.SaveStrikeAsync(Context.Guild.Id, user.Id, Context.User.Id, reason, DateTime.Today.ToString("d"));
 		await ShowStrikes(user);
 	}
 
@@ -82,7 +82,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 			return;
 		}
 
-		await _strikesHandler.RemoveStrike((int)strikeId);
+		await _strikesHandler.RemoveStrikeAsync((int)strikeId);
 		await ReplyAsync("strike removed");
 	}
 
@@ -98,13 +98,13 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 		}
 
 		await Context.Message.DeleteAsync();
-		await _strikesHandler.RemoveAllStrikesFromUser(user.Id, Context.Guild.Id);
+		await _strikesHandler.RemoveAllStrikesFromUserAsync(user.Id, Context.Guild.Id);
 		await ReplyAsync($"Removed all of {user.Mention}'s strikes");
 	}
 
 	private async Task ShowStrikes(SocketUser user)
 	{
-		var strikes = await _strikesHandler.LoadStrikes(Context.Guild.Id, user.Id);
+		var strikes = await _strikesHandler.LoadStrikesAsync(Context.Guild.Id, user.Id);
 		
 		string message = "";
 		message += $"User : {user.Mention}\n";

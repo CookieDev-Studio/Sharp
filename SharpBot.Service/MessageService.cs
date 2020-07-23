@@ -15,7 +15,7 @@ namespace SharpBot.Service
             _messageData = messageData;
         }
 
-        public Task AddMessage(ulong guildId, ulong channelId, ulong authorId, string message, string[] attachments, DateTime dateTime)
+        public Task AddMessageAsync(ulong guildId, ulong channelId, ulong authorId, string message, string[] attachments, DateTime dateTime)
         {
             string formatedContent = "";
 
@@ -34,7 +34,7 @@ namespace SharpBot.Service
                     formatedContent += attachment + "\n";
             }
 
-            return _messageData.AddMessage(
+            return _messageData.AddMessageAsync(
                 guildId,
                 channelId,
                 authorId,

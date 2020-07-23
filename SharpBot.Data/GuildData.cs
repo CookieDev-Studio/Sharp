@@ -10,28 +10,28 @@ namespace SharpBot.Data
 {
     public class GuildData
     {
-        public Task<Config> GetGuildConfig(ulong guildId)
+        public Task<Config> GetGuildConfigAsync(ulong guildId)
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();
             return connection.QuerySingleAsync<Config>($"select * from get_config('{guildId}')");
         }
 
-        public Task SetModChannel(ulong guildId, ulong modChannelId)
+        public Task SetModChannelAsync(ulong guildId, ulong modChannelId)
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();
             return connection.ExecuteAsync($"select set_mod_channel_id('{guildId}', '{modChannelId}')");
         }
 
-        public Task SetPrefix(ulong guildId, char prefix)
+        public Task SetPrefixAsync(ulong guildId, char prefix)
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();
             return connection.ExecuteAsync($"select set_prefix('{guildId}', '{prefix}')");
         }
 
-        public Task SetMessageLog(ulong guildId, bool value)
+        public Task SetMessageLogAsync(ulong guildId, bool value)
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();

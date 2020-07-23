@@ -14,14 +14,14 @@ namespace SharpBot.Service
             _strikeData = strikeData;
         }
 
-        public Task SaveStrike(ulong guildId, ulong userId, ulong modId, string reason, string date)
+        public Task SaveStrikeAsync(ulong guildId, ulong userId, ulong modId, string reason, string date)
         {
-            return _strikeData.AddStrike(guildId, userId, modId, reason, date);
+            return _strikeData.AddStrikeAsync(guildId, userId, modId, reason, date);
         }
 
-        public Task<List<Strike>> LoadStrikes(ulong guildId, ulong userId)
+        public Task<List<Strike>> LoadStrikesAsync(ulong guildId, ulong userId)
         {
-            return Task.FromResult(_strikeData.GetStrikes(guildId, userId).Result.Where(x => ulong.Parse(x.guildId) == guildId && ulong.Parse(x.userId) == userId).Select(x =>
+            return Task.FromResult(_strikeData.GetStrikesAsync(guildId, userId).Result.Where(x => ulong.Parse(x.guildId) == guildId && ulong.Parse(x.userId) == userId).Select(x =>
                 new Strike()
                 {
                     Id = x.Id,
@@ -32,14 +32,14 @@ namespace SharpBot.Service
                 }).ToList());
         }
 
-        public Task RemoveStrike(int strikeId)
+        public Task RemoveStrikeAsync(int strikeId)
         {
-            return _strikeData.RemoveStrike(strikeId);
+            return _strikeData.RemoveStrikeAsync(strikeId);
         }
 
-        public Task RemoveAllStrikesFromUser(ulong userId, ulong guildId)
+        public Task RemoveAllStrikesFromUserAsync(ulong userId, ulong guildId)
         {
-            return _strikeData.RemoveAllStrikesFromUser(guildId, userId);
+            return _strikeData.RemoveAllStrikesFromUserAsync(guildId, userId);
         }
     }
 }

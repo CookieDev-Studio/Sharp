@@ -15,39 +15,39 @@ namespace SharpBot.Service
             _guildData = guildData;
         }
 
-        public Task<ulong> GetModChannel(ulong guildId)
+        public Task<ulong> GetModChannelAsync(ulong guildId)
         {
-            return Task.FromResult(GetConfig(guildId).Result.modChannelId);
+            return Task.FromResult(GetConfigAsync(guildId).Result.modChannelId);
         }
 
-        public Task<char> GetPrefix(ulong guildId)
+        public Task<char> GetPrefixAsync(ulong guildId)
         {
-            return Task.FromResult(GetConfig(guildId).Result.prefix);
+            return Task.FromResult(GetConfigAsync(guildId).Result.prefix);
         }
 
-        public Task<bool> GetMessageLog(ulong guildId)
+        public Task<bool> GetMessageLogAsync(ulong guildId)
         {
-            return Task.FromResult(GetConfig(guildId).Result.messageLog);
+            return Task.FromResult(GetConfigAsync(guildId).Result.messageLog);
         }
 
-        public Task SetModChannel(ulong guildId, ulong channelId)
+        public Task SetModChannelAsync(ulong guildId, ulong channelId)
         {
-            return _guildData.SetModChannel(guildId, channelId);
+            return _guildData.SetModChannelAsync(guildId, channelId);
         }
 
-        public Task SetPrefix(ulong guildId, char prefix)
+        public Task SetPrefixAsync(ulong guildId, char prefix)
         {
-            return _guildData.SetPrefix(guildId, prefix);
+            return _guildData.SetPrefixAsync(guildId, prefix);
         }
 
-        public Task SetMessageLog(ulong guildId, bool value)
+        public Task SetMessageLogAsync(ulong guildId, bool value)
         {
-            return _guildData.SetMessageLog(guildId, value);
+            return _guildData.SetMessageLogAsync(guildId, value);
         }
 
-        private Task<Config> GetConfig(ulong guildId)
+        private Task<Config> GetConfigAsync(ulong guildId)
         {
-            var config = _guildData.GetGuildConfig(guildId).Result;
+            var config = _guildData.GetGuildConfigAsync(guildId).Result;
 
             return Task.FromResult(new Config()
             {

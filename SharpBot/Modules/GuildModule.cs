@@ -25,7 +25,7 @@ public class GuildModule : ModuleBase<SocketCommandContext>
 		}
 
 		await LoggerExtensions.Log(Context.Guild, $"Mod channel set to {channel.Id}");
-		await _config.SetModChannel(Context.Guild.Id, channel.Id);
+		await _config.SetModChannelAsync(Context.Guild.Id, channel.Id);
 		await ReplyAsync($"Mod channel set to {channel.Name}");
 	}
 
@@ -39,7 +39,7 @@ public class GuildModule : ModuleBase<SocketCommandContext>
 			await ReplyAsync("No prefix specified");
 			return;
 		}
-		await _config.SetPrefix(Context.Guild.Id, (char)prefix);
+		await _config.SetPrefixAsync(Context.Guild.Id, (char)prefix);
 		await ReplyAsync($"prefix set to {prefix}");
 	}
 	/*

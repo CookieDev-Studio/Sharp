@@ -9,7 +9,7 @@ namespace SharpBot.Data
 {
     public class MessageData
     {
-        public Task AddMessage(ulong guildId, ulong modChannelId, ulong userId, string message, DateTime dateTime)
+        public Task AddMessageAsync(ulong guildId, ulong modChannelId, ulong userId, string message, DateTime dateTime)
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();
