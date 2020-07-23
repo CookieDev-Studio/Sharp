@@ -354,5 +354,3 @@ MigrationBackup/
 
 #visual studio code
 .vscode/
-Sharp.Data/SqlConnectionString.txt
-Sharp.Data/SqlConnectionString.txt
