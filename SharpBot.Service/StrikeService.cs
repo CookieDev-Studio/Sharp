@@ -47,27 +47,30 @@ namespace SharpBot.Service
         /// <returns></returns>
         public List<Strike> GetStrikes(ulong guildId, ulong userId)
         {
-            return _strikeData.GetStrikesAsync(guildId, userId).Result.Where(x => ulong.Parse(x.guildId) == guildId && ulong.Parse(x.userId) == userId).Select(x =>
-                new Strike()
-                {
-                    Id = x.Id,
-                    user = ulong.Parse(x.userId),
-                    mod = ulong.Parse(x.modId),
-                    reason = x.reason,
-                    date = x.date
-                }).ToList();
+            return _strikeData.GetStrikesAsync(guildId, userId).Result
+                    .Where(x => ulong.Parse(x.guildId) == guildId && ulong.Parse(x.userId) == userId)
+                    .Select(x => new Strike()
+                    {
+                        Id = x.Id,
+                        user = ulong.Parse(x.userId),
+                        mod = ulong.Parse(x.modId),
+                        reason = x.reason,
+                        date = x.date
+                    }).ToList();
         }
         public Task<List<Strike>> GetStrikesAsync(ulong guildId, ulong userId)
         {
-            return Task.FromResult(_strikeData.GetStrikesAsync(guildId, userId).Result.Where(x => ulong.Parse(x.guildId) == guildId && ulong.Parse(x.userId) == userId).Select(x =>
-                new Strike()
-                {
-                    Id = x.Id,
-                    user = ulong.Parse(x.userId),
-                    mod = ulong.Parse(x.modId),
-                    reason = x.reason,
-                    date = x.date
-                }).ToList());
+            return Task.FromResult(
+                _strikeData.GetStrikesAsync(guildId, userId).Result
+                    .Where(x => ulong.Parse(x.guildId) == guildId && ulong.Parse(x.userId) == userId)
+                    .Select(x => new Strike() 
+                    {
+                        Id = x.Id,
+                        user = ulong.Parse(x.userId),
+                        mod = ulong.Parse(x.modId),
+                        reason = x.reason,
+                        date = x.date
+                    }).ToList());
         }
     }
 }
