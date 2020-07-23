@@ -15,31 +15,45 @@ namespace SharpBot.Service
             _messageData = messageData;
         }
 
+        public void AddMessage(ulong guildId, ulong channelId, ulong authorId, string message, string[] attachments, DateTime dateTime)
+        {
+            _messageData.AddMessage(
+                guildId,
+                channelId,
+                authorId,
+                FormatMessage(message, attachments),
+                dateTime);
+        }
         public Task AddMessageAsync(ulong guildId, ulong channelId, ulong authorId, string message, string[] attachments, DateTime dateTime)
         {
-            string formatedContent = "";
-
-            for (int i = 0; i < message.Length; i++)
-            {
-                if (message[i] == '\'')
-                    formatedContent += "\\'";
-                else
-                    formatedContent += message[i];
-            }
-
-            if (attachments.Length > 0)
-            {
-                formatedContent += "\n";
-                foreach (var attachment in attachments)
-                    formatedContent += attachment + "\n";
-            }
-
             return _messageData.AddMessageAsync(
                 guildId,
                 channelId,
                 authorId,
-                formatedContent,
+                FormatMessage(message, attachments),
                 dateTime);
+        }
+
+        private string FormatMessage(string message, string[] attachments)
+        {
+            string formatedMessage = "";
+
+            for (int i = 0; i < message.Length; i++)
+            {
+                if (message[i] == '\'')
+                    formatedMessage += "\\'";
+                else
+                    formatedMessage += message[i];
+            }
+
+            if (attachments.Length > 0)
+            {
+                formatedMessage += "\n";
+                foreach (var attachment in attachments)
+                    formatedMessage += attachment + "\n";
+            }
+
+            return formatedMessage;
         }
     }
 }
