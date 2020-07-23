@@ -60,14 +60,7 @@ class Program
     /// <returns>The token.</returns>
     public async Task<string> GetToken()
     {
-        try { return File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "token.txt")); }
-        catch
-        {
-            Console.WriteLine("Enter TOKEN:");
-            string token = Console.ReadLine();
-            await File.WriteAllTextAsync(Path.Combine(Directory.GetCurrentDirectory(), "token.txt"), token);
-            return token;
-        }
+        return await File.ReadAllTextAsync(Path.Combine(Directory.GetCurrentDirectory(), "token.txt"));
     }
 
     /// <summary>

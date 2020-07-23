@@ -18,4 +18,10 @@
     <ProjectReference Include="..\Sharp.Service\Sharp.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="token.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
