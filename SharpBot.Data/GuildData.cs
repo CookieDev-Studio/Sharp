@@ -20,8 +20,20 @@ namespace SharpBot.Data
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();
-            Console.WriteLine("Data");
             return await connection.QuerySingleAsync<Config>($"select * from get_config('{guildId}')");
+        }
+
+        public void AddConfig(ulong guildId, ulong ModchannelId, char prefix, bool messagelog)
+        {
+            using var connection = DataExtentions.GetConnection();
+            connection.Open();
+            connection.Execute($"select * from add_config('{guildId}', '{ModchannelId}', '{prefix}', {messagelog})");
+        }
+        public async Task AddConfigAsync(ulong guildId, ulong ModchannelId, char prefix, bool messagelog)
+        {
+            using var connection = DataExtentions.GetConnection();
+            connection.Open();
+            await connection.ExecuteAsync($"select * from add_config('{guildId}', '{ModchannelId}', '{prefix}', {messagelog})");
         }
 
         public void SetModChannel(ulong guildId, ulong modChannelId)

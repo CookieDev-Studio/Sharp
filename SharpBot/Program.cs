@@ -42,7 +42,8 @@ class Program
             .AddSingleton<CommandExtentions>()
             .BuildServiceProvider();
 
-        var commandHandler = new CommandHandler(_client, _commands, _services.GetService<GuildService>(), _services.GetService<MessageService>(), _services);
+        new CommandHandler(_client, _commands, _services.GetService<GuildService>(), _services.GetService<MessageService>(), _services);
+        new EventHandler(_client, _services.GetService<StrikeService>(), _services.GetService<GuildService>());
 
         await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
 

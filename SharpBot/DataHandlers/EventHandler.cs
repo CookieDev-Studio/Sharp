@@ -8,14 +8,24 @@ using System.Threading.Tasks;
 public class EventHandler
 {
     readonly StrikeService _strikeService;
-    public EventHandler(DiscordSocketClient client, StrikeService strikeService)
+    readonly GuildService _guildService;
+
+    public EventHandler(DiscordSocketClient client, StrikeService strikeService, GuildService guildService)
     {
         _strikeService = strikeService;
+        _guildService = guildService;
+
         client.UserBanned += RemoveAllStrikesFromUser;
+        client.JoinedGuild += AddGuild;
     }
 
-    private Task RemoveAllStrikesFromUser(SocketUser user, SocketGuild guild)
+    private async Task RemoveAllStrikesFromUser(SocketUser user, SocketGuild guild)
     {
-        return _strikeService.RemoveAllStrikesFromUserAsync(user.Id, guild.Id);
+        await _strikeService.RemoveAllStrikesFromUserAsync(user.Id, guild.Id);
+    }
+
+    private async Task AddGuild(SocketGuild guild)
+    {
+        await _guildService.AddConfigAsync(guild.Id, guild.DefaultChannel.Id);
     }
 }
