@@ -10,4 +10,10 @@
     <PackageReference Include="Npgsql" Version="4.1.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="SqlConnectionString.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
