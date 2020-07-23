@@ -52,7 +52,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 
 		await Context.Message.DeleteAsync();
 
-		await _strikesHandler.SaveStrikeAsync(Context.Guild.Id, user.Id, Context.User.Id, reason, DateTime.Today.ToString("d"));
+		await _strikesHandler.AddStrikeAsync(Context.Guild.Id, user.Id, Context.User.Id, reason, DateTime.Today.ToString("d"));
 		await ShowStrikes(user);
 	}
 
@@ -104,7 +104,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 
 	private async Task ShowStrikes(SocketUser user)
 	{
-		var strikes = await _strikesHandler.LoadStrikesAsync(Context.Guild.Id, user.Id);
+		var strikes = await _strikesHandler.GetStrikesAsync(Context.Guild.Id, user.Id);
 		
 		string message = "";
 		message += $"User : {user.Mention}\n";

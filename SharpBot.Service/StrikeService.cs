@@ -9,21 +9,41 @@ namespace SharpBot.Service
     {
         readonly StrikeData _strikeData;
 
-        public StrikeService(StrikeData strikeData)
-        {
-            _strikeData = strikeData;
-        }
+        public StrikeService(StrikeData strikeData) => _strikeData = strikeData;
 
-        public void SaveStrike(ulong guildId, ulong userId, ulong modId, string reason, string date) => _strikeData.AddStrike(guildId, userId, modId, reason, date);
-        public Task SaveStrikeAsync(ulong guildId, ulong userId, ulong modId, string reason, string date) => _strikeData.AddStrikeAsync(guildId, userId, modId, reason, date);
+        /// <summary>
+        /// Adds a strike to a user
+        /// </summary>
+        /// <param name="guildId"></param>
+        /// <param name="userId"></param>
+        /// <param name="modId"></param>
+        /// <param name="reason"></param>
+        /// <param name="date"></param>
+        public void AddStrike(ulong guildId, ulong userId, ulong modId, string reason, string date) => _strikeData.AddStrike(guildId, userId, modId, reason, date);
+        public Task AddStrikeAsync(ulong guildId, ulong userId, ulong modId, string reason, string date) => _strikeData.AddStrikeAsync(guildId, userId, modId, reason, date);
 
+        /// <summary>
+        /// Removes a strike from a user
+        /// </summary>
+        /// <param name="strikeId"></param>
         public void RemoveStrike(int strikeId) => _strikeData.RemoveStrike(strikeId);
         public Task RemoveStrikeAsync(int strikeId) => _strikeData.RemoveStrikeAsync(strikeId);
 
+        /// <summary>
+        /// Removes all strikes from the user in the specified guild
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="guildId"></param>
         public void RemoveAllStrikesFromUser(ulong userId, ulong guildId) => _strikeData.RemoveAllStrikesFromUser(guildId, userId);
         public Task RemoveAllStrikesFromUserAsync(ulong userId, ulong guildId) => _strikeData.RemoveAllStrikesFromUserAsync(guildId, userId);
 
-        public List<Strike> LoadStrikes(ulong guildId, ulong userId)
+        /// <summary>
+        /// Gets all strikes logged against the user for the specified guild
+        /// </summary>
+        /// <param name="guildId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public List<Strike> GetStrikes(ulong guildId, ulong userId)
         {
             return _strikeData.GetStrikesAsync(guildId, userId).Result.Where(x => ulong.Parse(x.guildId) == guildId && ulong.Parse(x.userId) == userId).Select(x =>
                 new Strike()
@@ -35,7 +55,7 @@ namespace SharpBot.Service
                     date = x.date
                 }).ToList();
         }
-        public Task<List<Strike>> LoadStrikesAsync(ulong guildId, ulong userId)
+        public Task<List<Strike>> GetStrikesAsync(ulong guildId, ulong userId)
         {
             return Task.FromResult(_strikeData.GetStrikesAsync(guildId, userId).Result.Where(x => ulong.Parse(x.guildId) == guildId && ulong.Parse(x.userId) == userId).Select(x =>
                 new Strike()

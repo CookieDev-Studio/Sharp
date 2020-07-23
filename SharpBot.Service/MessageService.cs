@@ -10,11 +10,17 @@ namespace SharpBot.Service
     {
         readonly MessageData _messageData;
 
-        public MessageService(MessageData messageData)
-        {
-            _messageData = messageData;
-        }
-
+        public MessageService(MessageData messageData) => _messageData = messageData;
+        
+        /// <summary>
+        /// Adds a message to the message log
+        /// </summary>
+        /// <param name="guildId"></param>
+        /// <param name="channelId"></param>
+        /// <param name="authorId"></param>
+        /// <param name="message"></param>
+        /// <param name="attachments"></param>
+        /// <param name="dateTime"></param>
         public void AddMessage(ulong guildId, ulong channelId, ulong authorId, string message, string[] attachments, DateTime dateTime)
         {
             _messageData.AddMessage(
