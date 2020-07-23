@@ -19,8 +19,10 @@ namespace SharpBot.Service
         /// <param name="modId"></param>
         /// <param name="reason"></param>
         /// <param name="date"></param>
-        public void AddStrike(ulong guildId, ulong userId, ulong modId, string reason, string date) => _strikeData.AddStrike(guildId, userId, modId, reason, date);
-        public Task AddStrikeAsync(ulong guildId, ulong userId, ulong modId, string reason, string date) => _strikeData.AddStrikeAsync(guildId, userId, modId, reason, date);
+        public void AddStrike(ulong guildId, ulong userId, ulong modId, string reason, string date) 
+            => _strikeData.AddStrike(guildId, userId, modId, reason, date);
+        public Task AddStrikeAsync(ulong guildId, ulong userId, ulong modId, string reason, string date) 
+            => _strikeData.AddStrikeAsync(guildId, userId, modId, reason, date);
 
         /// <summary>
         /// Removes a strike from a user
