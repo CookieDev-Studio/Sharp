@@ -12,7 +12,7 @@ namespace SharpBot.Data
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();
-            return connection.QueryAsync<Strike>($"select * from get_strikes('{guildId}', '{userId}')").ToList();
+            return Task.FromResult(connection.QueryAsync<Strike>($"select * from get_strikes('{guildId}', '{userId}')").Result.ToList());
         }
 
         public Task AddStrike(ulong guildId, ulong userId, ulong modId, string reason, string date)
