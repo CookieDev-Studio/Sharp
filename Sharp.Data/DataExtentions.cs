@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Newtonsoft.Json;
 using Npgsql;
 
 namespace SharpBot.Data
@@ -8,8 +9,15 @@ namespace SharpBot.Data
     {
         public static NpgsqlConnection GetConnection()
         {
-            string connectionString = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "SqlConnectionString.txt"));
-            return new NpgsqlConnection(connectionString);
+            var dbConnection = JsonConvert.DeserializeObject<DbConnection>(
+                File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "SqlConnectionString.json")));
+            
+            return new NpgsqlConnection(
+                $"Host={dbConnection.Host};" +
+                $"Username={dbConnection.Username};" +
+                $"Password={dbConnection.Password};" +
+                $"Database={dbConnection.Database};" +
+                $"sslmode=Require;Trust Server Certificate=true");
         }
     }
 }
