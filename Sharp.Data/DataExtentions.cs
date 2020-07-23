@@ -10,7 +10,7 @@ namespace SharpBot.Data
         public static NpgsqlConnection GetConnection()
         {
             var dbConnection = JsonConvert.DeserializeObject<DbConnection>(
-                File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "SqlConnectionString.json")));
+                File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "SqlConnection.json")));
             
             return new NpgsqlConnection(
                 $"Host={dbConnection.Host};" +
