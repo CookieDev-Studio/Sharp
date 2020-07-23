@@ -2,37 +2,38 @@
 using Npgsql;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SharpBot.Data
 {
     public class StrikeData
     {
-        public List<Strike> GetStrikes(ulong guildId, ulong userId)
+        public Task<List<Strike>> GetStrikes(ulong guildId, ulong userId)
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();
-            return connection.Query<Strike>($"select * from get_strikes('{guildId}', '{userId}')").ToList();
+            return connection.QueryAsync<Strike>($"select * from get_strikes('{guildId}', '{userId}')").ToList();
         }
 
-        public void AddStrike(ulong guildId, ulong userId, ulong modId, string reason, string date)
+        public Task AddStrike(ulong guildId, ulong userId, ulong modId, string reason, string date)
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();
-            connection.Execute($"select add_strike('{guildId}', '{userId}', '{modId}', '{reason}', '{date}')");
+            return connection.ExecuteAsync($"select add_strike('{guildId}', '{userId}', '{modId}', '{reason}', '{date}')");
         }
 
-        public void RemoveStrike(int strikeId)
+        public Task RemoveStrike(int strikeId)
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();
-            connection.Execute($"select remove_strike({strikeId})");
+            return connection.ExecuteAsync($"select remove_strike({strikeId})");
         }
 
-        public void RemoveAllStrikesFromUser(ulong guildId, ulong userId)
+        public Task RemoveAllStrikesFromUser(ulong guildId, ulong userId)
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();
-            connection.Execute($"select remove_all_strikes('{guildId}', '{userId}')");
+            return connection.ExecuteAsync($"select remove_all_strikes('{guildId}', '{userId}')");
         }
     }
 }

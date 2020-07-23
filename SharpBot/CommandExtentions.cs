@@ -13,12 +13,12 @@ public class CommandExtentions
         _commands = commandService;
     }
 
-    public Task<ReadOnlyCollection<CommandInfo>> GetAllCommands()
+    public ReadOnlyCollection<CommandInfo> GetAllCommands()
     {
-        return Task.Run(() => _commands.Commands.ToList().AsReadOnly());
+        return _commands.Commands.ToList().AsReadOnly();
     }
-    public Task<ReadOnlyCollection<CommandInfo>> GetCommands(string module)
+    public ReadOnlyCollection<CommandInfo> GetCommands(string module)
     {
-        return Task.Run(() => _commands.Commands.Where(x => x.Module.Name == module).ToList().AsReadOnly());
+        return _commands.Commands.Where(x => x.Module.Name == module).ToList().AsReadOnly();
     }
 }

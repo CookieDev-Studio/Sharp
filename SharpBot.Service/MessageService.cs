@@ -2,19 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SharpBot.Service
 {
     public class MessageService
     {
-        readonly MessageData _messageService;
+        readonly MessageData _messageData;
 
-        public MessageService(MessageData messageService)
+        public MessageService(MessageData messageData)
         {
-            _messageService = messageService;
+            _messageData = messageData;
         }
 
-        public void AddMessage(ulong guildId, ulong channelId, ulong authorId, string message, string[] attachments, DateTime dateTime)
+        public Task AddMessage(ulong guildId, ulong channelId, ulong authorId, string message, string[] attachments, DateTime dateTime)
         {
             string formatedContent = "";
 
@@ -33,7 +34,7 @@ namespace SharpBot.Service
                     formatedContent += attachment + "\n";
             }
 
-            _messageService.AddMessage(
+            return _messageData.AddMessage(
                 guildId,
                 channelId,
                 authorId,

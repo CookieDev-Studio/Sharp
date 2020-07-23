@@ -55,7 +55,7 @@ public class CommandHandler
                 services: _services);
         }
         else if (_guildService.GetMessageLog(context.Guild.Id).Result)
-            _messageService.AddMessage(
+            await _messageService.AddMessage(
                 context.Guild.Id,
                 context.Channel.Id,
                 context.User.Id,

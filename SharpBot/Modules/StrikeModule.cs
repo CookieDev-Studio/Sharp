@@ -33,7 +33,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 			Description = $"Strike: "
 		};
 
-		foreach (var command in _commandExtentions.GetCommands("StrikeModule").Result)
+		foreach (var command in _commandExtentions.GetCommands("StrikeModule"))
 			builder.AddField(command.Name, command.Summary, false);
 
 		await ReplyAsync("", false, builder.Build());
@@ -104,7 +104,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 
 	private async Task ShowStrikes(SocketUser user)
 	{
-		var strikes = _strikesHandler.LoadStrikes(Context.Guild.Id, user.Id);
+		var strikes = await _strikesHandler.LoadStrikes(Context.Guild.Id, user.Id);
 		
 		string message = "";
 		message += $"User : {user.Mention}\n";
@@ -120,6 +120,6 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 
 		message += "-------------------------------------------------------------------------------\n";
 
-		await Context.Guild.GetTextChannel(_guildHandler.GetModChannel(Context.Guild.Id).Result).SendMessageAsync(message);
+		await Context.Guild.GetTextChannel(await _guildHandler.GetModChannel(Context.Guild.Id)).SendMessageAsync(message);
 	}
 }

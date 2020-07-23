@@ -15,7 +15,7 @@ namespace SharpBot.Data
             {
                 Console.WriteLine("Enter sql Conection String:");
                 connectionString = Console.ReadLine();
-                File.WriteAllTextAsync(Path.Combine(Directory.GetCurrentDirectory(), "SqlConnectionString.txt"), connectionString);
+                File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "SqlConnectionString.txt"), connectionString);
             }
             return new NpgsqlConnection(connectionString);
         }

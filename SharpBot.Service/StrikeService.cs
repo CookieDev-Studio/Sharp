@@ -7,24 +7,21 @@ namespace SharpBot.Service
 {
     public class StrikeService
     {
-        readonly StrikeData _strikeService;
+        readonly StrikeData _strikeData;
 
-        public StrikeService(StrikeData strikeService)
+        public StrikeService(StrikeData strikeData)
         {
-            _strikeService = strikeService;
-
-           
+            _strikeData = strikeData;
         }
 
         public Task SaveStrike(ulong guildId, ulong userId, ulong modId, string reason, string date)
         {
-            _strikeService.AddStrike(guildId, userId, modId, reason, date);
-            return Task.CompletedTask;
+            return _strikeData.AddStrike(guildId, userId, modId, reason, date);
         }
 
-        public List<Strike> LoadStrikes(ulong guildId, ulong userId)
+        public Task<List<Strike>> LoadStrikes(ulong guildId, ulong userId)
         {
-            return _strikeService.GetStrikes(guildId, userId).Where(x => ulong.Parse(x.guildId) == guildId && ulong.Parse(x.userId) == userId).Select(x =>
+            return Task.FromResult(_strikeData.GetStrikes(guildId, userId).Result.Where(x => ulong.Parse(x.guildId) == guildId && ulong.Parse(x.userId) == userId).Select(x =>
                 new Strike()
                 {
                     Id = x.Id,
@@ -32,19 +29,17 @@ namespace SharpBot.Service
                     mod = ulong.Parse(x.modId),
                     reason = x.reason,
                     date = x.date
-                }).ToList();
+                }).ToList());
         }
 
         public Task RemoveStrike(int strikeId)
         {
-            _strikeService.RemoveStrike(strikeId);
-            return Task.CompletedTask;
+            return _strikeData.RemoveStrike(strikeId);
         }
 
         public Task RemoveAllStrikesFromUser(ulong userId, ulong guildId)
         {
-            _strikeService.RemoveAllStrikesFromUser(guildId, userId);
-            return Task.CompletedTask;
+            return _strikeData.RemoveAllStrikesFromUser(guildId, userId);
         }
     }
 }
