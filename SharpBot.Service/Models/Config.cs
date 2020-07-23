@@ -3,7 +3,7 @@
     /// <summary>
     /// Configuration class to store modChannel data.
     /// </summary>
-    internal class Config
+    public class Config
     {
         public ulong modChannelId;
         public char prefix;

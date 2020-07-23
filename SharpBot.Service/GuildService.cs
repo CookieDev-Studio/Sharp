@@ -33,7 +33,7 @@ namespace SharpBot.Service
         public void SetMessageLog(ulong guildId, bool value) => _guildData.SetMessageLog(guildId, value);
         public Task SetMessageLogAsync(ulong guildId, bool value) => _guildData.SetMessageLogAsync(guildId, value);
 
-        private Config GetConfig(ulong guildId)
+        public Config GetConfig(ulong guildId)
         {
             var config = _guildData.GetGuildConfig(guildId);
 
@@ -44,7 +44,7 @@ namespace SharpBot.Service
                 messageLog = config.message_log
             };
         }
-        private async Task<Config> GetConfigAsync(ulong guildId)
+        public async Task<Config> GetConfigAsync(ulong guildId)
         {
             var config = await _guildData.GetGuildConfigAsync(guildId);
 
