@@ -120,6 +120,6 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 
 		message += "-------------------------------------------------------------------------------\n";
 
-		await Context.Guild.GetTextChannel(await _guildHandler.GetModChannel(Context.Guild.Id)).SendMessageAsync(message);
+		await Context.Guild.GetTextChannel(await _guildHandler.GetModChannelAsync(Context.Guild.Id)).SendMessageAsync(message);
 	}
 }

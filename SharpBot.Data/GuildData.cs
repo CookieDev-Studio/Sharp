@@ -16,11 +16,12 @@ namespace SharpBot.Data
             connection.Open();
             return connection.QuerySingle<Config>($"select * from get_config('{guildId}')");
         }
-        public Task<Config> GetGuildConfigAsync(ulong guildId)
+        public async Task<Config> GetGuildConfigAsync(ulong guildId)
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();
-            return connection.QuerySingleAsync<Config>($"select * from get_config('{guildId}')");
+            Console.WriteLine("Data");
+            return await connection.QuerySingleAsync<Config>($"select * from get_config('{guildId}')");
         }
 
         public void SetModChannel(ulong guildId, ulong modChannelId)
@@ -29,11 +30,11 @@ namespace SharpBot.Data
             connection.Open();
             connection.Execute($"select set_mod_channel_id('{guildId}', '{modChannelId}')");
         }
-        public Task SetModChannelAsync(ulong guildId, ulong modChannelId)
+        public async Task SetModChannelAsync(ulong guildId, ulong modChannelId)
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();
-            return connection.ExecuteAsync($"select set_mod_channel_id('{guildId}', '{modChannelId}')");
+            await connection.ExecuteAsync($"select set_mod_channel_id('{guildId}', '{modChannelId}')");
         }
 
         public void SetPrefix(ulong guildId, char prefix)
@@ -42,11 +43,11 @@ namespace SharpBot.Data
             connection.Open();
             connection.Execute($"select set_prefix('{guildId}', '{prefix}')");
         }
-        public Task SetPrefixAsync(ulong guildId, char prefix)
+        public async Task SetPrefixAsync(ulong guildId, char prefix)
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();
-            return connection.ExecuteAsync($"select set_prefix('{guildId}', '{prefix}')");
+            await connection.ExecuteAsync($"select set_prefix('{guildId}', '{prefix}')");
         }
 
         public void SetMessageLog(ulong guildId, bool value)
@@ -55,11 +56,11 @@ namespace SharpBot.Data
             connection.Open();
             connection.ExecuteAsync($"select set_message_log('{guildId}', {value})");
         }
-        public Task SetMessageLogAsync(ulong guildId, bool value)
+        public async Task SetMessageLogAsync(ulong guildId, bool value)
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();
-            return connection.ExecuteAsync($"select set_message_log('{guildId}', {value})");
+            await connection.ExecuteAsync($"select set_message_log('{guildId}', {value})");
         }
     }
 }

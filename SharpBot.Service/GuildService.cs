@@ -44,16 +44,16 @@ namespace SharpBot.Service
                 messageLog = config.message_log
             };
         }
-        private Task<Config> GetConfigAsync(ulong guildId)
+        private async Task<Config> GetConfigAsync(ulong guildId)
         {
-            var config = _guildData.GetGuildConfigAsync(guildId).Result;
+            var config = await _guildData.GetGuildConfigAsync(guildId);
 
-            return Task.FromResult(new Config()
+            return new Config()
             {
                 modChannelId = ulong.Parse(config.mod_Channel_Id),
                 prefix = config.prefix,
                 messageLog = config.message_log
-            });
+            };
         }
     }
 }

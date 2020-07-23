@@ -15,11 +15,11 @@ namespace SharpBot.Data
             connection.Open();
             connection.ExecuteAsync($"select add_message('{guildId}', '{modChannelId}', '{userId}', E'{message}', '{dateTime}')");
         }
-        public Task AddMessageAsync(ulong guildId, ulong modChannelId, ulong userId, string message, DateTime dateTime)
+        public async Task AddMessageAsync(ulong guildId, ulong modChannelId, ulong userId, string message, DateTime dateTime)
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();
-            return connection.ExecuteAsync($"select add_message('{guildId}', '{modChannelId}', '{userId}', E'{message}', '{dateTime}')");
+            await connection.ExecuteAsync($"select add_message('{guildId}', '{modChannelId}', '{userId}', E'{message}', '{dateTime}')");
         }
     }
 }

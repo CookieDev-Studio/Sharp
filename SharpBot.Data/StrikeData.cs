@@ -14,11 +14,11 @@ namespace SharpBot.Data
             connection.Open();
             return connection.Query<Strike>($"select * from get_strikes('{guildId}', '{userId}')").ToList();
         }
-        public Task<List<Strike>> GetStrikesAsync(ulong guildId, ulong userId)
+        public async Task<List<Strike>> GetStrikesAsync(ulong guildId, ulong userId)
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();
-            return Task.FromResult(connection.QueryAsync<Strike>($"select * from get_strikes('{guildId}', '{userId}')").Result.ToList());
+            return await Task.FromResult(connection.QueryAsync<Strike>($"select * from get_strikes('{guildId}', '{userId}')").Result.ToList());
         }
 
         public void AddStrike(ulong guildId, ulong userId, ulong modId, string reason, string date)
@@ -27,11 +27,11 @@ namespace SharpBot.Data
             connection.Open();
             connection.Execute($"select add_strike('{guildId}', '{userId}', '{modId}', '{reason}', '{date}')");
         }
-        public Task AddStrikeAsync(ulong guildId, ulong userId, ulong modId, string reason, string date)
+        public async Task AddStrikeAsync(ulong guildId, ulong userId, ulong modId, string reason, string date)
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();
-            return connection.ExecuteAsync($"select add_strike('{guildId}', '{userId}', '{modId}', '{reason}', '{date}')");
+            await connection.ExecuteAsync($"select add_strike('{guildId}', '{userId}', '{modId}', '{reason}', '{date}')");
         }
 
         public void RemoveStrike(int strikeId)
@@ -40,11 +40,11 @@ namespace SharpBot.Data
             connection.Open();
             connection.ExecuteAsync($"select remove_strike({strikeId})");
         }
-        public Task RemoveStrikeAsync(int strikeId)
+        public async Task RemoveStrikeAsync(int strikeId)
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();
-            return connection.ExecuteAsync($"select remove_strike({strikeId})");
+            await connection.ExecuteAsync($"select remove_strike({strikeId})");
         }
 
         public void RemoveAllStrikesFromUser(ulong guildId, ulong userId)
@@ -53,11 +53,11 @@ namespace SharpBot.Data
             connection.Open();
             connection.ExecuteAsync($"select remove_all_strikes('{guildId}', '{userId}')");
         }
-        public Task RemoveAllStrikesFromUserAsync(ulong guildId, ulong userId)
+        public async Task RemoveAllStrikesFromUserAsync(ulong guildId, ulong userId)
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();
-            return connection.ExecuteAsync($"select remove_all_strikes('{guildId}', '{userId}')");
+            await connection.ExecuteAsync($"select remove_all_strikes('{guildId}', '{userId}')");
         }
     }
 }

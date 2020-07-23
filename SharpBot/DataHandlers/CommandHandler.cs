@@ -45,7 +45,7 @@ public class CommandHandler
         int argPos = 0;
        
         // Determine if the message is a command based on the prefix and make sure no bots trigger commands
-        if (message.HasCharPrefix(_guildService.GetPrefixAsync(context.Guild.Id).Result, ref argPos))
+        if (message.HasCharPrefix(await _guildService.GetPrefixAsync(context.Guild.Id), ref argPos))
         {
             // Execute the command with the command context we just
             // created, along with the service provider for precondition checks.
@@ -54,7 +54,7 @@ public class CommandHandler
                 argPos: argPos,
                 services: _services);
         }
-        else if (_guildService.GetMessageLogAsync(context.Guild.Id).Result)
+        else if (await _guildService.GetMessageLogAsync(context.Guild.Id))
             await _messageService.AddMessageAsync(
                 context.Guild.Id,
                 context.Channel.Id,
