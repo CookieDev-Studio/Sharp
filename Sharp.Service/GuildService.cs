@@ -11,7 +11,7 @@ namespace SharpBot.Service
     {
         readonly GuildData _guildData;
         public GuildService(GuildData guildData) => _guildData = guildData;
-        
+
         /// <summary>
         /// Gets the mod channel of a guild
         /// </summary>
@@ -58,6 +58,17 @@ namespace SharpBot.Service
         public Task SetMessageLogAsync(ulong guildId, bool value) => _guildData.SetMessageLogAsync(guildId, value);
 
         /// <summary>
+        /// Adds a new guild config
+        /// </summary>
+        /// <param name="guildId"></param>
+        /// <param name="ModchannelId"></param>
+        /// <param name="prefix"></param>
+        /// <param name="messagelog"></param>
+        public void AddConfig(ulong guildId, ulong ModchannelId, char prefix = '-', bool messagelog = false)
+            => _guildData.AddConfig(guildId, ModchannelId, prefix, messagelog);
+        public Task AddConfigAsync(ulong guildId, ulong ModchannelId, char prefix = '-', bool messagelog = false)
+            => _guildData.AddConfigAsync(guildId, ModchannelId, prefix, messagelog);
+        /// <summary>
         /// Gets the whole config of a guild
         /// </summary>
         /// <param name="guildId"></param>
@@ -84,5 +95,7 @@ namespace SharpBot.Service
                 MessageLog = config.message_log
             };
         }
+
+        
     }
 }

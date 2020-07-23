@@ -5,7 +5,7 @@
     /// </summary>
     public struct Config
     {
-        public string? mod_Channel_Id;
+        public string mod_Channel_Id;
         public char prefix;
         public bool message_log;
     }

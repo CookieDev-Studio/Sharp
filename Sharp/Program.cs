@@ -42,7 +42,8 @@ class Program
             .AddSingleton<CommandExtentions>()
             .BuildServiceProvider();
 
-        var commandHandler = new CommandHandler(_client, _commands, _services.GetService<GuildService>(), _services.GetService<MessageService>(), _services);
+        new CommandHandler(_client, _commands, _services.GetService<GuildService>(), _services.GetService<MessageService>(), _services);
+        new EventHandler(_client, _services.GetService<StrikeService>(), _services.GetService<GuildService>());
 
         await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
 
@@ -59,14 +60,7 @@ class Program
     /// <returns>The token.</returns>
     public async Task<string> GetToken()
     {
-        try { return File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "token.txt")); }
-        catch
-        {
-            Console.WriteLine("Enter TOKEN:");
-            string token = Console.ReadLine();
-            await File.WriteAllTextAsync(Path.Combine(Directory.GetCurrentDirectory(), "token.txt"), token);
-            return token;
-        }
+        return await File.ReadAllTextAsync(Path.Combine(Directory.GetCurrentDirectory(), "token.txt"));
     }
 
     /// <summary>
