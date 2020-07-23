@@ -15,14 +15,14 @@ namespace SharpBot.Service
             _guildData = guildData;
         }
             
-        public ulong GetModChannel(ulong guildId) => GetConfig(guildId).modChannelId;
-        public Task<ulong> GetModChannelAsync(ulong guildId) => Task.FromResult(GetConfigAsync(guildId).Result.modChannelId);
+        public ulong GetModChannel(ulong guildId) => GetConfig(guildId).ModChannelId;
+        public Task<ulong> GetModChannelAsync(ulong guildId) => Task.FromResult(GetConfigAsync(guildId).Result.ModChannelId);
 
-        public char GetPrefix(ulong guildId) => GetConfig(guildId).prefix;
-        public Task<char> GetPrefixAsync(ulong guildId) => Task.FromResult(GetConfigAsync(guildId).Result.prefix);
+        public char GetPrefix(ulong guildId) => GetConfig(guildId).Prefix;
+        public Task<char> GetPrefixAsync(ulong guildId) => Task.FromResult(GetConfigAsync(guildId).Result.Prefix);
 
-        public bool GetMessageLog(ulong guildId) => GetConfig(guildId).messageLog;
-        public Task<bool> GetMessageLogAsync(ulong guildId) => Task.FromResult(GetConfigAsync(guildId).Result.messageLog);
+        public bool GetMessageLog(ulong guildId) => GetConfig(guildId).MessageLog;
+        public Task<bool> GetMessageLogAsync(ulong guildId) => Task.FromResult(GetConfigAsync(guildId).Result.MessageLog);
 
         public void SetModChannel(ulong guildId, ulong channelId) => _guildData.SetModChannel(guildId, channelId);
         public Task SetModChannelAsync(ulong guildId, ulong channelId) => _guildData.SetModChannelAsync(guildId, channelId);
@@ -39,9 +39,9 @@ namespace SharpBot.Service
 
             return new Config()
             {
-                modChannelId = ulong.Parse(config.mod_Channel_Id),
-                prefix = config.prefix,
-                messageLog = config.message_log
+                ModChannelId = ulong.Parse(config.mod_Channel_Id),
+                Prefix = config.prefix,
+                MessageLog = config.message_log
             };
         }
         public async Task<Config> GetConfigAsync(ulong guildId)
@@ -50,9 +50,9 @@ namespace SharpBot.Service
 
             return new Config()
             {
-                modChannelId = ulong.Parse(config.mod_Channel_Id),
-                prefix = config.prefix,
-                messageLog = config.message_log
+                ModChannelId = ulong.Parse(config.mod_Channel_Id),
+                Prefix = config.prefix,
+                MessageLog = config.message_log
             };
         }
     }
