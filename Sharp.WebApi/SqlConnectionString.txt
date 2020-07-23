@@ -1,0 +1,1 @@
+Host=ec2-34-197-188-147.compute-1.amazonaws.com;Username=yirqgdlrflgpdz;Password=f7892cbbf7eb6ee80f5201639f54fed82addf4e8672047c2964d4dee98f991f5;Database=davgjpf52pod7v;sslmode=Require;Trust Server Certificate=true
