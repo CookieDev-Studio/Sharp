@@ -11,11 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SharpBot.Service\SharpBot.Service.csproj" />
+    <Folder Include="Models\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
+    <ProjectReference Include="..\Sharp.Service\Sharp.Service.csproj" />
   </ItemGroup>
 
 </Project>

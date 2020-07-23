@@ -1,11 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SharpBot.Data\SharpBot.Data.csproj" />
+    <ProjectReference Include="..\Sharp.Data\Sharp.Data.csproj" />
   </ItemGroup>
 
 </Project>
