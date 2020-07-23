@@ -1,9 +1,11 @@
 # Sharp
 
 ## Table of contents
-* [Introduction](#introduction
+* [Introduction](#introduction)
 * [Technologies](#technologies)
 * [Setup](#setup)
+* [Notes](#some-notes)
+* [Upcoming](#upcoming)
 
 ## Introduction
 Sharp is a moderation bot for Discord. Sharp includes functionality for assigning strikes to unruly users and customizing what prefix your commands use (ex. '-' or '/').
