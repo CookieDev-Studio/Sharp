@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sharp.Service", "Sharp.Serv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sharp.Api", "Sharp.Api\Sharp.Api.csproj", "{38B708B6-884A-47EA-930F-6A8A1EC75CCE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sharp.Web", "Sharp.Web\Sharp.Web.csproj", "{F2284652-836E-4B61-A4A7-3FD8DCF1031F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{38B708B6-884A-47EA-930F-6A8A1EC75CCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38B708B6-884A-47EA-930F-6A8A1EC75CCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38B708B6-884A-47EA-930F-6A8A1EC75CCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2284652-836E-4B61-A4A7-3FD8DCF1031F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2284652-836E-4B61-A4A7-3FD8DCF1031F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2284652-836E-4B61-A4A7-3FD8DCF1031F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2284652-836E-4B61-A4A7-3FD8DCF1031F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
