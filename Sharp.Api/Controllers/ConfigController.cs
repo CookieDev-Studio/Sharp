@@ -27,6 +27,15 @@ namespace WebApiTest.Controllers
             return Ok(_guildService.GetConfig(guildId));
         }
 
+        [HttpGet]
+        public ActionResult<List<Config>> GetConfigs(string token)
+        {
+            // call discord api with token to get list of servers user is in (with token)
+            // call discord api to get list of servers BOT is in
+            // filter the two lists to get what servers the user AND the bot are in
+            // send filtered list to client with info the client needs
+        }
+
         [HttpPut("modchannel/{guildId}/{modchannelId}")]
         public ActionResult SetModChannel(ulong guildId, ulong modChannelId)
         {

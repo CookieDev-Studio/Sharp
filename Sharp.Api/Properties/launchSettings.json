@@ -11,14 +11,13 @@
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
-      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "Sharp.WebApi": {
       "commandName": "Executable",
-      "executablePath": "C:\\Users\\Cameron\\source\\repos\\Sharp\\Sharp.WebApi\\bin\\Debug\\netcoreapp3.1\\Sharp.WebApi.exe"
+      "executablePath": "C:\\Dev\\CookieDev\\Sharp\\Sharp.Api\\bin\\Debug\\netcoreapp3.1\\Sharp.Api.exe"
     }
   }
 }

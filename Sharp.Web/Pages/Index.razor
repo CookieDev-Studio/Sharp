@@ -1,7 +1,87 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.WebUtilities
+@using System.Collections.Generic
+@using Sharp.Web.Models
+@using Newtonsoft.Json
+@using System.Net.Http.Headers
+@inject NavigationManager NavigationManager
 
-<h1>Hello, world!</h1>
+<h1>Sharp</h1>
 
-Welcome to your new app.
+<a href="https://discord.com/api/oauth2/authorize?client_id=736003162972094494&redirect_uri=https://localhost:44322&response_type=code&scope=identify" class="btn btn-outline-primary">Log In</a>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@if (!string.IsNullOrWhiteSpace(Code))
+{
+    <p>Code: @Code</p>
+}
+
+@if (Auth != null)
+{
+    <p>Access Token: @Auth.AccessToken</p>
+    <p>Refresh Token: @Auth.RefreshToken</p>
+    <p>Expires: @Auth.ExpiresIn</p>
+    <p>Token Type: @Auth.TokenType</p>
+}
+
+@if (UserInfo !=null)
+{
+    <p>@UserInfo</p>
+}
+
+@code {
+    public string Code { get; set; }
+
+    public DiscordAuth Auth { get; set; }
+
+    public string UserInfo { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var query = new Uri(NavigationManager.Uri).Query;
+
+        if (QueryHelpers.ParseQuery(query).TryGetValue("code", out var value))
+        {
+            Code = value;
+        }
+
+        if (string.IsNullOrWhiteSpace(Code)) return;
+
+        var client = new HttpClient();
+
+
+        var values = new Dictionary<string, string>
+        {
+            { "client_id", "736003162972094494" },
+            { "grant_type", "authorization_code" },
+            { "code", Code },
+            { "redirect_uri", "https://localhost:44322" },
+            { "client_secret", PUT_CLIENT_SECRET_HERE }
+        };
+
+        var content = new FormUrlEncodedContent(values);
+
+        var response = await client.PostAsync("https://discordapp.com/api/oauth2/token", content);
+
+        var authResponse = JsonConvert.DeserializeObject<DiscordAuth>(await response.Content.ReadAsStringAsync());
+
+        Auth = authResponse;
+
+        UserInfo = await GetUserInfo();
+    }
+
+    private async Task<string> GetUserInfo()
+    {
+        var client = new HttpClient();
+
+        client.DefaultRequestHeaders.Authorization
+                         = new AuthenticationHeaderValue("Bearer", Auth.AccessToken);
+
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
+
+        var url = "https://discordapp.com/api/users/@me/guilds";
+
+        var response = await client.GetAsync(url);
+
+        return await response.Content.ReadAsStringAsync();
+    }
+}
