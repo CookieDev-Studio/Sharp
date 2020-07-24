@@ -8,7 +8,8 @@ namespace SharpBot.Data
     {
         public static NpgsqlConnection GetConnection()
         {
-            string connectionString = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "SqlConnectionString.txt"));
+            string connectionString = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "SqlConnectionString.txt"));
+            //string connectionString = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "SqlConnectionString.txt"));
             return new NpgsqlConnection(connectionString);
         }
     }
