@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 using SharpBot.Data;
 using SharpBot.Service;
 
-namespace WebApiTest
+namespace SharpApi
 {
     public class Startup
     {

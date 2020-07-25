@@ -95,7 +95,5 @@ namespace SharpBot.Service
                 MessageLog = config.message_log
             };
         }
-
-        
     }
 }

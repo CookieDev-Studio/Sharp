@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using SharpBot.Service;
 using Npgsql;
 
-namespace WebApiTest.Controllers
+namespace SharpApi.Controllers
 {
     [Route("[controller]")]
     [ApiController]
