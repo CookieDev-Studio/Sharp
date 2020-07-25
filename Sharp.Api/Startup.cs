@@ -10,8 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using SharpBot.Data;
-using SharpBot.Service;
+using Sharp.Data;
+using Sharp.Service;
 
 namespace SharpApi
 {

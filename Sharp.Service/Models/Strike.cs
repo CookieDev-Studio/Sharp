@@ -1,4 +1,4 @@
-﻿namespace SharpBot.Service
+﻿namespace Sharp.Service
 {
     /// <summary>
     /// Data class storing Strike data.

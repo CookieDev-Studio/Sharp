@@ -1,10 +1,10 @@
-﻿using SharpBot.Data;
+﻿using Sharp.Data;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpBot.Service
+namespace Sharp.Service
 {
     public class MessageService
     {

@@ -1,9 +1,9 @@
-﻿using SharpBot.Service;
+﻿using Sharp.Service;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
-using SharpBot.Data;
+using Sharp.Data;
 using System;
 using System.IO;
 using System.Reflection;

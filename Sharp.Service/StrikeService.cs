@@ -1,9 +1,9 @@
-﻿using SharpBot.Data;
+﻿using Sharp.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SharpBot.Service
+namespace Sharp.Service
 {
     public class StrikeService
     {

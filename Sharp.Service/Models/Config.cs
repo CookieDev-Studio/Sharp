@@ -1,4 +1,4 @@
-﻿namespace SharpBot.Service
+﻿namespace Sharp.Service
 {
     /// <summary>
     /// Configuration class to store modChannel data.
