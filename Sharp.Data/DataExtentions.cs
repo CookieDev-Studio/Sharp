@@ -5,7 +5,7 @@ using Npgsql;
 
 namespace Sharp.Data
 {
-    internal class DataExtentions
+    public class DataExtentions
     {
         public static NpgsqlConnection GetConnection()
         {
