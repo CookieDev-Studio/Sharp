@@ -8,9 +8,9 @@ namespace Sharp.Service
 {
     public class MessageService
     {
-        readonly MessageData _messageData;
+        readonly IMessageData _messageData;
 
-        public MessageService(MessageData messageData) => _messageData = messageData;
+        public MessageService(IMessageData messageData) => _messageData = messageData;
         
         /// <summary>
         /// Adds a message to the message log
@@ -40,7 +40,7 @@ namespace Sharp.Service
                 dateTime);
         }
 
-        private string FormatMessage(string message, string[] attachments)
+        public string FormatMessage(string message, string[] attachments)
         {
             string formatedMessage = "";
 
