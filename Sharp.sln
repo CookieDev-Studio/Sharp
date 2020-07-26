@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sharp.Service.Tests", "Shar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sharp.Data.Tests", "Sharp.Data.Tests\Sharp.Data.Tests.csproj", "{7B72CAE2-7AEF-4840-B2E2-0981F6F68A68}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Tests", "Unit Tests", "{28B4ACDF-2CDF-469C-9655-38778E6BB268}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,6 +62,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9CC9CA5F-859C-493F-8AC6-82FD2D18CAED} = {28B4ACDF-2CDF-469C-9655-38778E6BB268}
+		{C697D35D-9741-4026-8270-07BF10B696EA} = {28B4ACDF-2CDF-469C-9655-38778E6BB268}
+		{7B72CAE2-7AEF-4840-B2E2-0981F6F68A68} = {28B4ACDF-2CDF-469C-9655-38778E6BB268}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6A727D9A-A8F9-4CB2-9A8F-D3550A0DC082}
