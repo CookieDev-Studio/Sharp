@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Sharp.Data
 {
-    public class GuildData
+    public class GuildData : IGuildData
     {
         public Config GetGuildConfig(ulong guildId)
         {

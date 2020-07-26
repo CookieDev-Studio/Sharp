@@ -38,7 +38,7 @@ class Program
             .AddSingleton<GuildService>()
             .AddSingleton<MessageService>()
             .AddSingleton<MessageData>()
-            .AddSingleton<GuildData>()
+            .AddSingleton<IGuildData>(new GuildData())
             .AddSingleton<CommandExtentions>()
             .BuildServiceProvider();
 

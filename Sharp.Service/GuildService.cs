@@ -9,8 +9,8 @@ namespace Sharp.Service
 {
     public class GuildService
     {
-        readonly GuildData _guildData;
-        public GuildService(GuildData guildData) => _guildData = guildData;
+        readonly IGuildData _guildData;
+        public GuildService(IGuildData guildData) => _guildData = guildData;
 
         /// <summary>
         /// Gets the mod channel of a guild
