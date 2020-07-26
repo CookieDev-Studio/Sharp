@@ -8,7 +8,7 @@ namespace Sharp.Data.Tests
     public class DataExtentionsTest
     {
         [Fact]
-        public void GetConnection_Succesfull()
+        public void GetConnection()
         {
             var conection = DataExtentions.GetConnection();
             Exception exception = null;
