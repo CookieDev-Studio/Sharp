@@ -34,7 +34,7 @@ class Program
             .AddSingleton(_client)
             .AddSingleton(_commands)
             .AddSingleton<StrikeService>()
-            .AddSingleton<StrikeData>()
+            .AddSingleton<IStrikeData>(new StrikeData())
             .AddSingleton<GuildService>()
             .AddSingleton<MessageService>()
             .AddSingleton<MessageData>()

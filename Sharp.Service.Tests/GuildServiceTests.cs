@@ -51,6 +51,7 @@ public class GuildServiceTests
         guildService.SetModChannel(0,0);
 
         mock.Verify(x => x.SetModChannel(0, 0), Times.Exactly(1));
+        mock.Verify(x => x.SetModChannelAsync(0, 0), Times.Never);
     }
     [Fact]
     public void SetModChannelAsync()
@@ -60,6 +61,7 @@ public class GuildServiceTests
 
         guildService.SetModChannelAsync(0, 0);
 
+        mock.Verify(x => x.SetModChannel(0, 0), Times.Never);
         mock.Verify(x => x.SetModChannelAsync(0, 0), Times.Exactly(1));
     }
 
@@ -99,6 +101,7 @@ public class GuildServiceTests
         guildService.SetPrefix(0, '-');
 
         mock.Verify(x => x.SetPrefix(0, '-'), Times.Exactly(1));
+        mock.Verify(x => x.SetPrefixAsync(0, '-'), Times.Never);
     }
     [Fact]
     public void SetPrefixAsync()
@@ -108,6 +111,7 @@ public class GuildServiceTests
 
         guildService.SetPrefixAsync(0, '-');
 
+        mock.Verify(x => x.SetPrefix(0, '-'), Times.Never);
         mock.Verify(x => x.SetPrefixAsync(0, '-'), Times.Exactly(1));
     }
 
@@ -147,6 +151,7 @@ public class GuildServiceTests
         guildService.SetMessageLog(0, false);
 
         mock.Verify(x => x.SetMessageLog(0, false), Times.Exactly(1));
+        mock.Verify(x => x.SetMessageLogAsync(0, false), Times.Never);
     }
     [Fact]
     public void SetMessageLogAsync()
@@ -156,6 +161,7 @@ public class GuildServiceTests
 
         guildService.SetMessageLogAsync(0, false);
 
+        mock.Verify(x => x.SetMessageLog(0, false), Times.Never);
         mock.Verify(x => x.SetMessageLogAsync(0, false), Times.Exactly(1));
     }
 
@@ -211,6 +217,7 @@ public class GuildServiceTests
         guildService.AddConfig(0, 0);
 
         mock.Verify(x => x.AddConfig(0, 0, '-', false), Times.Exactly(1));
+        mock.Verify(x => x.AddConfigAsync(0, 0, '-', false), Times.Never);
     }
     [Fact]
     public void AddConfigAsync()
@@ -220,6 +227,7 @@ public class GuildServiceTests
 
         guildService.AddConfigAsync(0, 0);
 
+        mock.Verify(x => x.AddConfig(0, 0, '-', false), Times.Never);
         mock.Verify(x => x.AddConfigAsync(0, 0, '-', false), Times.Exactly(1));
     }
 }
