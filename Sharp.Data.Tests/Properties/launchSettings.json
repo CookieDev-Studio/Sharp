@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "Sharp.Data.Tests": {
+      "commandName": "Project"
+    }
+  }
+}

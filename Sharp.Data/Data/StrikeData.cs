@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sharp.Data
 {
-    public class StrikeData
+    public class StrikeData : IStrikeData
     {
         public List<Strike> GetStrikes(ulong guildId, ulong userId)
         {

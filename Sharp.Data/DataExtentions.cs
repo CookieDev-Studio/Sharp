@@ -5,7 +5,7 @@ using Npgsql;
 
 namespace Sharp.Data
 {
-    internal class DataExtentions
+    public class DataExtentions
     {
         public static NpgsqlConnection GetConnection()
         {
@@ -17,7 +17,8 @@ namespace Sharp.Data
                 $"Username={dbConnection.Username};" +
                 $"Password={dbConnection.Password};" +
                 $"Database={dbConnection.Database};" +
-                $"sslmode=Require;Trust Server Certificate=true");
+                $"sslmode=Require;" +
+                $"Trust Server Certificate=true");
         }
     }
 }

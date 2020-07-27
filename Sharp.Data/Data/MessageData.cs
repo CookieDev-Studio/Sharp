@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sharp.Data
 {
-    public class MessageData
+    public class MessageData : IMessageData
     {
         public void AddMessage(ulong guildId, ulong modChannelId, ulong userId, string message, DateTime dateTime)
         {

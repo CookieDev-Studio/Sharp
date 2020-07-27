@@ -5,15 +5,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="SqlConnection.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="SqlConnection.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.35" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Npgsql" Version="4.1.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="SqlConnection.json">
+    <Compile Update="Data\MessageData.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Compile>
   </ItemGroup>
 
 </Project>

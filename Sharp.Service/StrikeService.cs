@@ -7,9 +7,9 @@ namespace Sharp.Service
 {
     public class StrikeService
     {
-        readonly StrikeData _strikeData;
+        readonly IStrikeData _strikeData;
 
-        public StrikeService(StrikeData strikeData) => _strikeData = strikeData;
+        public StrikeService(IStrikeData strikeData) => _strikeData = strikeData;
 
         /// <summary>
         /// Adds a strike to a user
@@ -47,7 +47,7 @@ namespace Sharp.Service
         /// <returns></returns>
         public List<Strike> GetStrikes(ulong guildId, ulong userId)
         {
-            return _strikeData.GetStrikesAsync(guildId, userId).Result
+            return _strikeData.GetStrikes(guildId, userId)
                     .Where(x => ulong.Parse(x.guildId) == guildId && ulong.Parse(x.userId) == userId)
                     .Select(x => new Strike()
                     {
