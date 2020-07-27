@@ -30,6 +30,8 @@ namespace SharpApi
             services.AddControllers();
             services.AddSingleton<GuildService>();
             services.AddSingleton<IGuildData>(new GuildData());
+            services.AddSingleton<StrikeService>();
+            services.AddSingleton<GuildData>();
             services.AddCors(); // Make sure you call this previous to AddMvc
         }
 
