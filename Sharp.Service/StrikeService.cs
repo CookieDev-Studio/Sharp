@@ -28,16 +28,16 @@ namespace Sharp.Service
         /// Removes a strike from a user
         /// </summary>
         /// <param name="strikeId"></param>
-        public void RemoveStrike(int strikeId) => _strikeData.RemoveStrike(strikeId);
-        public Task RemoveStrikeAsync(int strikeId) => _strikeData.RemoveStrikeAsync(strikeId);
+        public void RemoveStrike(ulong guildId, int strikeId) => _strikeData.RemoveStrike(guildId, strikeId);
+        public Task RemoveStrikeAsync(ulong guildId, int strikeId) => _strikeData.RemoveStrikeAsync(guildId, strikeId);
 
         /// <summary>
         /// Removes all strikes from the user in the specified guild
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="guildId"></param>
-        public void RemoveAllStrikesFromUser(ulong userId, ulong guildId) => _strikeData.RemoveAllStrikesFromUser(guildId, userId);
-        public Task RemoveAllStrikesFromUserAsync(ulong userId, ulong guildId) => _strikeData.RemoveAllStrikesFromUserAsync(guildId, userId);
+        public void RemoveAllStrikesFromUser(ulong guildId, ulong userId) => _strikeData.RemoveAllStrikesFromUser(guildId, userId);
+        public Task RemoveAllStrikesFromUserAsync(ulong guildId, ulong userId) => _strikeData.RemoveAllStrikesFromUserAsync(guildId, userId);
 
         /// <summary>
         /// Gets all strikes logged against the user for the specified guild
@@ -52,10 +52,10 @@ namespace Sharp.Service
                     .Select(x => new Strike()
                     {
                         Id = x.Id,
-                        user = ulong.Parse(x.userId),
-                        mod = ulong.Parse(x.modId),
-                        reason = x.reason,
-                        date = x.date
+                        User = ulong.Parse(x.userId),
+                        Mod = ulong.Parse(x.modId),
+                        Reason = x.reason,
+                        Date = x.date
                     }).ToList();
         }
         public Task<List<Strike>> GetStrikesAsync(ulong guildId, ulong userId)
@@ -66,10 +66,10 @@ namespace Sharp.Service
                     .Select(x => new Strike() 
                     {
                         Id = x.Id,
-                        user = ulong.Parse(x.userId),
-                        mod = ulong.Parse(x.modId),
-                        reason = x.reason,
-                        date = x.date
+                        User = ulong.Parse(x.userId),
+                        Mod = ulong.Parse(x.modId),
+                        Reason = x.reason,
+                        Date = x.date
                     }).ToList());
         }
     }

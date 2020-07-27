@@ -11,7 +11,7 @@ namespace Sharp.Data
         Task<List<Strike>> GetStrikesAsync(ulong guildId, ulong userId);
         void RemoveAllStrikesFromUser(ulong guildId, ulong userId);
         Task RemoveAllStrikesFromUserAsync(ulong guildId, ulong userId);
-        void RemoveStrike(int strikeId);
-        Task RemoveStrikeAsync(int strikeId);
+        void RemoveStrike(ulong guildId, int strikeId);
+        Task RemoveStrikeAsync(ulong guildId, int strikeId);
     }
 }

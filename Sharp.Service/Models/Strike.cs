@@ -5,11 +5,11 @@
     /// </summary>
     public struct Strike
     {
-        public int Id;
-        public ulong guild;
-        public ulong user;
-        public ulong mod;
-        public string reason;
-        public string date;
+        public int Id { get; set; }
+        public ulong Guild { get; set; }
+        public ulong User { get; set; }
+        public ulong Mod { get; set; }
+        public string Reason { get; set; }
+        public string Date { get; set; }
     }
 }

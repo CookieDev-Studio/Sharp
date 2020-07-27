@@ -82,7 +82,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 			return;
 		}
 
-		await _strikesHandler.RemoveStrikeAsync((int)strikeId);
+		await _strikesHandler.RemoveStrikeAsync(Context.Guild.Id, (int)strikeId);
 		await ReplyAsync("strike removed");
 	}
 
@@ -98,7 +98,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 		}
 
 		await Context.Message.DeleteAsync();
-		await _strikesHandler.RemoveAllStrikesFromUserAsync(user.Id, Context.Guild.Id);
+		await _strikesHandler.RemoveAllStrikesFromUserAsync(Context.Guild.Id, user.Id);
 		await ReplyAsync($"Removed all of {user.Mention}'s strikes");
 	}
 
@@ -112,10 +112,10 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 
 		foreach (var strike in strikes)
 		{
-			message += $"Strike [{strike.date}]:\n";
+			message += $"Strike [{strike.Date}]:\n";
 			message += $"Id: {strike.Id}\n";
-			message += $"Mod: {Context.Guild.GetUser(strike.mod).Mention}\n";
-			message += $"```{(strike.reason != "" ? strike.reason : " ")}```\n";
+			message += $"Mod: {Context.Guild.GetUser(strike.Mod).Mention}\n";
+			message += $"```{(strike.Reason != "" ? strike.Reason : " ")}```\n";
 		}
 
 		message += "-------------------------------------------------------------------------------\n";

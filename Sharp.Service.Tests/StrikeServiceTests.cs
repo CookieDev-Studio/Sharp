@@ -38,10 +38,10 @@ public class StrikeServiceTests
         var mock = new Mock<IStrikeData>();
         var guildService = new StrikeService(mock.Object);
 
-        guildService.RemoveStrike(0);
+        guildService.RemoveStrike(0, 0);
 
-        mock.Verify(x => x.RemoveStrike(0), Times.Exactly(1));
-        mock.Verify(x => x.RemoveStrikeAsync(0), Times.Never);
+        mock.Verify(x => x.RemoveStrike(0, 0), Times.Exactly(1));
+        mock.Verify(x => x.RemoveStrikeAsync(0, 0), Times.Never);
     }
     [Fact]
     public void RemoveStrikeAsync()
@@ -49,10 +49,10 @@ public class StrikeServiceTests
         var mock = new Mock<IStrikeData>();
         var guildService = new StrikeService(mock.Object);
 
-        guildService.RemoveStrikeAsync(0);
+        guildService.RemoveStrikeAsync(0, 0);
 
-        mock.Verify(x => x.RemoveStrike(0), Times.Never);
-        mock.Verify(x => x.RemoveStrikeAsync(0), Times.Exactly(1));
+        mock.Verify(x => x.RemoveStrike(0, 0), Times.Never);
+        mock.Verify(x => x.RemoveStrikeAsync(0, 0), Times.Exactly(1));
     }
 
     [Fact]
@@ -90,11 +90,11 @@ public class StrikeServiceTests
 
         foreach (var item in actual)
         {
-            Assert.Equal<ulong>(123456789123456781, item.guild);
-            Assert.Equal<ulong>(123456789123456782, item.mod);
-            Assert.Equal<ulong>(123456789123456782, item.user);
-            Assert.Equal("sample", item.reason);
-            Assert.Equal("", item.date);
+            Assert.Equal<ulong>(123456789123456781, item.Guild);
+            Assert.Equal<ulong>(123456789123456782, item.Mod);
+            Assert.Equal<ulong>(123456789123456782, item.User);
+            Assert.Equal("sample", item.Reason);
+            Assert.Equal("", item.Date);
             Assert.Equal(1, item.Id);
         }
     }
@@ -111,11 +111,11 @@ public class StrikeServiceTests
 
         foreach (var item in actual.Result)
         {
-            Assert.Equal<ulong>(123456789123456781, item.guild);
-            Assert.Equal<ulong>(123456789123456782, item.mod);
-            Assert.Equal<ulong>(123456789123456782, item.user);
-            Assert.Equal("sample", item.reason);
-            Assert.Equal("", item.date);
+            Assert.Equal<ulong>(123456789123456781, item.Guild);
+            Assert.Equal<ulong>(123456789123456782, item.Mod);
+            Assert.Equal<ulong>(123456789123456782, item.User);
+            Assert.Equal("sample", item.Reason);
+            Assert.Equal("", item.Date);
             Assert.Equal(1, item.Id);
         }
     }
