@@ -18,7 +18,7 @@ public class GuildServiceTests
     [Fact]
     public void GetModChannel()
     {
-        var mock = new Mock<IGuildData>();
+        var mock = new Mock<IGuildData>(MockBehavior.Strict);
         mock.Setup(x => x.GetGuildConfig(0)).Returns(testConfig);
 
         var guildService = new GuildService(mock.Object);
@@ -31,7 +31,7 @@ public class GuildServiceTests
     [Fact]
     public void GetModChannelAsync()
     {
-        var mock = new Mock<IGuildData>();
+        var mock = new Mock<IGuildData>(MockBehavior.Strict);
         mock.Setup(x => x.GetGuildConfigAsync(0)).Returns(Task.FromResult(testConfig));
 
         var guildService = new GuildService(mock.Object);
@@ -45,30 +45,30 @@ public class GuildServiceTests
     [Fact]
     public void SetModChannel()
     {
-        var mock = new Mock<IGuildData>();
+        var mock = new Mock<IGuildData>(MockBehavior.Strict);
+        mock.Setup(x => x.SetModChannel(1, 2));
         var guildService = new GuildService(mock.Object);
 
-        guildService.SetModChannel(0,0);
+        guildService.SetModChannel(1, 2);
 
-        mock.Verify(x => x.SetModChannel(0, 0), Times.Exactly(1));
-        mock.Verify(x => x.SetModChannelAsync(0, 0), Times.Never);
+        mock.Verify(x => x.SetModChannel(1, 2), Times.Exactly(1));
     }
     [Fact]
     public void SetModChannelAsync()
     {
-        var mock = new Mock<IGuildData>();
+        var mock = new Mock<IGuildData>(MockBehavior.Strict);
+        mock.Setup(x => x.SetModChannelAsync(1, 2)).Returns(Task.CompletedTask);
         var guildService = new GuildService(mock.Object);
 
-        guildService.SetModChannelAsync(0, 0);
+        guildService.SetModChannelAsync(1, 2);
 
-        mock.Verify(x => x.SetModChannel(0, 0), Times.Never);
-        mock.Verify(x => x.SetModChannelAsync(0, 0), Times.Exactly(1));
+        mock.Verify(x => x.SetModChannelAsync(1, 2), Times.Exactly(1));
     }
 
     [Fact]
     public void GetPrefix()
     {
-        var mock = new Mock<IGuildData>();
+        var mock = new Mock<IGuildData>(MockBehavior.Strict);
         mock.Setup(x => x.GetGuildConfig(0)).Returns(testConfig);
 
         var guildService = new GuildService(mock.Object);
@@ -81,7 +81,7 @@ public class GuildServiceTests
     [Fact]
     public void GetPrefixAsync()
     {
-        var mock = new Mock<IGuildData>();
+        var mock = new Mock<IGuildData>(MockBehavior.Strict);
         mock.Setup(x => x.GetGuildConfigAsync(0)).Returns(Task.FromResult(testConfig));
 
         var guildService = new GuildService(mock.Object);
@@ -95,30 +95,30 @@ public class GuildServiceTests
     [Fact]
     public void SetPrefix()
     {
-        var mock = new Mock<IGuildData>();
+        var mock = new Mock<IGuildData>(MockBehavior.Strict);
+        mock.Setup(x => x.SetPrefix(1, '-'));
         var guildService = new GuildService(mock.Object);
 
-        guildService.SetPrefix(0, '-');
+        guildService.SetPrefix(1, '-');
 
-        mock.Verify(x => x.SetPrefix(0, '-'), Times.Exactly(1));
-        mock.Verify(x => x.SetPrefixAsync(0, '-'), Times.Never);
+        mock.Verify(x => x.SetPrefix(1, '-'), Times.Exactly(1));
     }
     [Fact]
     public void SetPrefixAsync()
     {
-        var mock = new Mock<IGuildData>();
+        var mock = new Mock<IGuildData>(MockBehavior.Strict);
+        mock.Setup(x => x.SetPrefixAsync(1, '-')).Returns(Task.FromResult(testConfig));
         var guildService = new GuildService(mock.Object);
 
-        guildService.SetPrefixAsync(0, '-');
+        guildService.SetPrefixAsync(1, '-');
 
-        mock.Verify(x => x.SetPrefix(0, '-'), Times.Never);
-        mock.Verify(x => x.SetPrefixAsync(0, '-'), Times.Exactly(1));
+        mock.Verify(x => x.SetPrefixAsync(1, '-'), Times.Exactly(1));
     }
 
     [Fact]
     public void GetMessageLog()
     {
-        var mock = new Mock<IGuildData>();
+        var mock = new Mock<IGuildData>(MockBehavior.Strict);
         mock.Setup(x => x.GetGuildConfig(0)).Returns(testConfig);
 
         var guildService = new GuildService(mock.Object);
@@ -131,7 +131,7 @@ public class GuildServiceTests
     [Fact]
     public void GetMessageLogAsync()
     {
-        var mock = new Mock<IGuildData>();
+        var mock = new Mock<IGuildData>(MockBehavior.Strict);
         mock.Setup(x => x.GetGuildConfigAsync(0)).Returns(Task.FromResult(testConfig));
 
         var guildService = new GuildService(mock.Object);
@@ -145,30 +145,30 @@ public class GuildServiceTests
     [Fact]
     public void SetMessageLog()
     {
-        var mock = new Mock<IGuildData>();
+        var mock = new Mock<IGuildData>(MockBehavior.Strict);
+        mock.Setup(x => x.SetMessageLog(1, false));
         var guildService = new GuildService(mock.Object);
 
-        guildService.SetMessageLog(0, false);
+        guildService.SetMessageLog(1, false);
 
-        mock.Verify(x => x.SetMessageLog(0, false), Times.Exactly(1));
-        mock.Verify(x => x.SetMessageLogAsync(0, false), Times.Never);
+        mock.Verify(x => x.SetMessageLog(1, false), Times.Exactly(1));
     }
     [Fact]
     public void SetMessageLogAsync()
     {
-        var mock = new Mock<IGuildData>();
+        var mock = new Mock<IGuildData>(MockBehavior.Strict);
+        mock.Setup(x => x.SetMessageLogAsync(1, false)).Returns(Task.CompletedTask);
         var guildService = new GuildService(mock.Object);
 
-        guildService.SetMessageLogAsync(0, false);
+        guildService.SetMessageLogAsync(1, false);
 
-        mock.Verify(x => x.SetMessageLog(0, false), Times.Never);
-        mock.Verify(x => x.SetMessageLogAsync(0, false), Times.Exactly(1));
+        mock.Verify(x => x.SetMessageLogAsync(1, false), Times.Exactly(1));
     }
 
     [Fact]
     public void GetConfig()
     {
-        var mock = new Mock<IGuildData>();
+        var mock = new Mock<IGuildData>(MockBehavior.Strict);
         mock.Setup(x => x.GetGuildConfig(0)).Returns(testConfig);
 
         var guildService = new GuildService(mock.Object);
@@ -186,7 +186,7 @@ public class GuildServiceTests
     [Fact]
     public void GetConfigAsync()
     {
-        var mock = new Mock<IGuildData>();
+        var mock = new Mock<IGuildData>(MockBehavior.Strict);
         mock.Setup(x => x.GetGuildConfigAsync(0)).Returns(
             Task.FromResult(new Sharp.Data.Config()
             {
@@ -211,23 +211,41 @@ public class GuildServiceTests
     [Fact]
     public void AddConfig()
     {
-        var mock = new Mock<IGuildData>();
+        var mock = new Mock<IGuildData>(MockBehavior.Strict);
+        mock.Setup(x => x.AddConfig(1, 2, '-', false));
+        mock.Setup(x => x.AddConfig(1, 2, '!', false));
+        mock.Setup(x => x.AddConfig(1, 2, '-', true));
+        mock.Setup(x => x.AddConfig(1, 2, '?', true));
         var guildService = new GuildService(mock.Object);
 
-        guildService.AddConfig(0, 0);
+        guildService.AddConfig(1, 2);
+        guildService.AddConfig(1, 2, prefix: '!');
+        guildService.AddConfig(1, 2, messagelog: true);
+        guildService.AddConfig(1, 2, prefix: '?', true);
 
-        mock.Verify(x => x.AddConfig(0, 0, '-', false), Times.Exactly(1));
-        mock.Verify(x => x.AddConfigAsync(0, 0, '-', false), Times.Never);
+        mock.Verify(x => x.AddConfig(1, 2, '-', false), Times.Exactly(1));
+        mock.Verify(x => x.AddConfig(1, 2, '!', false), Times.Exactly(1));
+        mock.Verify(x => x.AddConfig(1, 2, '-', true), Times.Exactly(1));
+        mock.Verify(x => x.AddConfig(1, 2, '?', true), Times.Exactly(1));
     }
     [Fact]
     public void AddConfigAsync()
     {
-        var mock = new Mock<IGuildData>();
+        var mock = new Mock<IGuildData>(MockBehavior.Strict);
+        mock.Setup(x => x.AddConfigAsync(1, 2, '-', false)).Returns(Task.CompletedTask);
+        mock.Setup(x => x.AddConfigAsync(1, 2, '!', false)).Returns(Task.CompletedTask);
+        mock.Setup(x => x.AddConfigAsync(1, 2, '-', true)).Returns(Task.CompletedTask);
+        mock.Setup(x => x.AddConfigAsync(1, 2, '?', true)).Returns(Task.CompletedTask);
         var guildService = new GuildService(mock.Object);
 
-        guildService.AddConfigAsync(0, 0);
+        guildService.AddConfigAsync(1, 2);
+        guildService.AddConfigAsync(1, 2, prefix: '!');
+        guildService.AddConfigAsync(1, 2, messagelog: true);
+        guildService.AddConfigAsync(1, 2, prefix: '?', true);
 
-        mock.Verify(x => x.AddConfig(0, 0, '-', false), Times.Never);
-        mock.Verify(x => x.AddConfigAsync(0, 0, '-', false), Times.Exactly(1));
+        mock.Verify(x => x.AddConfigAsync(1, 2, '-', false), Times.Exactly(1));
+        mock.Verify(x => x.AddConfigAsync(1, 2, '!', false), Times.Exactly(1));
+        mock.Verify(x => x.AddConfigAsync(1, 2, '-', true), Times.Exactly(1));
+        mock.Verify(x => x.AddConfigAsync(1, 2, '?', true), Times.Exactly(1));
     }
 }

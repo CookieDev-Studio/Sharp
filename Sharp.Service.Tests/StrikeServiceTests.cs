@@ -12,70 +12,70 @@ public class StrikeServiceTests
     [Fact]
     public void AddStrike()
     {
-        var mock = new Mock<IStrikeData>();
+        var mock = new Mock<IStrikeData>(MockBehavior.Strict);
+        mock.Setup(x => x.AddStrike(1, 2, 3, "reason", "date"));
         var guildService = new StrikeService(mock.Object);
 
-        guildService.AddStrike(0,0,0,"","");
+        guildService.AddStrike(1, 2, 3, "reason", "date");
 
-        mock.Verify(x => x.AddStrike(0, 0, 0, "", ""), Times.Exactly(1));
-        mock.Verify(x => x.AddStrikeAsync(0, 0, 0, "", ""), Times.Never);
+        mock.Verify(x => x.AddStrike(1, 2, 3, "reason", "date"), Times.Exactly(1));
     }
     [Fact]
     public void AddStrikeAsync()
     {
-        var mock = new Mock<IStrikeData>();
+        var mock = new Mock<IStrikeData>(MockBehavior.Strict);
+        mock.Setup(x => x.AddStrikeAsync(1, 2, 3, "reason", "date")).Returns(Task.CompletedTask);
         var guildService = new StrikeService(mock.Object);
 
-        guildService.AddStrikeAsync(0, 0, 0, "", "");
+        guildService.AddStrikeAsync(1, 2, 3, "reason", "date");
 
-        mock.Verify(x => x.AddStrike(0, 0, 0, "", ""), Times.Never);
-        mock.Verify(x => x.AddStrikeAsync(0, 0, 0, "", ""), Times.Exactly(1));
+        mock.Verify(x => x.AddStrikeAsync(1, 2, 3, "reason", "date"), Times.Exactly(1));
     }
 
     [Fact]
     public void RemoveStrike()
     {
-        var mock = new Mock<IStrikeData>();
+        var mock = new Mock<IStrikeData>(MockBehavior.Strict);
+        mock.Setup(x => x.RemoveStrike(1, 2));
         var guildService = new StrikeService(mock.Object);
 
-        guildService.RemoveStrike(0, 0);
+        guildService.RemoveStrike(1, 2);
 
-        mock.Verify(x => x.RemoveStrike(0, 0), Times.Exactly(1));
-        mock.Verify(x => x.RemoveStrikeAsync(0, 0), Times.Never);
+        mock.Verify(x => x.RemoveStrike(1, 2), Times.Exactly(1));
     }
     [Fact]
     public void RemoveStrikeAsync()
     {
-        var mock = new Mock<IStrikeData>();
+        var mock = new Mock<IStrikeData>(MockBehavior.Strict);
+        mock.Setup(x => x.RemoveStrikeAsync(1, 2)).Returns(Task.CompletedTask);
         var guildService = new StrikeService(mock.Object);
 
-        guildService.RemoveStrikeAsync(0, 0);
+        guildService.RemoveStrikeAsync(1, 2);
 
-        mock.Verify(x => x.RemoveStrike(0, 0), Times.Never);
-        mock.Verify(x => x.RemoveStrikeAsync(0, 0), Times.Exactly(1));
+        mock.Verify(x => x.RemoveStrikeAsync(1, 2), Times.Exactly(1));
     }
 
     [Fact]
-    public void RemoveAllStrikes()
+    public void RemoveAllStrikesFromUser()
     {
-        var mock = new Mock<IStrikeData>();
+        var mock = new Mock<IStrikeData>(MockBehavior.Strict);
+        mock.Setup(x => x.RemoveAllStrikesFromUser(1, 2));
         var guildService = new StrikeService(mock.Object);
 
-        guildService.RemoveAllStrikesFromUser(0, 0);
+        guildService.RemoveAllStrikesFromUser(1, 2);
 
-        mock.Verify(x => x.RemoveAllStrikesFromUser(0, 0), Times.Exactly(1));
-        mock.Verify(x => x.RemoveAllStrikesFromUserAsync(0, 0), Times.Never);
+        mock.Verify(x => x.RemoveAllStrikesFromUser(1, 2), Times.Exactly(1));
     }
     [Fact]
     public void RemoveAllStrikesAsync()
     {
-        var mock = new Mock<IStrikeData>();
+        var mock = new Mock<IStrikeData>(MockBehavior.Strict);
+        mock.Setup(x => x.RemoveAllStrikesFromUserAsync(1, 2)).Returns(Task.CompletedTask);
         var guildService = new StrikeService(mock.Object);
 
-        guildService.RemoveAllStrikesFromUserAsync(0, 0);
+        guildService.RemoveAllStrikesFromUserAsync(1, 2);
 
-        mock.Verify(x => x.RemoveAllStrikesFromUser(0, 0), Times.Never);
-        mock.Verify(x => x.RemoveAllStrikesFromUserAsync(0, 0), Times.Exactly(1));
+        mock.Verify(x => x.RemoveAllStrikesFromUserAsync(1, 2), Times.Exactly(1));
     }
 
     [Fact]
@@ -88,14 +88,14 @@ public class StrikeServiceTests
 
         var actual = StrikeService.GetStrikes(0, 0);
 
-        foreach (var item in actual)
+        for (int i = 0; i < actual.Count; i++)
         {
-            Assert.Equal<ulong>(123456789123456781, item.Guild);
-            Assert.Equal<ulong>(123456789123456782, item.Mod);
-            Assert.Equal<ulong>(123456789123456782, item.User);
-            Assert.Equal("sample", item.Reason);
-            Assert.Equal("", item.Date);
-            Assert.Equal(1, item.Id);
+            Assert.Equal(1 * ((ulong)i + 1), actual[i].Guild);
+            Assert.Equal(2 * ((ulong)i + 1), actual[i].Mod);
+            Assert.Equal(3 * ((ulong)i + 1), actual[i].User);
+            Assert.Equal($"reason{1 * (i + 1)}", actual[i].Reason);
+            Assert.Equal($"date{1 * (i + 1)}", actual[i].Date);
+            Assert.Equal(10 * (i + 1), actual[i].Id);
         }
     }
 
@@ -107,16 +107,16 @@ public class StrikeServiceTests
 
         var StrikeService = new StrikeService(mock.Object);
 
-        var actual = StrikeService.GetStrikesAsync(0, 0);
+        var actual = StrikeService.GetStrikesAsync(0, 0).Result;
 
-        foreach (var item in actual.Result)
+        for (int i = 0; i < actual.Count; i++)
         {
-            Assert.Equal<ulong>(123456789123456781, item.Guild);
-            Assert.Equal<ulong>(123456789123456782, item.Mod);
-            Assert.Equal<ulong>(123456789123456782, item.User);
-            Assert.Equal("sample", item.Reason);
-            Assert.Equal("", item.Date);
-            Assert.Equal(1, item.Id);
+            Assert.Equal(1 * ((ulong)i + 1), actual[i].Guild);
+            Assert.Equal(2 * ((ulong)i + 1), actual[i].Mod);
+            Assert.Equal(3 * ((ulong)i + 1), actual[i].User);
+            Assert.Equal($"reason{1 * (i + 1)}", actual[i].Reason);
+            Assert.Equal($"date{1 * (i + 1)}", actual[i].Date);
+            Assert.Equal(10 * (i + 1), actual[i].Id);
         }
     }
 
@@ -126,31 +126,22 @@ public class StrikeServiceTests
         {
             new Sharp.Data.Strike()
             {
-                guildId = "123456789123456781",
-                modId = "123456789123456782",
-                userId = "123456789123456783",
-                reason = "sample",
-                date = "",
-                Id = 1
+                guildId = "1",
+                modId = "2",
+                userId = "3",
+                reason = "reason1",
+                date = "date1",
+                Id = 10
             },
             new Sharp.Data.Strike()
             {
-                guildId = "123456789123456781",
-                modId = "123456789123456782",
-                userId = "123456789123456783",
-                reason = "sample",
-                date = "",
-                Id = 1
+                guildId = "2",
+                modId = "4",
+                userId = "6",
+                reason = "reason2",
+                date = "date2",
+                Id = 20
             },
-            new Sharp.Data.Strike()
-            {
-                guildId = "123456789123456781",
-                modId = "123456789123456782",
-                userId = "123456789123456783",
-                reason = "sample",
-                date = "",
-                Id = 1
-            }
         };
     }
 }
