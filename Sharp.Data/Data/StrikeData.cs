@@ -44,7 +44,7 @@ namespace Sharp.Data
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();
-            await connection.ExecuteAsync($"select remove_strike({strikeId})");
+            await connection.ExecuteAsync($"select remove_strike('{guildId}', {strikeId})");
         }
 
         public void RemoveAllStrikesFromUser(ulong guildId, ulong userId)

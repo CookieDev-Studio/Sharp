@@ -3,7 +3,6 @@ using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Sharp.Data
@@ -14,12 +13,13 @@ namespace Sharp.Data
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();
-            var a = connection.Query<Message>($"SELECT * FROM message WHERE guild_id = '{guildId}'").ToList();
             return connection.Query<Message>($"SELECT * FROM message WHERE guild_id = '{guildId}'").ToList();
         }
-        public Task<List<Message>> GetMessagesAsync(ulong guildId)
+        public async Task<List<Message>> GetMessagesAsync(ulong guildId)
         {
-            throw new NotImplementedException();
+            using var connection = DataExtentions.GetConnection();
+            connection.Open();
+            return await Task.FromResult(connection.QueryAsync<Message>($"SELECT * FROM message WHERE guild_id = '{guildId}'").Result.ToList());
         }
 
         public void AddMessage(ulong guildId, ulong modChannelId, ulong userId, string message, DateTime dateTime)
@@ -34,9 +34,5 @@ namespace Sharp.Data
             connection.Open();
             await connection.ExecuteAsync($"select add_message('{guildId}', '{modChannelId}', '{userId}', E'{message}', '{dateTime}')");
         }
-
-       
-
-        
     }
 }

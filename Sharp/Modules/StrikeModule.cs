@@ -81,7 +81,6 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 			await ReplyAsync("Strike id not specified");
 			return;
 		}
-
 		await _strikesHandler.RemoveStrikeAsync(Context.Guild.Id, (int)strikeId);
 		await ReplyAsync("strike removed");
 	}
