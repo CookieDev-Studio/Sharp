@@ -1,6 +1,7 @@
 ﻿using Sharp.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +13,29 @@ namespace Sharp.Service
 
         public MessageService(IMessageData messageData) => _messageData = messageData;
         
+        public List<Message> GetMessages(ulong guildId)
+        {
+            return _messageData.GetMessages(guildId).Select(x => new Message()
+            {
+                GuildId = ulong.Parse(x.guild_id),
+                ChannelId = ulong.Parse(x.channel_id),
+                UserId = ulong.Parse(x.user_id),
+                message = x.message,
+                Date = x.date_time
+            }).ToList();
+        }
+        public Task<List<Message>> GetMessagesAsync(ulong guildId)
+        {
+            return Task.FromResult(_messageData.GetMessagesAsync(guildId).Result.Select(x => new Message()
+            {
+                GuildId = ulong.Parse(x.guild_id),
+                ChannelId = ulong.Parse(x.channel_id),
+                UserId = ulong.Parse(x.user_id),
+                message = x.message,
+                Date = x.date_time
+            }).ToList());
+        }
+
         /// <summary>
         /// Adds a message to the message log
         /// </summary>

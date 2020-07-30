@@ -42,13 +42,14 @@ public class GuildModule : ModuleBase<SocketCommandContext>
 		await _guildService.SetPrefixAsync(Context.Guild.Id, (char)prefix);
 		await ReplyAsync($"prefix set to {prefix}");
 	}
+	
 	/*
 	[Command("enable messagelog")]
 	[Summary("enables the message log")]
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
 	public async Task EnableMessageLog()
 	{
-		await _config.SetMessageLog(Context.Guild.Id, true);
+		await _guildService.SetMessageLogAsync(Context.Guild.Id, true);
         await ReplyAsync($"Message log enabled");
 	}
 
@@ -57,7 +58,7 @@ public class GuildModule : ModuleBase<SocketCommandContext>
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
 	public async Task DisableMessageLog()
 	{
-		await _config.SetMessageLog(Context.Guild.Id, false);
+		await _guildService.SetMessageLogAsync(Context.Guild.Id, false);
 		await ReplyAsync($"Message log disabled");
 	}
 	*/

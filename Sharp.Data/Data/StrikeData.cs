@@ -34,17 +34,17 @@ namespace Sharp.Data
             await connection.ExecuteAsync($"select add_strike('{guildId}', '{userId}', '{modId}', '{reason}', '{date}')");
         }
 
-        public void RemoveStrike(int strikeId)
+        public void RemoveStrike(ulong guildId, int strikeId)
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();
-            connection.ExecuteAsync($"select remove_strike({strikeId})");
+            connection.ExecuteAsync($"select remove_strike('{guildId}', {strikeId})");
         }
-        public async Task RemoveStrikeAsync(int strikeId)
+        public async Task RemoveStrikeAsync(ulong guildId, int strikeId)
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();
-            await connection.ExecuteAsync($"select remove_strike({strikeId})");
+            await connection.ExecuteAsync($"select remove_strike('{guildId}', {strikeId})");
         }
 
         public void RemoveAllStrikesFromUser(ulong guildId, ulong userId)

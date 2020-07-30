@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <Compile Update="Data\MessageData.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
 
