@@ -113,6 +113,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 		foreach (var strike in strikes)
 			builder.AddField($"Id: {strike.Id}", $"Date: {strike.Date}\nMod: {Context.Guild.GetUser(strike.Mod)}\n\n{strike.Reason}", true);
 
-		await ReplyAsync(message: $"Strikes logged against {user.Mention}:", embed: builder.Build());
+		await Context.Guild.GetTextChannel(await _guildHandler.GetModChannelAsync(Context.Guild.Id))
+			.SendMessageAsync($"Strikes logged against {user.Mention}:", embed: builder.Build());
 	}
 }
