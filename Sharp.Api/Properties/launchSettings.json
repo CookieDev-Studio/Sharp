@@ -16,9 +16,9 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Sharp.WebApi": {
+    "Sharp.Api": {
       "commandName": "Executable",
-      "executablePath": "C:\\Users\\Cameron\\source\\repos\\Sharp\\Sharp.WebApi\\bin\\Debug\\netcoreapp3.1\\Sharp.WebApi.exe"
+      "executablePath": "C:\\Users\\Cameron\\source\\repos\\Sharp\\Sharp.Api\\bin\\Debug\\netcoreapp3.1\\Sharp.Api.exe"
     }
   }
 }

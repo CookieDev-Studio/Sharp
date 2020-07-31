@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SharpBot.Data
+namespace Sharp.Data
 {
-    public class StrikeData
+    public class StrikeData : IStrikeData
     {
         public List<Strike> GetStrikes(ulong guildId, ulong userId)
         {
@@ -34,17 +34,17 @@ namespace SharpBot.Data
             await connection.ExecuteAsync($"select add_strike('{guildId}', '{userId}', '{modId}', '{reason}', '{date}')");
         }
 
-        public void RemoveStrike(int strikeId)
+        public void RemoveStrike(ulong guildId, int strikeId)
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();
-            connection.ExecuteAsync($"select remove_strike({strikeId})");
+            connection.ExecuteAsync($"select remove_strike('{guildId}', {strikeId})");
         }
-        public async Task RemoveStrikeAsync(int strikeId)
+        public async Task RemoveStrikeAsync(ulong guildId, int strikeId)
         {
             using var connection = DataExtentions.GetConnection();
             connection.Open();
-            await connection.ExecuteAsync($"select remove_strike({strikeId})");
+            await connection.ExecuteAsync($"select remove_strike('{guildId}', {strikeId})");
         }
 
         public void RemoveAllStrikesFromUser(ulong guildId, ulong userId)

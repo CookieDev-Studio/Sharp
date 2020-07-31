@@ -1,9 +1,9 @@
-﻿namespace SharpBot.Service
+﻿namespace Sharp.Service
 {
     /// <summary>
     /// Configuration class to store modChannel data.
     /// </summary>
-    public class Config
+    public struct Config
     {
         public ulong ModChannelId { get; set; }
         public char Prefix { get; set; }

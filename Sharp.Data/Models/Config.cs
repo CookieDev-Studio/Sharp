@@ -1,4 +1,4 @@
-﻿namespace SharpBot.Data
+﻿namespace Sharp.Data
 {
     /// <summary>
     /// Data model for guild configurations.

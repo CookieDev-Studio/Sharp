@@ -1,17 +1,41 @@
-﻿using SharpBot.Data;
+﻿using Sharp.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpBot.Service
+namespace Sharp.Service
 {
     public class MessageService
     {
-        readonly MessageData _messageData;
+        readonly IMessageData _messageData;
 
-        public MessageService(MessageData messageData) => _messageData = messageData;
+        public MessageService(IMessageData messageData) => _messageData = messageData;
         
+        public List<Message> GetMessages(ulong guildId)
+        {
+            return _messageData.GetMessages(guildId).Select(x => new Message()
+            {
+                GuildId = ulong.Parse(x.guild_id),
+                ChannelId = ulong.Parse(x.channel_id),
+                UserId = ulong.Parse(x.user_id),
+                message = x.message,
+                Date = x.date_time
+            }).ToList();
+        }
+        public Task<List<Message>> GetMessagesAsync(ulong guildId)
+        {
+            return Task.FromResult(_messageData.GetMessagesAsync(guildId).Result.Select(x => new Message()
+            {
+                GuildId = ulong.Parse(x.guild_id),
+                ChannelId = ulong.Parse(x.channel_id),
+                UserId = ulong.Parse(x.user_id),
+                message = x.message,
+                Date = x.date_time
+            }).ToList());
+        }
+
         /// <summary>
         /// Adds a message to the message log
         /// </summary>
@@ -40,7 +64,7 @@ namespace SharpBot.Service
                 dateTime);
         }
 
-        private string FormatMessage(string message, string[] attachments)
+        public string FormatMessage(string message, string[] attachments)
         {
             string formatedMessage = "";
 

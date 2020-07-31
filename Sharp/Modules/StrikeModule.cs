@@ -1,8 +1,8 @@
-﻿using SharpBot.Service;
+﻿using Sharp.Service;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using SharpBot.Data;
+using Sharp.Data;
 using System;
 using System.Threading.Tasks;
 
@@ -81,8 +81,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 			await ReplyAsync("Strike id not specified");
 			return;
 		}
-
-		await _strikesHandler.RemoveStrikeAsync((int)strikeId);
+		await _strikesHandler.RemoveStrikeAsync(Context.Guild.Id, (int)strikeId);
 		await ReplyAsync("strike removed");
 	}
 
@@ -98,28 +97,23 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 		}
 
 		await Context.Message.DeleteAsync();
-		await _strikesHandler.RemoveAllStrikesFromUserAsync(user.Id, Context.Guild.Id);
+		await _strikesHandler.RemoveAllStrikesFromUserAsync(Context.Guild.Id, user.Id);
 		await ReplyAsync($"Removed all of {user.Mention}'s strikes");
 	}
 
 	private async Task ShowStrikes(SocketUser user)
-	{
+    {
 		var strikes = await _strikesHandler.GetStrikesAsync(Context.Guild.Id, user.Id);
-		
-		string message = "";
-		message += $"User : {user.Mention}\n";
-		message += "\n";
+
+		var builder = new EmbedBuilder()
+		{
+			Color = new Color(150, 0, 0),
+		};
 
 		foreach (var strike in strikes)
-		{
-			message += $"Strike [{strike.date}]:\n";
-			message += $"Id: {strike.Id}\n";
-			message += $"Mod: {Context.Guild.GetUser(strike.mod).Mention}\n";
-			message += $"```{(strike.reason != "" ? strike.reason : " ")}```\n";
-		}
+			builder.AddField($"Id: {strike.Id}", $"Date: {strike.Date}\nMod: {Context.Guild.GetUser(strike.Mod)}\n\n{strike.Reason}", true);
 
-		message += "-------------------------------------------------------------------------------\n";
-
-		await Context.Guild.GetTextChannel(await _guildHandler.GetModChannelAsync(Context.Guild.Id)).SendMessageAsync(message);
+		await Context.Guild.GetTextChannel(await _guildHandler.GetModChannelAsync(Context.Guild.Id))
+			.SendMessageAsync($"Strikes logged against {user.Mention}:", embed: builder.Build());
 	}
 }

@@ -1,16 +1,16 @@
-using SharpBot.Data;
+using Sharp.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
-namespace SharpBot.Service
+namespace Sharp.Service
 {
     public class GuildService
     {
-        readonly GuildData _guildData;
-        public GuildService(GuildData guildData) => _guildData = guildData;
+        readonly IGuildData _guildData;
+        public GuildService(IGuildData guildData) => _guildData = guildData;
 
         /// <summary>
         /// Gets the mod channel of a guild
@@ -95,7 +95,5 @@ namespace SharpBot.Service
                 MessageLog = config.message_log
             };
         }
-
-        
     }
 }

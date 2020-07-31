@@ -3,9 +3,9 @@ using System.IO;
 using Newtonsoft.Json;
 using Npgsql;
 
-namespace SharpBot.Data
+namespace Sharp.Data
 {
-    internal class DataExtentions
+    public class DataExtentions
     {
         public static NpgsqlConnection GetConnection()
         {
@@ -17,7 +17,8 @@ namespace SharpBot.Data
                 $"Username={dbConnection.Username};" +
                 $"Password={dbConnection.Password};" +
                 $"Database={dbConnection.Database};" +
-                $"sslmode=Require;Trust Server Certificate=true");
+                $"sslmode=Require;" +
+                $"Trust Server Certificate=true");
         }
     }
 }

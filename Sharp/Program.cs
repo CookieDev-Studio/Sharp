@@ -1,9 +1,9 @@
-﻿using SharpBot.Service;
+﻿using Sharp.Service;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
-using SharpBot.Data;
+using Sharp.Data;
 using System;
 using System.IO;
 using System.Reflection;
@@ -34,12 +34,12 @@ class Program
             .AddSingleton(_client)
             .AddSingleton(_commands)
             .AddSingleton<StrikeService>()
-            .AddSingleton<StrikeData>()
             .AddSingleton<GuildService>()
             .AddSingleton<MessageService>()
-            .AddSingleton<MessageData>()
-            .AddSingleton<GuildData>()
             .AddSingleton<CommandExtentions>()
+            .AddSingleton<IStrikeData>(new StrikeData())
+            .AddSingleton<IMessageData>(new MessageData())
+            .AddSingleton<IGuildData>(new GuildData())
             .BuildServiceProvider();
 
         new CommandHandler(_client, _commands, _services.GetService<GuildService>(), _services.GetService<MessageService>(), _services);

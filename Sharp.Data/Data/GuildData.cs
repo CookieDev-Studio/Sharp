@@ -6,9 +6,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace SharpBot.Data
+namespace Sharp.Data
 {
-    public class GuildData
+    public class GuildData : IGuildData
     {
         public Config GetGuildConfig(ulong guildId)
         {

@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Dapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SharpBot.Service;
+using Sharp.Service;
 using Npgsql;
 
-namespace WebApiTest.Controllers
+namespace SharpApi.Controllers
 {
     [Route("[controller]")]
     [ApiController]

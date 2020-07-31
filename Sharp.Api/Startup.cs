@@ -10,10 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using SharpBot.Data;
-using SharpBot.Service;
+using Sharp.Data;
+using Sharp.Service;
 
-namespace WebApiTest
+namespace SharpApi
 {
     public class Startup
     {
@@ -29,7 +29,11 @@ namespace WebApiTest
         {
             services.AddControllers();
             services.AddSingleton<GuildService>();
-            services.AddSingleton<GuildData>();
+            services.AddSingleton<StrikeService>();
+            services.AddSingleton<MessageService>();
+            services.AddSingleton<IGuildData>(new GuildData());
+            services.AddSingleton<IStrikeData>(new StrikeData());
+            services.AddSingleton<IMessageData>(new MessageData());
             services.AddCors(); // Make sure you call this previous to AddMvc
         }
 

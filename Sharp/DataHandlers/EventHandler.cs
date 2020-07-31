@@ -1,4 +1,4 @@
-﻿using SharpBot.Service;
+﻿using Sharp.Service;
 using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
