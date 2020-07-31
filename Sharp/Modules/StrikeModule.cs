@@ -102,23 +102,17 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 	}
 
 	private async Task ShowStrikes(SocketUser user)
-	{
+    {
 		var strikes = await _strikesHandler.GetStrikesAsync(Context.Guild.Id, user.Id);
-		
-		string message = "";
-		message += $"User : {user.Mention}\n";
-		message += "\n";
+
+		var builder = new EmbedBuilder()
+		{
+			Color = new Color(150, 0, 0),
+		};
 
 		foreach (var strike in strikes)
-		{
-			message += $"Strike [{strike.Date}]:\n";
-			message += $"Id: {strike.Id}\n";
-			message += $"Mod: {Context.Guild.GetUser(strike.Mod).Mention}\n";
-			message += $"```{(strike.Reason != "" ? strike.Reason : " ")}```\n";
-		}
+			builder.AddField($"Id: {strike.Id}", $"Date: {strike.Date}\nMod: {Context.Guild.GetUser(strike.Mod)}\n\n{strike.Reason}", true);
 
-		message += "-------------------------------------------------------------------------------\n";
-
-		await Context.Guild.GetTextChannel(await _guildHandler.GetModChannelAsync(Context.Guild.Id)).SendMessageAsync(message);
+		await ReplyAsync(message: $"Strikes logged against {user.Mention}:", embed: builder.Build());
 	}
 }
