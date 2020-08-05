@@ -40,7 +40,7 @@ namespace SharpApi.Controllers
             _guildService.SetPrefix(guildId, prefix.prefix);
             return Ok($"Prefix set to {prefix.prefix}");
         }
-        [HttpPut]
+        [HttpPut("messagelog/{guildId}/{value}")]
         public ActionResult SetMessageLog(ulong guildId, bool value)
         {
             _guildService.SetMessageLog(guildId, value);
