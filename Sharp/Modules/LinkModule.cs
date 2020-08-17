@@ -25,8 +25,6 @@ public class LinkModule : ModuleBase
         //if link exists
         if (Context.Guild.GetInvitesAsync().Result.Any(x => x.Code == linkCode))
         {
-            
-
             await _linkService.AddLinkRolePairAsync(Context.Guild.Id, linkCode, role.Id, (int)invites.First(x => x.Code == linkCode).Uses);
             await ReplyAsync($"users will now join {role.Mention} when joining from link");
         }
