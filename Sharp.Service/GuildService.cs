@@ -2,7 +2,7 @@ using Sharp.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.Sockets;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Sharp.Service
@@ -56,6 +56,9 @@ namespace Sharp.Service
         /// <param name="value"></param>
         public void SetMessageLog(ulong guildId, bool value) => _guildData.SetMessageLog(guildId, value);
         public Task SetMessageLogAsync(ulong guildId, bool value) => _guildData.SetMessageLogAsync(guildId, value);
+
+        public ulong[] GetAllGuilds() => _guildData.GetAllGuilds().Select(x => ulong.Parse(x)).ToArray();
+        public Task<ulong[]> GetAllGuildsAsync() => Task.FromResult(_guildData.GetAllGuildsAsync().Result.Select(x => ulong.Parse(x)).ToArray());
 
         /// <summary>
         /// Adds a new guild config

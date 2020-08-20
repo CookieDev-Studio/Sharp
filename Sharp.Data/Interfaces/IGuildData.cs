@@ -8,6 +8,8 @@ namespace Sharp.Data
         Task AddConfigAsync(ulong guildId, ulong ModchannelId, char prefix, bool messagelog);
         Config GetGuildConfig(ulong guildId);
         Task<Config> GetGuildConfigAsync(ulong guildId);
+        string[] GetAllGuilds();
+        Task<string[]> GetAllGuildsAsync();
         void SetMessageLog(ulong guildId, bool value);
         Task SetMessageLogAsync(ulong guildId, bool value);
         void SetModChannel(ulong guildId, ulong modChannelId);
