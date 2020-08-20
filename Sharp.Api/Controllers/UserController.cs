@@ -35,7 +35,7 @@ namespace Sharp.Api.Controllers
             var guildIds = await _guildService.GetAllGuildsAsync();
 
             //return list of common guilds
-            return Ok(guildIds.Where(x => userGuildIds.Contains(x)));
+            return Ok(userGuildIds.Where(x => guildIds.Contains(x)));
         }
     }
 }
