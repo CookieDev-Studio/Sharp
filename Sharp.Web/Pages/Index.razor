@@ -8,7 +8,7 @@
 
 <h1>Sharp</h1>
 
-<a href="https://discord.com/api/oauth2/authorize?client_id=736003162972094494&redirect_uri=https://localhost:44322&response_type=code&scope=identify" class="btn btn-outline-primary">Log In</a>
+<a href="https://discord.com/api/oauth2/authorize?client_id=736003162972094494&redirect_uri=https%3A%2F%2Flocalhost%3A44322&response_type=code&scope=guilds" class="btn btn-outline-primary">Log In</a>
 
 @if (!string.IsNullOrWhiteSpace(Code))
 {
@@ -55,7 +55,7 @@
             { "grant_type", "authorization_code" },
             { "code", Code },
             { "redirect_uri", "https://localhost:44322" },
-            { "client_secret", PUT_CLIENT_SECRET_HERE }
+            { "client_secret", ENTER_CLIENT_SECRET }
         };
 
         var content = new FormUrlEncodedContent(values);
