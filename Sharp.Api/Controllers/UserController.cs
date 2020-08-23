@@ -31,7 +31,11 @@ namespace Sharp.Api.Controllers
             var guildIds = await _guildService.GetAllGuildsAsync();
 
             foreach (var guild in userGuilds)
+            {
+                if (guild.Icon != null)
                 guild.Icon = $"https://cdn.discordapp.com/icons/{guild.Id}/{guild.Icon}";
+            }
+
             return Ok(JsonConvert.SerializeObject(userGuilds.Where(x => guildIds.Contains(x.Id))));
         }
     }
