@@ -18,7 +18,6 @@ public class ReplyModule : ModuleBase<SocketCommandContext>
 
 	[Command("greet")]
 	[Summary("Greets the user")]
-	[RequireUserPermission(ChannelPermission.ManageMessages)]
 	public async Task Say()
 	{
 		await ReplyAsync("hello " + Context.User.Mention);
