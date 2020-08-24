@@ -36,6 +36,19 @@ namespace Sharp.Data
             await connection.ExecuteAsync($"select * from add_config('{guildId}', '{ModchannelId}', '{prefix}', {messagelog})");
         }
 
+        public string[] GetAllGuilds()
+        {
+            using var connection = DataExtentions.GetConnection();
+            connection.Open();
+            return connection.Query<string>($"SELECT guild_id FROM config").ToArray();
+        }
+        public async Task<string[]> GetAllGuildsAsync()
+        {
+            using var connection = DataExtentions.GetConnection();
+            connection.Open();
+            return await Task.FromResult(connection.QueryAsync<string>($"SELECT guild_id FROM config").Result.ToArray());
+        }
+
         public void SetModChannel(ulong guildId, ulong modChannelId)
         {
             using var connection = DataExtentions.GetConnection();
@@ -74,5 +87,7 @@ namespace Sharp.Data
             connection.Open();
             await connection.ExecuteAsync($"select set_message_log('{guildId}', {value})");
         }
+
+       
     }
 }
