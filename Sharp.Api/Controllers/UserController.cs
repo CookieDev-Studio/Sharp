@@ -17,7 +17,7 @@ namespace Sharp.Api.Controllers
         readonly GuildService _guildService;
         public UserController(GuildService guildService) => _guildService = guildService;
 
-        [HttpGet("guildswithsharp/{token}")]
+        [HttpGet("guilds/{token}")]
         public async Task<ActionResult> GetCommonGuildsAsync(string token)
         {
             var client = new HttpClient();
