@@ -1,5 +1,7 @@
 ﻿namespace Sharp.FSharp.Data
 
+open Npgsql.FSharp
+
 module internal Operations =
     let getConnectionString = 
         let ConnectionString = ConnectionString.GetSample()
@@ -9,4 +11,13 @@ module internal Operations =
             ConnectionString.Password
             ConnectionString.Database
     
-    
+    let private getDB queryString  = 
+        getConnectionString
+        |> Sql.connect
+        |> Sql.query queryString
+
+    let executeQuery func =
+        getDB >> Sql.execute func
+
+    let executeNonQuery =
+        getDB >> Sql.executeNonQuery
