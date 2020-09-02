@@ -3,6 +3,8 @@
 open NpgsqlTypes
 open FSharp.Data
 
+type internal ConnectionString = JsonProvider<"../Sharp.Data/SqlConnection.json">
+
 type Message =
     { guildId : uint64
       channelId : uint64 
@@ -10,4 +12,3 @@ type Message =
       message : string
       date : NpgsqlDate }
 
-type ConnectionString = JsonProvider<"../Sharp.Data/SqlConnection.json">

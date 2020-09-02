@@ -1,6 +1,6 @@
 ﻿namespace Sharp.FSharp.Data
 
-module Operations =
+module internal Operations =
     let getConnectionString = 
         let ConnectionString = ConnectionString.GetSample()
         sprintf "Host=%s;Username=%s;Password=%s;Database=%s;sslmode=Require;Trust Server Certificate=true"

@@ -19,4 +19,3 @@ module MessageService =
     let addMessage guildId channelId userId date message =
         message
         |> MessageData.addMessage guildId channelId userId date
-   
