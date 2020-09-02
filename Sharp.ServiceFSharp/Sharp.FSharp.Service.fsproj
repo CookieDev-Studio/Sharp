@@ -5,7 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Sharp.Data\Sharp.Data.csproj" />
+    <Compile Include="MessageService.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Sharp.FSharp.Data\Sharp.FSharp.Data.fsproj" />
   </ItemGroup>
 

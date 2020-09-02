@@ -25,6 +25,7 @@ class Program
     /// <returns>A delayed task.</returns>
     public async Task MainAsync()
     {
+        Sharp.FSharp.Service.MessageService.addMessage(1, 2, 3, new DateTime(), "");
         DiscordSocketClient _client = new DiscordSocketClient();
         CommandService _commands = new CommandService();
 
@@ -35,16 +36,14 @@ class Program
             .AddSingleton(_commands)
             .AddSingleton<StrikeService>()
             .AddSingleton<GuildService>()
-            .AddSingleton<MessageService>()
             .AddSingleton<LinkService>()
             .AddSingleton<CommandExtentions>()
             .AddSingleton<IStrikeData>(new StrikeData())
-            .AddSingleton<IMessageData>(new MessageData())
             .AddSingleton<IGuildData>(new GuildData())
             .AddSingleton<ILinkData>(new LinkData())
             .BuildServiceProvider();
 
-        new CommandHandler(_client, _commands, _services.GetService<GuildService>(), _services.GetService<MessageService>(), _services);
+        new CommandHandler(_client, _commands, _services.GetService<GuildService>(), _services);
         new EventHandler(
             _client,
             _services.GetService<StrikeService>(),

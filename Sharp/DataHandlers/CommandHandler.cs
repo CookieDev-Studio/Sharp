@@ -1,6 +1,6 @@
-﻿using Discord.Commands;
+﻿using Sharp.Service;
+using Discord.Commands;
 using Discord.WebSocket;
-using Sharp.Service;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,15 +10,13 @@ public class CommandHandler
     readonly DiscordSocketClient _client;
     readonly CommandService _commands;
     readonly GuildService _guildService;
-    readonly MessageService _messageService;
     readonly IServiceProvider _services;
 
-    public CommandHandler(DiscordSocketClient client, CommandService commands, GuildService guildHandler, MessageService messageHandler, IServiceProvider services)
+    public CommandHandler(DiscordSocketClient client, CommandService commands, GuildService guildHandler, IServiceProvider services)
     {
         _client = client;
         _commands = commands;
         _guildService = guildHandler;
-        _messageService = messageHandler;
         _services = services;
 
         _client.MessageReceived += HandleCommandAsync;
@@ -56,13 +54,13 @@ public class CommandHandler
         }
         else if (await _guildService.GetMessageLogAsync(context.Guild.Id))
         {
-            await _messageService.AddMessageAsync(
+            Sharp.FSharp.Service.MessageService.addMessageWithAttachments(
                 context.Guild.Id,
                 context.Channel.Id,
                 context.User.Id,
-                message.Content,
+                message.Timestamp.UtcDateTime,
                 message.Attachments.Select(x => x.ProxyUrl).ToArray(),
-                message.Timestamp.UtcDateTime);
+                message.Content);
         }
     }
 }

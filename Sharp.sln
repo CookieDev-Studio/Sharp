@@ -19,6 +19,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sharp.Data.Tests", "Sharp.D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Tests", "Unit Tests", "{28B4ACDF-2CDF-469C-9655-38778E6BB268}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Sharp.FSharp.Service", "Sharp.ServiceFSharp\Sharp.FSharp.Service.fsproj", "{EDCF35BB-6AE3-4E6F-B76C-717D96F141D0}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Sharp.FSharp.Data", "Sharp.FSharp.Data\Sharp.FSharp.Data.fsproj", "{0580808F-1DD1-4E01-B907-4F5CA6FD95E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +57,14 @@ Global
 		{7B72CAE2-7AEF-4840-B2E2-0981F6F68A68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B72CAE2-7AEF-4840-B2E2-0981F6F68A68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B72CAE2-7AEF-4840-B2E2-0981F6F68A68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDCF35BB-6AE3-4E6F-B76C-717D96F141D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDCF35BB-6AE3-4E6F-B76C-717D96F141D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDCF35BB-6AE3-4E6F-B76C-717D96F141D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDCF35BB-6AE3-4E6F-B76C-717D96F141D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0580808F-1DD1-4E01-B907-4F5CA6FD95E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0580808F-1DD1-4E01-B907-4F5CA6FD95E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0580808F-1DD1-4E01-B907-4F5CA6FD95E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0580808F-1DD1-4E01-B907-4F5CA6FD95E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
