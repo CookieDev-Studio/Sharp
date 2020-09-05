@@ -3,7 +3,7 @@
 module MessageService =
     open Sharp.FSharp.Data
 
-    let getMessages = MessageData.getMessages
+    let getMessages guildId = MessageData.getMessages guildId
 
     let addMessage guildId channelId userId date attachments (message : string) =
         let formatMessage attachments : string =

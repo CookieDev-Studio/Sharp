@@ -13,6 +13,6 @@ namespace Sharp.Api.Controllers
     public class MessageLogController : ControllerBase
     {
         [HttpGet("{guildId}")]
-        public ActionResult GetMessages(ulong guildId) => Ok(MessageService.getMessages.Invoke(guildId));
+        public ActionResult GetMessages(ulong guildId) => Ok(MessageService.getMessages(guildId));
     }
 }
