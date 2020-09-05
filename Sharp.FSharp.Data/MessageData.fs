@@ -12,6 +12,7 @@ module MessageData =
               userId = read.string "user_id" |> UInt64.Parse
               message = read.text "message"
               date = read.date "date_time" })
+        
 
     let addMessage (guildId : uint64) (modChannelId : uint64) (userId : uint64) (dateTime : DateTime) message =
         Operations.executeNonQuery 

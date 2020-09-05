@@ -25,7 +25,6 @@ class Program
     /// <returns>A delayed task.</returns>
     public async Task MainAsync()
     {
-        Sharp.FSharp.Service.MessageService.addMessage(1, 2, 3, new DateTime(), "");
         DiscordSocketClient _client = new DiscordSocketClient();
         CommandService _commands = new CommandService();
 

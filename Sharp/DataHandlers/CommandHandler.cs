@@ -54,7 +54,7 @@ public class CommandHandler
         }
         else if (await _guildService.GetMessageLogAsync(context.Guild.Id))
         {
-            Sharp.FSharp.Service.MessageService.addMessageWithAttachments(
+            Sharp.FSharp.Service.MessageService.addMessage(
                 context.Guild.Id,
                 context.Channel.Id,
                 context.User.Id,
