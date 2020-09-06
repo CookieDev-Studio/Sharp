@@ -1,9 +1,18 @@
 ﻿namespace Sharp.FSharp.Data
 
 open Sharp.FSharp.Domain
+open Npgsql.FSharp
 open System
 
 module StrikeData =
+    let private parseStrike (read : RowReader) = 
+        { id = read.int "id"
+          guildId = GuildId (read.string "guild_id" |> UInt64.Parse) 
+          userId = UserId (read.string "user_id" |> UInt64.Parse)
+          modId = ModId (read.string "mod_id" |> UInt64.Parse)
+          reason = read.string "reason"
+          date = read.NpgsqlReader.GetOrdinal("date_time") |> read.NpgsqlReader.GetTimeStamp }
+
     let addStrike (GuildId guildId) (UserId userId) (ModId modId) reason dateTime =
         sprintf "SELECT add_strike('%i', '%i', '%i', '%s', '%A')"
             guildId
@@ -13,21 +22,22 @@ module StrikeData =
             dateTime
         |> Operations.executeNonQuery
           
-    let getStrikes(GuildId guildId) (UserId userId) =
+    let getStrikes (GuildId guildId) (UserId userId) =
         sprintf "SELECT * FROM strike
         	     WHERE guild_id = '%i' 
         	     AND user_id = '%i'"
             guildId
             userId
-        |> Operations.executeQuery (fun read ->
-            { id = read.int "id"
-              guildId = GuildId (read.string "guild_id" |> UInt64.Parse) 
-              userId = UserId (read.string "user_id" |> UInt64.Parse)
-              modId = ModId (read.string "mod_id" |> UInt64.Parse)
-              reason = read.string "reason"
-              date = read.NpgsqlReader.GetOrdinal("date_time") |> read.NpgsqlReader.GetTimeStamp })
+        |> Operations.executeQuery parseStrike
+            
 
-              
+    let getAllStrikes (GuildId guildId) =
+        sprintf "SELECT * FROM strike
+        	     WHERE guild_id = '%i'" 
+            guildId
+        |> Operations.executeQuery parseStrike
+            
+
 (*
 RemoveAllStrikesFromUser(ulong guildId, ulong userId);
 RemoveStrike(ulong guildId, int strikeId);

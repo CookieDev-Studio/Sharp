@@ -16,3 +16,9 @@ module StrikeService =
         match result with
         |Ok result -> List.toArray result
         |Error error -> Console.WriteLine error; Array.empty 
+
+    let getAllStrikes guildId =
+        let result = StrikeData.getAllStrikes guildId
+        match result with
+        |Ok result -> List.toArray result
+        |Error error -> Console.WriteLine error; Array.empty

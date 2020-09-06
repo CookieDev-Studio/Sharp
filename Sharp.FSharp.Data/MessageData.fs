@@ -4,7 +4,6 @@ open System
 open Sharp.FSharp.Domain
 
 module MessageData =
-    
     let getMessages (GuildId guildId) =
         sprintf "SELECT * FROM message WHERE guild_id = '%i'" guildId 
         |> Operations.executeQuery (fun read ->
