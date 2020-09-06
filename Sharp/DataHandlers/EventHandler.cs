@@ -24,7 +24,7 @@ public class EventHandler
     }
 
     private async Task RemoveAllStrikesFromUser(SocketUser user, SocketGuild guild)
-        => StrikeService.removeAllStrikes(GuildId.NewGuildId(guild.Id),UserId.NewUserId(guild.Id));
+        => StrikeService.removeAllStrikesFromUser(GuildId.NewGuildId(guild.Id),UserId.NewUserId(guild.Id));
 
     private async Task AddGuild(SocketGuild guild)
         => await _guildService.AddConfigAsync(guild.Id, guild.DefaultChannel.Id);

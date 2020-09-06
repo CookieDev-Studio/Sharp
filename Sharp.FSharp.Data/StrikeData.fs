@@ -31,7 +31,7 @@ module StrikeData =
             guildId
         |> Operations.executeQuery parseStrike
 
-    let removeStrike(GuildId guildId) (strikeId : int) =
+    let removeStrike (GuildId guildId) (strikeId : int) =
         sprintf "SELECT remove_strike('%i', '%i')"
             guildId strikeId
         |> Operations.executeNonQuery

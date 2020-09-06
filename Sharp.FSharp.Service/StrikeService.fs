@@ -29,7 +29,7 @@ module StrikeService =
            |Ok _ -> ()
            |Error error ->  Console.WriteLine error; ()
 
-    let removeAllStrikes guildId userid =
+    let removeAllStrikesFromUser guildId userid =
         let result = StrikeData.removeAllStrikesFromUser guildId userid
         match result with
         |Ok _ -> ()

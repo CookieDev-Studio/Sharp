@@ -30,7 +30,7 @@ namespace Sharp.WebApi.Controllers
         [HttpDelete("{guildId}/{userId}")]
         public ActionResult RemoveAllStrikes(ulong guildId, ulong userId)
         {
-            StrikeService.removeAllStrikes(GuildId.NewGuildId(guildId), UserId.NewUserId(userId));
+            StrikeService.removeAllStrikesFromUser(GuildId.NewGuildId(guildId), UserId.NewUserId(userId));
             return Ok($"strikes removed from user {userId}");
         }
     }

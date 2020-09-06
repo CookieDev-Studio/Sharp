@@ -101,7 +101,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 		}
 
 		await Context.Message.DeleteAsync();
-		StrikeService.removeAllStrikes(GuildId.NewGuildId(Context.Guild.Id), UserId.NewUserId(user.Id));
+		StrikeService.removeAllStrikesFromUser(GuildId.NewGuildId(Context.Guild.Id), UserId.NewUserId(user.Id));
 		await ReplyAsync($"Removed all of {user.Mention}'s strikes");
 	}
 
