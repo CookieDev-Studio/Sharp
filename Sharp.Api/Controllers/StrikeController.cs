@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Sharp.FSharp.Domain;
-using Sharp.FSharp.Service;
+﻿using Microsoft.AspNetCore.Mvc;
 using Sharp.Service;
+using Sharp.Domain;
 
 namespace Sharp.WebApi.Controllers
 {

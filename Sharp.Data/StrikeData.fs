@@ -1,17 +1,18 @@
-﻿namespace Sharp.FSharp.Data
+﻿namespace Sharp.Data
 
-open Sharp.FSharp.Domain
+open Sharp.Domain
 open Npgsql.FSharp
 open System
 
 module StrikeData =
+
     let private parseStrike (read : RowReader) = 
         { id = read.int "id"
-          guildId = GuildId (read.string "guild_id" |> UInt64.Parse) 
-          userId = UserId (read.string "user_id" |> UInt64.Parse)
-          modId = ModId (read.string "mod_id" |> UInt64.Parse)
+          guildId = read.string "guild_id" |> UInt64.Parse |> GuildId
+          userId = read.string "user_id" |> UInt64.Parse |> UserId
+          modId = read.string "mod_id" |> UInt64.Parse |> ModId
           reason = read.string "reason"
-          date = read.NpgsqlReader.GetOrdinal("date_time") |> read.NpgsqlReader.GetTimeStamp }
+          date = read.timestamptz "date_time" }
 
     let addStrike (GuildId guildId) (UserId userId) (ModId modId) reason dateTime =
         sprintf "SELECT add_strike('%i', '%i', '%i', '%s', '%A')"

@@ -1,5 +1,5 @@
 ﻿using Moq;
-using Sharp.Data;
+using Sharp.Data.Depricated;
 using Sharp.Service.Depricated;
 using System;
 using System.Collections.Generic;

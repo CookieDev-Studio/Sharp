@@ -11,11 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Sharp.FSharp.Service\Sharp.FSharp.Service.fsproj" />
-    <ProjectReference Include="..\Sharp.Service\Sharp.Service.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="token.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -3,16 +3,10 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using System.Threading.Tasks;
+using Sharp.Domain;
 
 public class GuildModule : ModuleBase<SocketCommandContext>
 {
-	readonly GuildService _guildService;
-
-	public GuildModule(GuildService guildService)
-	{
-		_guildService = guildService;
-	}
-
 	[Command("set modchannel")]
 	[Summary("set modchannel _#channel_\n Sets the mod channel")]
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
@@ -25,7 +19,7 @@ public class GuildModule : ModuleBase<SocketCommandContext>
 		}
 
 		await LoggerExtensions.Log(Context.Guild, $"Mod channel set to {channel.Id}");
-		await _guildService.SetModChannelAsync(Context.Guild.Id, channel.Id);
+		GuildConfigService.setModChannel(GuildId.NewGuildId(Context.Guild.Id), ModChannelId.NewModChannelId(channel.Id));
 		await ReplyAsync($"Mod channel set to {channel.Name}");
 	}
 
@@ -39,7 +33,7 @@ public class GuildModule : ModuleBase<SocketCommandContext>
 			await ReplyAsync("No prefix specified");
 			return;
 		}
-		await _guildService.SetPrefixAsync(Context.Guild.Id, (char)prefix);
+		GuildConfigService.setPrefix(GuildId.NewGuildId(Context.Guild.Id), (char)prefix);
 		await ReplyAsync($"prefix set to {prefix}");
 	}
 	
@@ -48,7 +42,7 @@ public class GuildModule : ModuleBase<SocketCommandContext>
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
 	public async Task EnableMessageLog()
 	{
-		await _guildService.SetMessageLogAsync(Context.Guild.Id, true);
+		GuildConfigService.setMessageLog(GuildId.NewGuildId(Context.Guild.Id), true);
         await ReplyAsync($"Message log enabled");
 	}
 
@@ -57,7 +51,7 @@ public class GuildModule : ModuleBase<SocketCommandContext>
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
 	public async Task DisableMessageLog()
 	{
-		await _guildService.SetMessageLogAsync(Context.Guild.Id, false);
+		GuildConfigService.setMessageLog(GuildId.NewGuildId(Context.Guild.Id), false);
 		await ReplyAsync($"Message log disabled");
 	}
 }

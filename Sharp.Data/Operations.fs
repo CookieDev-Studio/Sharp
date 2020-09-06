@@ -1,9 +1,7 @@
-﻿namespace Sharp.FSharp.Data
-
-open Npgsql.FSharp
-open Sharp.FSharp.Domain
-
-module internal Operations =
+﻿module internal Operations
+    open Npgsql.FSharp
+    open Sharp.Domain
+    
     let getConnectionString = 
         let ConnectionString = ConnectionString.GetSample()
         sprintf "Host=%s;Username=%s;Password=%s;Database=%s;sslmode=Require;Trust Server Certificate=true"
@@ -12,13 +10,16 @@ module internal Operations =
             ConnectionString.Password
             ConnectionString.Database
     
-    let private getDB queryString  = 
+    let private getDB queryString = 
         getConnectionString
         |> Sql.connect
         |> Sql.query queryString
 
-    let executeQuery func =
-        getDB >> Sql.execute func
+    let executeQuery parseFunction =
+        getDB >> Sql.execute parseFunction
 
     let executeNonQuery =
         getDB >> Sql.executeNonQuery
+
+    let executeRow parseFunction =
+        getDB >> Sql.executeRow parseFunction

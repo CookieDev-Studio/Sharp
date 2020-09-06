@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Sharp.Data
+namespace Sharp.Data.Depricated
 {
     public class GuildData : IGuildData
     {
@@ -87,7 +87,5 @@ namespace Sharp.Data
             connection.Open();
             await connection.ExecuteAsync($"select set_message_log('{guildId}', {value})");
         }
-
-       
     }
 }

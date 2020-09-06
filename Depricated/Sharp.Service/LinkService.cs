@@ -1,11 +1,11 @@
-﻿using Sharp.Data;
+﻿using Sharp.Data.Depricated;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sharp.Service
+namespace Sharp.Service.Depricated
 {
     public class LinkService
     {

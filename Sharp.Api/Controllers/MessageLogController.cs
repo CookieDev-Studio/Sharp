@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Sharp.FSharp.Service;
-using Sharp.FSharp.Domain;
+using Sharp.Service;
+using Sharp.Domain;
 
 namespace Sharp.Api.Controllers
 {
@@ -9,6 +9,6 @@ namespace Sharp.Api.Controllers
     public class MessageLogController : ControllerBase
     {
         [HttpGet("{guildId}")]
-        public ActionResult GetMessages(ulong guildId) => Ok(MessageService.getMessages(GuildId.NewGuildId(guildId)).ResultValue);
+        public ActionResult GetMessages(ulong guildId) => Ok(MessageService.getMessages(GuildId.NewGuildId(guildId)));
     }
 }

@@ -1,9 +1,12 @@
-﻿namespace Sharp.FSharp.Service
+﻿namespace Sharp.Service
+
+open Sharp.Data
+open System
 
 module MessageService =
-    open Sharp.FSharp.Data
 
-    let getMessages guildId = MessageData.getMessages guildId
+    let getMessages guildId = 
+        MessageData.getMessages guildId |> Operations.handleResultList
 
     let addMessage guildId channelId userId date attachments message =
         let formatMessage attachments =
@@ -14,4 +17,5 @@ module MessageService =
             |Some attachments -> formatMessage attachments
             |None -> message
 
-        MessageData.addMessage guildId channelId userId date formatedMessage
+        MessageData.addMessage guildId channelId userId date formatedMessage |> Operations.handleResultUnit
+       

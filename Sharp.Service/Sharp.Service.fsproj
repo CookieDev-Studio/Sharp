@@ -6,12 +6,11 @@
 
   <ItemGroup>
     <None Include="services.fsx" />
+    <Compile Include="Operations.fs" />
+    <Compile Include="GuildConfigService.fs" />
     <Compile Include="StrikeService.fs" />
     <Compile Include="MessageService.fs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Sharp.FSharp.Data\Sharp.FSharp.Data.fsproj" />
+    <Compile Include="LinkService.fs" />
   </ItemGroup>
 
 </Project>

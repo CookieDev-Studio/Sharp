@@ -8,8 +8,10 @@
     <None Include="data.fsx" />
     <Compile Include="Domain.fs" />
     <Compile Include="Operations.fs" />
+    <Compile Include="GuildConfigData.fs" />
     <Compile Include="MessageData.fs" />
     <Compile Include="StrikeData.fs" />
+    <Compile Include="LinkData.fs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,7 +1,7 @@
 using Moq;
 using Moq.AutoMock;
-using Sharp.Data;
-using Sharp.Service;
+using Sharp.Data.Depricated;
+using Sharp.Service.Depricated;
 using System;
 using System.Threading.Tasks;
 using Xunit;

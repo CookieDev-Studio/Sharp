@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Sharp.Data
+namespace Sharp.Data.Depricated
 {
     public interface ILinkData
     {

@@ -33,19 +33,12 @@ class Program
         _services = new ServiceCollection()
             .AddSingleton(_client)
             .AddSingleton(_commands)
-            .AddSingleton<GuildService>()
-            .AddSingleton<LinkService>()
             .AddSingleton<CommandExtentions>()
-            .AddSingleton<IStrikeData>(new StrikeData())
-            .AddSingleton<IGuildData>(new GuildData())
-            .AddSingleton<ILinkData>(new LinkData())
             .BuildServiceProvider();
 
-        new CommandHandler(_client, _commands, _services.GetService<GuildService>(), _services);
-        new EventHandler(
-            _client,
-            _services.GetService<GuildService>(),
-            _services.GetService<LinkService>());
+        new CommandHandler(_client, _commands, _services);
+        new EventHandler(_client);
+           
 
         await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
 

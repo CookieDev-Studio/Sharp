@@ -2,8 +2,7 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using Sharp.Service;
-using Sharp.FSharp.Service;
-using Sharp.FSharp.Domain;
+using Sharp.Domain;
 using System;
 using System.Threading.Tasks;
 using System.Diagnostics;
@@ -12,12 +11,10 @@ using System.Diagnostics;
 [Group("strike")]
 public class StrikeModule : ModuleBase<SocketCommandContext>
 {
-    readonly GuildService _guildHandler;
 	readonly CommandExtentions _commandExtentions;
 
-	public StrikeModule(GuildService guildService, CommandExtentions commandExtentions)
+	public StrikeModule( CommandExtentions commandExtentions)
 	{
-		_guildHandler = guildService;
 		_commandExtentions = commandExtentions;
 	}
 
@@ -51,7 +48,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 
 		await Context.Message.DeleteAsync();
 
-		Sharp.FSharp.Service.StrikeService.addStrike(
+		StrikeService.addStrike(
 			GuildId.NewGuildId(Context.Guild.Id),
 			UserId.NewUserId(user.Id),
 			ModId.NewModId(Context.User.Id),
@@ -107,7 +104,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 
 	private async Task ShowStrikes(SocketUser user)
     {
-		var strikes = Sharp.FSharp.Service.StrikeService.getStrikes(GuildId.NewGuildId(Context.Guild.Id), UserId.NewUserId(user.Id));
+		var strikes = StrikeService.getStrikes(GuildId.NewGuildId(Context.Guild.Id), UserId.NewUserId(user.Id));
 
 		var builder = new EmbedBuilder()
 		{
@@ -123,7 +120,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 				$"{strike.reason}",
 				true);
 
-		await Context.Guild.GetTextChannel(await _guildHandler.GetModChannelAsync(Context.Guild.Id))
+		await Context.Guild.GetTextChannel(GuildConfigService.getModChannel(GuildId.NewGuildId(Context.Guild.Id)).Item)
 			.SendMessageAsync($"Strikes logged against {user.Mention}:", embed: builder.Build());
 	}
 }
