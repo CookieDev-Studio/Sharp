@@ -12,7 +12,7 @@ module MessageData =
               channelId = read.string "channel_id" |> UInt64.Parse
               userId = read.string "user_id" |> UInt64.Parse
               message = read.text "message"
-              date = read.NpgsqlReader.GetOrdinal("date_time") |> read.NpgsqlReader.GetTimeStamp})
+              date = read.NpgsqlReader.GetOrdinal("date_time") |> read.NpgsqlReader.GetTimeStamp })
         
 
     let addMessage (GuildId guildId) (ModChannelId modChannelId) (UserId userId) (dateTime : DateTime) message =

@@ -107,7 +107,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 
 	private async Task ShowStrikes(SocketUser user)
     {
-		var strikes = await _strikesHandler.GetStrikesAsync(Context.Guild.Id, user.Id);
+		var strikes = Sharp.FSharp.Service.StrikeService.getStrikes(GuildId.NewGuildId(Context.Guild.Id), UserId.NewUserId(user.Id));
 
 		var builder = new EmbedBuilder()
 		{
@@ -115,7 +115,13 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 		};
 
 		foreach (var strike in strikes)
-			builder.AddField($"Id: {strike.Id}", $"Date: {strike.Date}\nMod: {Context.Guild.GetUser(strike.Mod)}\n\n{strike.Reason}", true);
+			builder.AddField($"Id: {strike.id}",
+				$"Date: {strike.date.ToDateTime():yyyy-MM-dd}\n" +
+				$"Time: {strike.date.ToDateTime():HH:mm}\n" +
+				$"Mod: {Context.Guild.GetUser(strike.modId.Item)}" +
+				$"\n\n" +
+				$"{strike.reason}",
+				true);
 
 		await Context.Guild.GetTextChannel(await _guildHandler.GetModChannelAsync(Context.Guild.Id))
 			.SendMessageAsync($"Strikes logged against {user.Mention}:", embed: builder.Build());
