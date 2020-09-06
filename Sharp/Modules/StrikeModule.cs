@@ -1,8 +1,8 @@
-﻿using Sharp.Service;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Sharp.Data;
+using Sharp.Service;
+using Sharp.FSharp.Domain;
 using System;
 using System.Threading.Tasks;
 
@@ -22,7 +22,6 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 	}
 
 	[Command("help")]
-	[Alias("", "?")]
 	[Summary("Display strike commands")]
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
 	public async Task Strike()
@@ -39,7 +38,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 		await ReplyAsync("", false, builder.Build());
 	}
 
-	[Command("add")]
+	[Command("")]
 	[Summary("strike add _@user_ _\"message\"_\n Gives a user a strike")]
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
 	public async Task StrikeAdd(SocketUser user = null, string reason = "unspecified")
@@ -52,7 +51,12 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 
 		await Context.Message.DeleteAsync();
 
-		await _strikesHandler.AddStrikeAsync(Context.Guild.Id, user.Id, Context.User.Id, reason, DateTime.Today.ToString("d"));
+		Sharp.FSharp.Service.StrikeService.addStrike(
+			GuildId.NewGuildId(Context.Guild.Id),
+			UserId.NewUserId(user.Id),
+			ModId.NewModId(Context.User.Id),
+			reason,
+			DateTime.UtcNow);
 		await ShowStrikes(user);
 	}
 

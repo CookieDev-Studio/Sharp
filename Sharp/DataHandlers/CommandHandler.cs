@@ -1,4 +1,5 @@
 ﻿using Sharp.Service;
+using Sharp.FSharp.Domain;
 using Discord.Commands;
 using Discord.WebSocket;
 using System;
@@ -55,11 +56,11 @@ public class CommandHandler
         else if (await _guildService.GetMessageLogAsync(context.Guild.Id))
         {
             Sharp.FSharp.Service.MessageService.addMessage(
-                context.Guild.Id,
-                context.Channel.Id,
-                context.User.Id,
+                GuildId.NewGuildId(context.Guild.Id),
+                ModChannelId.NewModChannelId(context.Channel.Id),
+                UserId.NewUserId(context.User.Id),
                 message.Timestamp.UtcDateTime,
-                message.Attachments.Select(x => x.ProxyUrl).ToArray(),
+                message.Attachments.Select(x => x.ProxyUrl),
                 message.Content);
         }
     }

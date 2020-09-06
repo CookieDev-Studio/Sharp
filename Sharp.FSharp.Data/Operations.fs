@@ -1,6 +1,7 @@
 ﻿namespace Sharp.FSharp.Data
 
 open Npgsql.FSharp
+open Sharp.FSharp.Domain
 
 module internal Operations =
     let getConnectionString = 

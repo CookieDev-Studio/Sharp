@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Sharp.FSharp.Service;
+using Sharp.FSharp.Domain;
 
 namespace Sharp.Api.Controllers
 {
@@ -13,6 +9,6 @@ namespace Sharp.Api.Controllers
     public class MessageLogController : ControllerBase
     {
         [HttpGet("{guildId}")]
-        public ActionResult GetMessages(ulong guildId) => Ok(MessageService.getMessages(guildId));
+        public ActionResult GetMessages(ulong guildId) => Ok(MessageService.getMessages(GuildId.NewGuildId(guildId)));
     }
 }

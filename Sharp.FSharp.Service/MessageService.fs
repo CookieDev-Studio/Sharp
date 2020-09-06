@@ -5,8 +5,8 @@ module MessageService =
 
     let getMessages guildId = MessageData.getMessages guildId
 
-    let addMessage guildId channelId userId date attachments (message : string) =
-        let formatMessage attachments : string =
+    let addMessage guildId channelId userId date attachments message =
+        let formatMessage attachments =
                 sprintf "%s\n\n%s" (attachments |> String.concat "\n") message
 
         let formatedMessage =
