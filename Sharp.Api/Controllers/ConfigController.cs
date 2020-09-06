@@ -9,7 +9,7 @@ namespace SharpApi.Controllers
     public class ConfigController : ControllerBase
     {
         [HttpGet("{guildId}")]
-        public ActionResult<Config> Get(ulong guildId)
+        public ActionResult<GuildConfig> Get(ulong guildId)
         {
             return Ok(GuildConfigService.getConfig(GuildId.NewGuildId(guildId)));
         }

@@ -13,8 +13,4 @@
     <Compile Include="LinkService.fs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Sharp.Data\Sharp.Data.fsproj" />
-  </ItemGroup>
-
 </Project>
