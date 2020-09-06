@@ -2,21 +2,21 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using Sharp.Service;
+using Sharp.FSharp.Service;
 using Sharp.FSharp.Domain;
 using System;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 [Name("StrikeModule")]
 [Group("strike")]
 public class StrikeModule : ModuleBase<SocketCommandContext>
 {
-    readonly StrikeService _strikesHandler;
     readonly GuildService _guildHandler;
 	readonly CommandExtentions _commandExtentions;
 
-	public StrikeModule(StrikeService strikesHandler, GuildService guildService, CommandExtentions commandExtentions)
+	public StrikeModule(GuildService guildService, CommandExtentions commandExtentions)
 	{
-		_strikesHandler = strikesHandler;
 		_guildHandler = guildService;
 		_commandExtentions = commandExtentions;
 	}
@@ -85,7 +85,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 			await ReplyAsync("Strike id not specified");
 			return;
 		}
-		await _strikesHandler.RemoveStrikeAsync(Context.Guild.Id, (int)strikeId);
+		StrikeService.removeStrike(GuildId.NewGuildId(Context.Guild.Id), (int)strikeId);
 		await ReplyAsync("strike removed");
 	}
 
@@ -101,7 +101,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 		}
 
 		await Context.Message.DeleteAsync();
-		await _strikesHandler.RemoveAllStrikesFromUserAsync(Context.Guild.Id, user.Id);
+		StrikeService.removeAllStrikes(GuildId.NewGuildId(Context.Guild.Id), UserId.NewUserId(user.Id));
 		await ReplyAsync($"Removed all of {user.Mention}'s strikes");
 	}
 

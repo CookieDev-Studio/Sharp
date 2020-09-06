@@ -1,20 +1,20 @@
 ﻿using Sharp.Service;
+using Sharp.FSharp.Service;
 using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+using Sharp.FSharp.Domain;
 
 public class EventHandler
 {
-    readonly StrikeService _strikeService;
     readonly GuildService _guildService;
     readonly LinkService _linkService;
 
-    public EventHandler(DiscordSocketClient client, StrikeService strikeService, GuildService guildService, LinkService linkService)
+    public EventHandler(DiscordSocketClient client, GuildService guildService, LinkService linkService)
     {
-        _strikeService = strikeService;
         _guildService = guildService;
         _linkService = linkService;
 
@@ -24,7 +24,7 @@ public class EventHandler
     }
 
     private async Task RemoveAllStrikesFromUser(SocketUser user, SocketGuild guild)
-        => await _strikeService.RemoveAllStrikesFromUserAsync(user.Id, guild.Id);
+        => StrikeService.removeAllStrikes(GuildId.NewGuildId(guild.Id),UserId.NewUserId(guild.Id));
 
     private async Task AddGuild(SocketGuild guild)
         => await _guildService.AddConfigAsync(guild.Id, guild.DefaultChannel.Id);

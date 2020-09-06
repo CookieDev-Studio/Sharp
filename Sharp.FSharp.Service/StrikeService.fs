@@ -22,3 +22,15 @@ module StrikeService =
         match result with
         |Ok result -> List.toArray result
         |Error error -> Console.WriteLine error; Array.empty
+
+    let removeStrike guildId strikeId =
+           let result = StrikeData.removeStrike guildId strikeId
+           match result with
+           |Ok _ -> ()
+           |Error error ->  Console.WriteLine error; ()
+
+    let removeAllStrikes guildId userid =
+        let result = StrikeData.removeAllStrikesFromUser guildId userid
+        match result with
+        |Ok _ -> ()
+        |Error error ->  Console.WriteLine error; ()
