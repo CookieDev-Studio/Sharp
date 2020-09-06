@@ -4,7 +4,7 @@ open Sharp.FSharp.Domain
 open System
 
 module StrikeData =
-    let AddStrike (GuildId guildId) (UserId userId) (ModId modId) reason dateTime =
+    let addStrike (GuildId guildId) (UserId userId) (ModId modId) reason dateTime =
         sprintf "SELECT add_strike('%i', '%i', '%i', '%s', '%A')"
             guildId
             userId
@@ -13,7 +13,7 @@ module StrikeData =
             dateTime
         |> Operations.executeNonQuery
           
-    let GetStrikes(GuildId guildId) (UserId userId) =
+    let getStrikes(GuildId guildId) (UserId userId) =
         sprintf "SELECT * FROM strike
         	     WHERE guild_id = '%i' 
         	     AND user_id = '%i'"
@@ -26,6 +26,7 @@ module StrikeData =
               modId = ModId (read.string "mod_id" |> UInt64.Parse)
               reason = read.string "reason"
               date = read.NpgsqlReader.GetOrdinal("date_time") |> read.NpgsqlReader.GetTimeStamp })
+
               
 (*
 RemoveAllStrikesFromUser(ulong guildId, ulong userId);
