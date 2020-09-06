@@ -14,9 +14,9 @@ module StrikeData =
         |> Operations.executeNonQuery
           
     let GetStrikes(GuildId guildId) (UserId userId) =
-        sprintf "select * from strike
-        	     where guild_id = '%i' 
-        	     and user_id = '%i'"
+        sprintf "SELECT * FROM strike
+        	     WHERE guild_id = '%i' 
+        	     AND user_id = '%i'"
             guildId
             userId
         |> Operations.executeQuery (fun read ->
