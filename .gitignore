@@ -355,5 +355,5 @@ MigrationBackup/
 #visual studio code
 .vscode/
 
-#F#
+#F
 *.fsx
