@@ -9,6 +9,6 @@ namespace Sharp.Api.Controllers
     public class MessageLogController : ControllerBase
     {
         [HttpGet("{guildId}")]
-        public ActionResult GetMessages(ulong guildId) => Ok(MessageService.getMessages(GuildId.NewGuildId(guildId)));
+        public ActionResult GetMessages(ulong guildId) => Ok(MessageService.getMessages(GuildId.NewGuildId(guildId)).ResultValue);
     }
 }
