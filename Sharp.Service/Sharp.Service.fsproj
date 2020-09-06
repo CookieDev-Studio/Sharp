@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="services.fsx" />
     <Compile Include="Operations.fs" />
     <Compile Include="GuildConfigService.fs" />
     <Compile Include="StrikeService.fs" />

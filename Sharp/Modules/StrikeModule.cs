@@ -30,13 +30,13 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 		};
 
 		foreach (var command in _commandExtentions.GetCommands("StrikeModule"))
-			builder.AddField(command.Name, command.Summary, false);
+			builder.AddField($"{command.Module.Group} {command.Name}", command.Summary, false);
 
 		await ReplyAsync("", false, builder.Build());
 	}
 
 	[Command("")]
-	[Summary("strike add _@user_ _\"message\"_\n Gives a user a strike")]
+	[Summary("strike _@user_ _\"message\"_\n Gives a user a strike")]
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
 	public async Task StrikeAdd(SocketUser user = null, string reason = "unspecified")
 	{
