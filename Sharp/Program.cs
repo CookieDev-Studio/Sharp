@@ -33,7 +33,6 @@ class Program
         _services = new ServiceCollection()
             .AddSingleton(_client)
             .AddSingleton(_commands)
-            .AddSingleton<StrikeService>()
             .AddSingleton<GuildService>()
             .AddSingleton<LinkService>()
             .AddSingleton<CommandExtentions>()
@@ -45,7 +44,6 @@ class Program
         new CommandHandler(_client, _commands, _services.GetService<GuildService>(), _services);
         new EventHandler(
             _client,
-            _services.GetService<StrikeService>(),
             _services.GetService<GuildService>(),
             _services.GetService<LinkService>());
 
