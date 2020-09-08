@@ -1,9 +1,9 @@
 using System;
 using Xunit;
-using Sharp.Data;
+using Sharp.Data.Depricated;
 using System.IO;
 
-namespace Sharp.Data.Tests
+namespace Sharp.Data.Tests.Depecrated
 {
     public class DataExtentionsTest
     {
