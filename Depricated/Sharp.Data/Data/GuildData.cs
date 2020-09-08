@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Sharp.Data.Depricated
+namespace Sharp.Data.Deprecated
 {
     public class GuildData : IGuildData
     {

@@ -1,4 +1,4 @@
-﻿namespace Sharp.Data
+﻿namespace Sharp.Data.Deprecated
 {
     /// <summary>
     /// Data model for guild configurations.

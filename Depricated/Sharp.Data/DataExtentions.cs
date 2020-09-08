@@ -3,7 +3,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Npgsql;
 
-namespace Sharp.Data
+namespace Sharp.Data.Deprecated
 {
     public class DataExtentions
     {

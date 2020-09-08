@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Sharp.Data.Depricated
+namespace Sharp.Data.Deprecated
 {
     public interface IGuildData
     {

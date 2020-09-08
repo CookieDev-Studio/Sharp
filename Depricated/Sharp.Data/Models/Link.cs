@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sharp.Data
+namespace Sharp.Data.Deprecated
 {
     public class Link
     {
