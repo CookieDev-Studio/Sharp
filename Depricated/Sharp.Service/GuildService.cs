@@ -1,4 +1,4 @@
-using Sharp.Data.Depricated;
+using Sharp.Data.Deprecated;
 using System;
 using System.Collections.Generic;
 using System.IO;
