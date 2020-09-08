@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sharp.Domain;
 using Sharp.Service;
+using System.Threading.Tasks;
 
 namespace SharpApi.Controllers
 {
@@ -9,9 +10,9 @@ namespace SharpApi.Controllers
     public class ConfigController : ControllerBase
     {
         [HttpGet("{guildId}")]
-        public ActionResult<GuildConfig> Get(ulong guildId)
+        public async Task<ActionResult<GuildConfig>> Get(ulong guildId)
         {
-            return Ok(GuildConfigService.getConfig(GuildId.NewGuildId(guildId)));
+            return Ok(await GuildConfigService.getConfigAsync(GuildId.NewGuildId(guildId)));
         }
 
         [HttpPut("modchannel/{guildId}/{modchannelId}")]

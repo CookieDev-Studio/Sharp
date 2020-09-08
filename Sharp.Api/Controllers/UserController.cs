@@ -23,7 +23,7 @@ namespace Sharp.Api.Controllers
             var response = await client.GetAsync("https://discordapp.com/api/users/@me/guilds");
             var userGuilds = JsonConvert.DeserializeObject<PartialGuild[]>(await response.Content.ReadAsStringAsync());
 
-            var guildIds = GuildConfigService.getAllConfigs.Select(x => x.guildId.Item);
+            var guildIds = (await GuildConfigService.getAllConfigsAsync).Select(x => x.guildId.Item);
 
             foreach (var guild in userGuilds)
             {

@@ -13,17 +13,17 @@ module MessageData =
           message = read.text "message"
           date = read.timestamptz "date_time" }
 
-    let getMessages (GuildId guildId) =
+    let getMessagesAsync (GuildId guildId) =
         sprintf "SELECT * FROM message WHERE guild_id = '%i'" guildId 
-        |> Operations.executeQuery parseMessage
+        |> Operations.executeQueryAsync parseMessage
             
         
 
-    let addMessage (GuildId guildId) (ModChannelId modChannelId) (UserId userId) (dateTime : DateTime) message =
+    let addMessageAsync (GuildId guildId) (ModChannelId modChannelId) (UserId userId) (dateTime : DateTime) message =
         sprintf "SELECT add_message('%i', '%i', '%i', E'%s', '%A')"
             guildId
             modChannelId
             userId
             message
             dateTime
-        |> Operations.executeNonQuery
+        |> Operations.executeNonQueryAsync

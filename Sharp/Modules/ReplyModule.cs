@@ -30,7 +30,7 @@ public class ReplyModule : ModuleBase<SocketCommandContext>
 		var builder = new EmbedBuilder()
 		{
 			Color = new Color(150, 0, 0),
-			Description = $"The prefix for this community is { GuildConfigService.getPrefix(GuildId.NewGuildId(Context.Guild.Id))}"
+			Description = $"The prefix for this community is { await GuildConfigService.getPrefixAsync(GuildId.NewGuildId(Context.Guild.Id))}"
 		};
 
 		foreach (var command in _commandExtentions.GetAllCommands())

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sharp.Service;
 using Sharp.Domain;
+using System.Threading.Tasks;
 
 namespace Sharp.Api.Controllers
 {
@@ -9,6 +10,6 @@ namespace Sharp.Api.Controllers
     public class MessageLogController : ControllerBase
     {
         [HttpGet("{guildId}")]
-        public ActionResult GetMessages(ulong guildId) => Ok(MessageService.getMessages(GuildId.NewGuildId(guildId)));
+        public async Task<ActionResult> GetMessages(ulong guildId) => Ok(await MessageService.getMessagesAsync(GuildId.NewGuildId(guildId)));
     }
 }

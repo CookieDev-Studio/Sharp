@@ -17,9 +17,15 @@
 
     let executeQuery parseFunction =
         getDB >> Sql.execute parseFunction
+    let executeQueryAsync parseFunction =
+        getDB >> Sql.executeAsync parseFunction
 
     let executeNonQuery =
         getDB >> Sql.executeNonQuery
+    let executeNonQueryAsync =
+        getDB >> Sql.executeNonQueryAsync
 
     let executeRow parseFunction =
         getDB >> Sql.executeRow parseFunction
+    let executeRowAsync parseFunction =
+        getDB >> Sql.executeRowAsync parseFunction
