@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sharp.Service.Depricated
+namespace Sharp.Service.Deprecated
 {
     public class StrikeService
     {

@@ -1,4 +1,4 @@
-﻿namespace Sharp.Service
+﻿namespace Sharp.Service.Deprecated
 {
     /// <summary>
     /// Data class storing Strike data.
