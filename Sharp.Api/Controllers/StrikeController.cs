@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Sharp.Service;
+using Sharp.Domain;
 
 namespace Sharp.WebApi.Controllers
 {
@@ -12,29 +8,23 @@ namespace Sharp.WebApi.Controllers
     [ApiController]
     public class StrikeController : ControllerBase
     {
-        readonly StrikeService _strikeService;
-        public StrikeController(StrikeService strikeService)
-        {
-            _strikeService = strikeService;
-        }
-
         [HttpGet("{guildId}/{userId}")]
         public ActionResult GetStrikes(ulong guildId, ulong userId)
         {
-            return Ok(_strikeService.GetStrikes(guildId, userId));
+            return Ok(StrikeService.getStrikes(GuildId.NewGuildId(guildId), UserId.NewUserId(userId)));
         }
 
         [HttpDelete("{guildId}")]
         public ActionResult RemoveStrike(ulong guildId, [FromBody] StrikeId strikeId)
         {
-            _strikeService.RemoveStrike(guildId, strikeId.Id);
+            StrikeService.removeStrike(GuildId.NewGuildId(guildId), strikeId.Id);
             return Ok($"Strike id: {strikeId.Id} was removed");
         }
 
         [HttpDelete("{guildId}/{userId}")]
         public ActionResult RemoveAllStrikes(ulong guildId, ulong userId)
         {
-            _strikeService.RemoveAllStrikesFromUser(guildId, userId);
+            StrikeService.removeAllStrikesFromUser(GuildId.NewGuildId(guildId), UserId.NewUserId(userId));
             return Ok($"strikes removed from user {userId}");
         }
     }

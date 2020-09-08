@@ -1,4 +1,5 @@
 ﻿using Sharp.Service;
+using Sharp.Domain;
 using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
@@ -8,42 +9,35 @@ using System.Linq;
 
 public class EventHandler
 {
-    readonly StrikeService _strikeService;
-    readonly GuildService _guildService;
-    readonly LinkService _linkService;
 
-    public EventHandler(DiscordSocketClient client, StrikeService strikeService, GuildService guildService, LinkService linkService)
+    public EventHandler(DiscordSocketClient client)
     {
-        _strikeService = strikeService;
-        _guildService = guildService;
-        _linkService = linkService;
-
         client.UserBanned += RemoveAllStrikesFromUser;
         client.JoinedGuild += AddGuild;
         client.UserJoined += CheckLink; 
     }
 
     private async Task RemoveAllStrikesFromUser(SocketUser user, SocketGuild guild)
-        => await _strikeService.RemoveAllStrikesFromUserAsync(user.Id, guild.Id);
+        => StrikeService.removeAllStrikesFromUser(GuildId.NewGuildId(guild.Id),UserId.NewUserId(guild.Id));
 
     private async Task AddGuild(SocketGuild guild)
-        => await _guildService.AddConfigAsync(guild.Id, guild.DefaultChannel.Id);
+        => GuildConfigService.addConfig(GuildId.NewGuildId(guild.Id), ModChannelId.NewModChannelId(guild.DefaultChannel.Id));
     
 
     private async Task CheckLink(SocketGuildUser user)
     {
         var invites = await user.Guild.GetInvitesAsync();
         //create a LinkRole object
-        var pairs = await _linkService.GetLinkRolePairsAsync(user.Guild.Id);
+        var pairs = LinkService.getLinkRolePairs(GuildId.NewGuildId(user.Guild.Id));
 
         foreach (var invite in invites)
         {
             foreach (var pair in pairs)
             {
-                if (invite.Code == pair.Code && invite.Uses > pair.Uses)
+                if (invite.Code == pair.linkCode && invite.Uses > pair.uses)
                 {
-                    await user.AddRoleAsync(user.Guild.GetRole(pair.RoleId));
-                    await _linkService.UpdateUsesAsync(invite.Code, (int)invite.Uses);
+                    await user.AddRoleAsync(user.Guild.GetRole(pair.roleId.Item));
+                    LinkService.updateUses(invite.Code, (int)invite.Uses);
                 }
             }
         }

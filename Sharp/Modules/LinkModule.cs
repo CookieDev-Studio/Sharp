@@ -1,5 +1,6 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
+using Sharp.Domain;
 using Sharp.Service;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,6 @@ using System.Threading.Tasks;
 
 public class LinkModule : ModuleBase
 {
-    readonly LinkService _linkService;
-    public LinkModule(LinkService linkService) => _linkService = linkService;
-
     [Command("pair")]
     [Summary("adds a user to the role when they join from the link")]
     [RequireUserPermission(Discord.ChannelPermission.ManageChannels)]
@@ -25,9 +23,7 @@ public class LinkModule : ModuleBase
         //if link exists
         if (Context.Guild.GetInvitesAsync().Result.Any(x => x.Code == linkCode))
         {
-            
-
-            await _linkService.AddLinkRolePairAsync(Context.Guild.Id, linkCode, role.Id, (int)invites.First(x => x.Code == linkCode).Uses);
+            LinkService.addLinkRolePair(GuildId.NewGuildId(Context.Guild.Id),RoleId.NewRoleId(role.Id), linkCode, (int)invites.First(x => x.Code == linkCode).Uses);
             await ReplyAsync($"users will now join {role.Mention} when joining from link");
         }
         else

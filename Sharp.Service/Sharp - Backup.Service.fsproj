@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="services.fsx" />
+    <Compile Include="Operations.fs" />
+    <Compile Include="GuildConfigService.fs" />
+    <Compile Include="StrikeService.fs" />
+    <Compile Include="MessageService.fs" />
+    <Compile Include="LinkService.fs" />
+  </ItemGroup>
+
+</Project>

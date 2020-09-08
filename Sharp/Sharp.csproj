@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Sharp.Service\Sharp.Service.csproj" />
+    <ProjectReference Include="..\Sharp.Service\Sharp.Service.fsproj" />
   </ItemGroup>
 
   <ItemGroup>

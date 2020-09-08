@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Operations.fs" />
+    <Compile Include="GuildConfigService.fs" />
+    <Compile Include="StrikeService.fs" />
+    <Compile Include="MessageService.fs" />
+    <Compile Include="LinkService.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sharp.Data\Sharp.Data.fsproj" />
+  </ItemGroup>
+
+</Project>

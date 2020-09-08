@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -14,9 +13,6 @@ namespace Sharp.Api.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        readonly GuildService _guildService;
-        public UserController(GuildService guildService) => _guildService = guildService;
-
         [HttpGet("guilds/{token}")]
         public async Task<ActionResult> GetCommonGuildsAsync(string token)
         {
@@ -27,7 +23,7 @@ namespace Sharp.Api.Controllers
             var response = await client.GetAsync("https://discordapp.com/api/users/@me/guilds");
             var userGuilds = JsonConvert.DeserializeObject<PartialGuild[]>(await response.Content.ReadAsStringAsync());
 
-            var guildIds = await _guildService.GetAllGuildsAsync();
+            var guildIds = GuildConfigService.getAllConfigs.Select(x => x.guildId.Item);
 
             foreach (var guild in userGuilds)
             {

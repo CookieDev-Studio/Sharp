@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="data.fsx" />
+    <Compile Include="Domain.fs" />
+    <Compile Include="Operations.fs" />
+    <Compile Include="GuildConfigData.fs" />
+    <Compile Include="MessageData.fs" />
+    <Compile Include="StrikeData.fs" />
+    <Compile Include="LinkData.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="SqlConnection.json" />
+  </ItemGroup>
+
+  <ItemGroup />
+
+  <ItemGroup>
+    <PackageReference Include="FSharp.Data" Version="3.3.3" />
+    <PackageReference Include="Npgsql.FSharp" Version="3.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="4.7.2" />
+  </ItemGroup>
+
+</Project>

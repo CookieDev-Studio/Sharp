@@ -7,11 +7,12 @@
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.35" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Npgsql" Version="4.1.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Sharp.Service\Sharp.Service.csproj" />
+    <ProjectReference Include="..\Sharp.Service\Sharp.Service.fsproj" />
   </ItemGroup>
 
 

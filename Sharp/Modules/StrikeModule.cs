@@ -1,28 +1,24 @@
-﻿using Sharp.Service;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Sharp.Data;
+using Sharp.Service;
+using Sharp.Domain;
 using System;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 [Name("StrikeModule")]
 [Group("strike")]
 public class StrikeModule : ModuleBase<SocketCommandContext>
 {
-    readonly StrikeService _strikesHandler;
-    readonly GuildService _guildHandler;
 	readonly CommandExtentions _commandExtentions;
 
-	public StrikeModule(StrikeService strikesHandler, GuildService guildService, CommandExtentions commandExtentions)
+	public StrikeModule( CommandExtentions commandExtentions)
 	{
-		_strikesHandler = strikesHandler;
-		_guildHandler = guildService;
 		_commandExtentions = commandExtentions;
 	}
 
 	[Command("help")]
-	[Alias("", "?")]
 	[Summary("Display strike commands")]
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
 	public async Task Strike()
@@ -34,13 +30,13 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 		};
 
 		foreach (var command in _commandExtentions.GetCommands("StrikeModule"))
-			builder.AddField(command.Name, command.Summary, false);
+			builder.AddField($"{command.Module.Group} {command.Name}", command.Summary, false);
 
 		await ReplyAsync("", false, builder.Build());
 	}
 
-	[Command("add")]
-	[Summary("strike add _@user_ _\"message\"_\n Gives a user a strike")]
+	[Command("")]
+	[Summary("strike _@user_ _\"message\"_\n Gives a user a strike")]
 	[RequireUserPermission(ChannelPermission.ManageMessages)]
 	public async Task StrikeAdd(SocketUser user = null, string reason = "unspecified")
 	{
@@ -52,7 +48,12 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 
 		await Context.Message.DeleteAsync();
 
-		await _strikesHandler.AddStrikeAsync(Context.Guild.Id, user.Id, Context.User.Id, reason, DateTime.Today.ToString("d"));
+		StrikeService.addStrike(
+			GuildId.NewGuildId(Context.Guild.Id),
+			UserId.NewUserId(user.Id),
+			ModId.NewModId(Context.User.Id),
+			reason,
+			DateTime.UtcNow);
 		await ShowStrikes(user);
 	}
 
@@ -81,7 +82,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 			await ReplyAsync("Strike id not specified");
 			return;
 		}
-		await _strikesHandler.RemoveStrikeAsync(Context.Guild.Id, (int)strikeId);
+		StrikeService.removeStrike(GuildId.NewGuildId(Context.Guild.Id), (int)strikeId);
 		await ReplyAsync("strike removed");
 	}
 
@@ -97,13 +98,13 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 		}
 
 		await Context.Message.DeleteAsync();
-		await _strikesHandler.RemoveAllStrikesFromUserAsync(Context.Guild.Id, user.Id);
+		StrikeService.removeAllStrikesFromUser(GuildId.NewGuildId(Context.Guild.Id), UserId.NewUserId(user.Id));
 		await ReplyAsync($"Removed all of {user.Mention}'s strikes");
 	}
 
 	private async Task ShowStrikes(SocketUser user)
     {
-		var strikes = await _strikesHandler.GetStrikesAsync(Context.Guild.Id, user.Id);
+		var strikes = StrikeService.getStrikes(GuildId.NewGuildId(Context.Guild.Id), UserId.NewUserId(user.Id));
 
 		var builder = new EmbedBuilder()
 		{
@@ -111,9 +112,15 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 		};
 
 		foreach (var strike in strikes)
-			builder.AddField($"Id: {strike.Id}", $"Date: {strike.Date}\nMod: {Context.Guild.GetUser(strike.Mod)}\n\n{strike.Reason}", true);
+			builder.AddField($"Id: {strike.id}",
+				$"Date: {strike.date.ToDateTime():yyyy-MM-dd}\n" +
+				$"Time: {strike.date.ToDateTime():HH:mm}\n" +
+				$"Mod: {Context.Guild.GetUser(strike.modId.Item)}" +
+				$"\n\n" +
+				$"{strike.reason}",
+				true);
 
-		await Context.Guild.GetTextChannel(await _guildHandler.GetModChannelAsync(Context.Guild.Id))
+		await Context.Guild.GetTextChannel(GuildConfigService.getModChannel(GuildId.NewGuildId(Context.Guild.Id)).Item)
 			.SendMessageAsync($"Strikes logged against {user.Mention}:", embed: builder.Build());
 	}
 }
