@@ -5,11 +5,11 @@ open Sharp.Data
 module LinkService =
 
     let addLinkRolePair guildId roleId linkCode uses =
-        LinkData.addLinkRolePair guildId roleId linkCode uses |> Operations.handleResultUnit
+        LinkData.addLinkRolePairAsync guildId roleId linkCode uses |> Operations.handleResultUnitAsync
 
     let updateUses linkCode uses =
-        LinkData.updateUses linkCode uses |> Operations.handleResultUnit
+        LinkData.updateUsesAsync linkCode uses |> Operations.handleResultUnitAsync
 
-    let getLinkRolePairs guildId =
-        LinkData.getLinkRolePairs guildId |> Operations.handleResultList
+    let getLinkRolePairsAsync guildId =
+        LinkData.getLinkRolePairsAsync guildId |> Operations.handleResultListAsync
     

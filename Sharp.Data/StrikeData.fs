@@ -14,30 +14,30 @@ module StrikeData =
           reason = read.string "reason"
           date = read.timestamptz "date_time" }
 
-    let addStrike (GuildId guildId) (UserId userId) (ModId modId) reason dateTime =
+    let addStrikeAsync (GuildId guildId) (UserId userId) (ModId modId) reason dateTime =
         sprintf "SELECT add_strike('%i', '%i', '%i', '%s', '%A')"
             guildId userId modId reason dateTime
-        |> Operations.executeNonQuery
+        |> Operations.executeNonQueryAsync
           
-    let getStrikes (GuildId guildId) (UserId userId) =
+    let getStrikesAsync (GuildId guildId) (UserId userId) =
         sprintf "SELECT * FROM strike
         	     WHERE guild_id = '%i' 
         	     AND user_id = '%i'"
             guildId userId
-        |> Operations.executeQuery parseStrike
+        |> Operations.executeQueryAsync parseStrike
          
-    let getAllStrikes (GuildId guildId) =
+    let getAllStrikesAsync (GuildId guildId) =
         sprintf "SELECT * FROM strike
         	     WHERE guild_id = '%i'" 
             guildId
-        |> Operations.executeQuery parseStrike
+        |> Operations.executeQueryAsync parseStrike
 
-    let removeStrike (GuildId guildId) (strikeId : int) =
+    let removeStrikeAsync (GuildId guildId) (strikeId : int) =
         sprintf "SELECT remove_strike('%i', '%i')"
             guildId strikeId
-        |> Operations.executeNonQuery
+        |> Operations.executeNonQueryAsync
             
-    let removeAllStrikesFromUser (GuildId guildId) (UserId userId) =
+    let removeAllStrikesFromUserAsync (GuildId guildId) (UserId userId) =
         sprintf "SELECT remove_all_strikes('%i', '%i')"
             guildId userId
-        |> Operations.executeNonQuery
+        |> Operations.executeNonQueryAsync

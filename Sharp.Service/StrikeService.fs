@@ -7,16 +7,21 @@ open Sharp.Data
 module StrikeService =
 
     let addStrike guildId userId modId reason (dateTime : DateTime) =
-        StrikeData.addStrike guildId userId modId reason (NpgsqlDateTime.ToNpgsqlDateTime dateTime) |> Operations.handleResultUnit
+        StrikeData.addStrikeAsync guildId userId modId reason (NpgsqlDateTime.ToNpgsqlDateTime dateTime)
+        |> Operations.handleResultUnitAsync
 
-    let getStrikes guildId userId =
-        StrikeData.getStrikes guildId userId |> Operations.handleResultList
+    let getStrikesAsync guildId userId =
+        StrikeData.getStrikesAsync guildId userId
+        |> Operations.handleResultListAsync
 
-    let getAllStrikes guildId =
-        StrikeData.getAllStrikes guildId |> Operations.handleResultList
+    let getAllStrikesAsync guildId =
+        StrikeData.getAllStrikesAsync guildId 
+        |> Operations.handleResultListAsync
 
     let removeStrike guildId strikeId =
-        StrikeData.removeStrike guildId strikeId |> Operations.handleResultUnit
+        StrikeData.removeStrikeAsync guildId strikeId 
+        |> Operations.handleResultUnitAsync
 
     let removeAllStrikesFromUser guildId userid =
-        StrikeData.removeAllStrikesFromUser guildId userid |> Operations.handleResultUnit
+        StrikeData.removeAllStrikesFromUserAsync guildId userid 
+        |> Operations.handleResultUnitAsync

@@ -6,6 +6,7 @@ using Sharp.Domain;
 using System;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using Microsoft.FSharp.Control;
 
 [Name("StrikeModule")]
 [Group("strike")]
@@ -104,7 +105,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 
 	private async Task ShowStrikes(SocketUser user)
     {
-		var strikes = StrikeService.getStrikes(GuildId.NewGuildId(Context.Guild.Id), UserId.NewUserId(user.Id));
+		var strikes = await StrikeService.getStrikesAsync(GuildId.NewGuildId(Context.Guild.Id), UserId.NewUserId(user.Id));
 
 		var builder = new EmbedBuilder()
 		{
@@ -120,7 +121,7 @@ public class StrikeModule : ModuleBase<SocketCommandContext>
 				$"{strike.reason}",
 				true);
 
-		await Context.Guild.GetTextChannel(GuildConfigService.getModChannel(GuildId.NewGuildId(Context.Guild.Id)).Item)
+		await Context.Guild.GetTextChannel((await GuildConfigService.getModChannelAsync(GuildId.NewGuildId(Context.Guild.Id))).Item)
 			.SendMessageAsync($"Strikes logged against {user.Mention}:", embed: builder.Build());
 	}
 }

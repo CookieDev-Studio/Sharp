@@ -6,38 +6,38 @@ open System
 
 module GuildConfigData =
 
-    let private  parseConfig (read : RowReader) =
+    let private parseConfig (read : RowReader) =
         { guildId = read.string "guild_id" |> UInt64.Parse |> GuildId
           modChannelId = read.string "mod_channel_id" |> UInt64.Parse |> ModChannelId
           prefix = (read.string "prefix").[0]
           messagelog = read.bool "message_log"}
 
-    let addConfig (GuildId guildId) (ModChannelId modChannelId) (prefix : char) (messagelog : bool) =
+    let addConfigAsync (GuildId guildId) (ModChannelId modChannelId) (prefix : char) (messagelog : bool) =
         sprintf "SELECT * FROM add_config('%i', '%i', '%c', '%b')"
             guildId modChannelId prefix messagelog
-        |> Operations.executeNonQuery
+        |> Operations.executeNonQueryAsync
 
-    let getConfig (GuildId guildId) =
+    let getConfigAsync (GuildId guildId) =
         sprintf "SELECT * FROM config
                  WHERE guild_id = '%i'"
             guildId
-        |> Operations.executeRow parseConfig
+        |> Operations.executeRowAsync parseConfig
 
-    let getAllConfigs =
+    let getAllConfigsAsync =
         sprintf "SELECT * FROM config"
-        |> Operations.executeQuery parseConfig
+        |> Operations.executeQueryAsync parseConfig
 
-    let setMessagelog (GuildId guildId) (messagelog : bool) =
+    let setMessagelogAsync (GuildId guildId) (messagelog : bool) =
         sprintf "SELECT * FROM set_message_log('%i', '%b')"
             guildId messagelog
-        |> Operations.executeNonQuery
+        |> Operations.executeNonQueryAsync
 
-    let setModChannel (GuildId guildId) (ModChannelId modChannelId) =
+    let setModChannelAsync (GuildId guildId) (ModChannelId modChannelId) =
            sprintf "SELECT * FROM set_mod_channel('%i', '%i')"
                guildId modChannelId
-           |> Operations.executeNonQuery
+           |> Operations.executeNonQueryAsync
 
-    let setPrefix (GuildId guildId) (prefix : char) =
+    let setPrefixAsync (GuildId guildId) (prefix : char) =
         sprintf "SELECT * FROM set_prefix('%i', '%c')"
             guildId prefix
-        |> Operations.executeNonQuery
+        |> Operations.executeNonQueryAsync

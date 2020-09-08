@@ -5,8 +5,8 @@ open System
 
 module MessageService =
 
-    let getMessages guildId = 
-        MessageData.getMessages guildId |> Operations.handleResultList
+    let getMessagesAsync guildId = 
+        MessageData.getMessagesAsync guildId |> Operations.handleResultListAsync
 
     let addMessage guildId channelId userId date attachments message =
         let formatMessage attachments =
@@ -17,5 +17,6 @@ module MessageService =
             |Some attachments -> formatMessage attachments
             |None -> message
 
-        MessageData.addMessage guildId channelId userId date formatedMessage |> Operations.handleResultUnit
+        MessageData.addMessageAsync guildId channelId userId date formatedMessage 
+        |> Operations.handleResultUnitAsync
        

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sharp.Service;
 using Sharp.Domain;
+using System.Threading.Tasks;
 
 namespace Sharp.WebApi.Controllers
 {
@@ -9,9 +10,9 @@ namespace Sharp.WebApi.Controllers
     public class StrikeController : ControllerBase
     {
         [HttpGet("{guildId}/{userId}")]
-        public ActionResult GetStrikes(ulong guildId, ulong userId)
+        public async Task<ActionResult> GetStrikes(ulong guildId, ulong userId)
         {
-            return Ok(StrikeService.getStrikes(GuildId.NewGuildId(guildId), UserId.NewUserId(userId)));
+            return Ok( await StrikeService.getStrikesAsync(GuildId.NewGuildId(guildId), UserId.NewUserId(userId)));
         }
 
         [HttpDelete("{guildId}")]

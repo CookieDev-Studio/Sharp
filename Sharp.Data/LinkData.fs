@@ -12,18 +12,18 @@ module LinkData =
           linkCode = read.string "code"
           uses = read.int "uses"}
 
-    let addLinkRolePair (GuildId guildId) (RoleId roleId) linkCode uses =
+    let addLinkRolePairAsync (GuildId guildId) (RoleId roleId) linkCode uses =
         sprintf "SELECT add_link_role_pair('%i', '%i', '%s', %i)"
             guildId roleId linkCode uses
-        |> Operations.executeNonQuery
+        |> Operations.executeNonQueryAsync
 
-    let updateUses linkCode uses =
+    let updateUsesAsync linkCode uses =
         sprintf "SELECT update_link_uses('%s', %i)"
             linkCode uses
-        |> Operations.executeNonQuery
+        |> Operations.executeNonQueryAsync
 
-    let getLinkRolePairs (GuildId guildId) =
+    let getLinkRolePairsAsync (GuildId guildId) =
         sprintf "SELECT * FROM link_role_pair 
                  WHERE guild_id = '%i'"
             guildId
-        |> Operations.executeQuery parseLinkRolePair
+        |> Operations.executeQueryAsync parseLinkRolePair

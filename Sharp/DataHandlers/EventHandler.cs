@@ -17,18 +17,24 @@ public class EventHandler
         client.UserJoined += CheckLink; 
     }
 
-    private async Task RemoveAllStrikesFromUser(SocketUser user, SocketGuild guild)
-        => StrikeService.removeAllStrikesFromUser(GuildId.NewGuildId(guild.Id),UserId.NewUserId(guild.Id));
+    private Task RemoveAllStrikesFromUser(SocketUser user, SocketGuild guild)
+    {
+        StrikeService.removeAllStrikesFromUser(GuildId.NewGuildId(guild.Id), UserId.NewUserId(guild.Id));
+        return Task.CompletedTask;
+    }
 
-    private async Task AddGuild(SocketGuild guild)
-        => GuildConfigService.addConfig(GuildId.NewGuildId(guild.Id), ModChannelId.NewModChannelId(guild.DefaultChannel.Id));
+    private Task AddGuild(SocketGuild guild)
+    {
+        GuildConfigService.addConfig(GuildId.NewGuildId(guild.Id), ModChannelId.NewModChannelId(guild.DefaultChannel.Id));
+        return Task.CompletedTask;
+    }
     
 
     private async Task CheckLink(SocketGuildUser user)
     {
         var invites = await user.Guild.GetInvitesAsync();
         //create a LinkRole object
-        var pairs = LinkService.getLinkRolePairs(GuildId.NewGuildId(user.Guild.Id));
+        var pairs = await LinkService.getLinkRolePairsAsync(GuildId.NewGuildId(user.Guild.Id));
 
         foreach (var invite in invites)
         {
