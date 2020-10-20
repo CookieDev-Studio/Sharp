@@ -33,7 +33,7 @@ module GuildConfigData =
         |> Operations.executeNonQuery
 
     let setModChannel (GuildId guildId) (ModChannelId modChannelId) =
-           sprintf "SELECT * FROM set_mod_channel('%i', '%i')"
+           sprintf "SELECT * FROM set_mod_channel_id('%i', '%i')"
                guildId modChannelId
            |> Operations.executeNonQuery
 
